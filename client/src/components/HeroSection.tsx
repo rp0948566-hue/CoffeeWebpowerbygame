@@ -112,16 +112,6 @@ export function HeroSection() {
             ))}
           </motion.div>
 
-          <motion.p
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1.8, ease: 'easeOut' }}
-            className="text-muted-foreground text-lg md:text-xl mb-8 max-w-lg mx-auto lg:mx-0"
-            data-testid="text-hero-description"
-          >
-            Experience the perfect blend of premium flavors and cozy vibes in a futuristic setting.
-          </motion.p>
-
           <motion.div
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
