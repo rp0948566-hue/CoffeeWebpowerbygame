@@ -8,6 +8,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Navigation } from "@/components/Navigation";
 import { HeroSection } from "@/components/HeroSection";
+import { GameSection } from "@/components/GameSection";
 import { MenuSection } from "@/components/MenuSection";
 import { GallerySection } from "@/components/GallerySection";
 import { ContactSection } from "@/components/ContactSection";
@@ -45,6 +46,7 @@ function HomePage() {
         <Navigation />
         <main>
           <HeroSection />
+          <GameSection />
           <MenuSection />
           <GallerySection />
           <ContactSection />
