@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { SplineScene, SpotlightSVG } from './SplineScene';
 
@@ -64,6 +66,32 @@ function KineticText({ text, isOutline, startIndex = 0 }: { text: string; isOutl
   );
 }
 
+function MagneticButton({ children }: { children: React.ReactNode }) {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    setPosition({ x: x * 0.2, y: y * 0.2 });
+  };
+
+  const handleMouseLeave = () => {
+    setPosition({ x: 0, y: 0 });
+  };
+
+  return (
+    <motion.div
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      animate={{ x: position.x, y: position.y }}
+      transition={{ type: 'spring', stiffness: 150, damping: 15 }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 export function HeroSection() {
   return (
     <section id="home" className="relative pt-24 pb-16 px-6 min-h-screen flex items-center overflow-hidden">
@@ -115,24 +143,42 @@ export function HeroSection() {
           <motion.div
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 2.0, ease: 'easeOut' }}
-            className="flex flex-wrap justify-center lg:justify-start gap-4"
+            transition={{ duration: 0.6, delay: 1.8, ease: 'easeOut' }}
+            className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
           >
-            <Button
-              size="lg"
-              className="rounded-full px-8 text-lg font-bold"
-              data-testid="button-order-now"
+            <MagneticButton>
+              <Link to="/menu" data-testid="link-explore-menu">
+                <Button
+                  size="lg"
+                  className="rounded-full px-10 py-6 text-lg font-bold bg-gradient-to-r from-primary to-accent border border-white/20 backdrop-blur-sm shadow-lg shadow-primary/25"
+                >
+                  Explore Menu
+                </Button>
+              </Link>
+            </MagneticButton>
+
+            <motion.div
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 2.0, ease: 'easeOut' }}
+              className="flex gap-4"
             >
-              Order Now
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="rounded-full px-8 text-lg border-white/20"
-              data-testid="button-our-story"
-            >
-              Our Story
-            </Button>
+              <Button
+                size="lg"
+                className="rounded-full px-8 text-lg font-bold"
+                data-testid="button-order-now"
+              >
+                Order Now
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="rounded-full px-8 text-lg border-white/20"
+                data-testid="button-our-story"
+              >
+                Our Story
+              </Button>
+            </motion.div>
           </motion.div>
         </div>
 

@@ -1,29 +1,65 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const navLinks = ['Home', 'Menu', 'Gallery', 'Contact'];
+const navLinks = [
+  { name: 'Home', path: '/', hash: '#home' },
+  { name: 'Menu', path: '/menu', hash: null },
+  { name: 'Gallery', path: '/', hash: '#gallery' },
+  { name: 'Contact', path: '/', hash: '#contact' },
+];
 
 export function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleNavClick = (e: React.MouseEvent, item: typeof navLinks[0]) => {
+    e.preventDefault();
+    setMenuOpen(false);
+
+    if (item.path === '/menu') {
+      navigate('/menu');
+      return;
+    }
+
+    if (item.hash) {
+      if (location.pathname !== '/') {
+        navigate('/', { state: { scrollTo: item.hash } });
+      } else {
+        const element = document.querySelector(item.hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    } else {
+      navigate('/');
+    }
+  };
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-white/10">
       <div className="container mx-auto px-6 h-20 flex items-center justify-between gap-4">
-        <a href="#home" className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent" data-testid="link-logo">
+        <Link
+          to="/"
+          className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent"
+          data-testid="link-logo"
+        >
           LOC
-        </a>
+        </Link>
         
         <div className="hidden md:flex gap-8 text-sm font-medium text-muted-foreground">
           {navLinks.map((item) => (
             <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className="hover:text-foreground transition-colors"
-              data-testid={`link-nav-${item.toLowerCase()}`}
+              key={item.name}
+              href={item.path === '/menu' ? '/menu' : item.hash || '/'}
+              onClick={(e) => handleNavClick(e, item)}
+              className="hover:text-foreground transition-colors cursor-pointer"
+              data-testid={`link-nav-${item.name.toLowerCase()}`}
             >
-              {item}
+              {item.name}
             </a>
           ))}
         </div>
@@ -50,13 +86,13 @@ export function Navigation() {
             <div className="container mx-auto px-6 py-4 flex flex-col gap-4">
               {navLinks.map((item) => (
                 <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors py-2"
-                  onClick={() => setMenuOpen(false)}
-                  data-testid={`link-mobile-nav-${item.toLowerCase()}`}
+                  key={item.name}
+                  href={item.path === '/menu' ? '/menu' : item.hash || '/'}
+                  onClick={(e) => handleNavClick(e, item)}
+                  className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors py-2 cursor-pointer"
+                  data-testid={`link-mobile-nav-${item.name.toLowerCase()}`}
                 >
-                  {item}
+                  {item.name}
                 </a>
               ))}
             </div>
