@@ -1,18 +1,28 @@
-import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/not-found";
+import { Navigation } from "@/components/Navigation";
+import { HeroSection } from "@/components/HeroSection";
+import { MenuSection } from "@/components/MenuSection";
+import { GallerySection } from "@/components/GallerySection";
+import { ContactSection } from "@/components/ContactSection";
+import { FloatingScrollIcon } from "@/components/FloatingScrollIcon";
+import { Footer } from "@/components/Footer";
 
-function Router() {
+function LoveOverCoffee() {
   return (
-    <Switch>
-      {/* Add pages below */}
-      {/* <Route path="/" component={Home}/> */}
-      {/* Fallback to 404 */}
-      <Route component={NotFound} />
-    </Switch>
+    <div className="relative min-h-screen">
+      <Navigation />
+      <main>
+        <HeroSection />
+        <MenuSection />
+        <GallerySection />
+        <ContactSection />
+      </main>
+      <Footer />
+      <FloatingScrollIcon />
+    </div>
   );
 }
 
@@ -21,7 +31,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        <Router />
+        <LoveOverCoffee />
       </TooltipProvider>
     </QueryClientProvider>
   );
