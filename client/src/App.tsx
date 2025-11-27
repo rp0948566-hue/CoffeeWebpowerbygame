@@ -13,8 +13,8 @@ import { GallerySection } from "@/components/GallerySection";
 import { ContactSection } from "@/components/ContactSection";
 import { FloatingScrollIcon } from "@/components/FloatingScrollIcon";
 import { Footer } from "@/components/Footer";
-import { MenuPage } from "@/pages/MenuPage";
-import { PageTransition } from "@/components/PageTransition";
+import { Menu } from "@/pages/Menu";
+import { LiquidTransition } from "@/components/LiquidTransition";
 
 function ScrollToTop() {
   const location = useLocation();
@@ -28,7 +28,7 @@ function ScrollToTop() {
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
         }
-      }, 600);
+      }, 800);
       window.history.replaceState({}, document.title);
     } else {
       window.scrollTo(0, 0);
@@ -40,7 +40,7 @@ function ScrollToTop() {
 
 function HomePage() {
   return (
-    <PageTransition>
+    <LiquidTransition>
       <div className="relative min-h-screen">
         <Navigation />
         <main>
@@ -52,15 +52,15 @@ function HomePage() {
         <Footer />
         <FloatingScrollIcon />
       </div>
-    </PageTransition>
+    </LiquidTransition>
   );
 }
 
 function MenuPageWrapper() {
   return (
-    <PageTransition>
-      <MenuPage />
-    </PageTransition>
+    <LiquidTransition>
+      <Menu />
+    </LiquidTransition>
   );
 }
 
@@ -68,7 +68,7 @@ function AnimatedRoutes() {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" initial={false}>
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<HomePage />} />
         <Route path="/menu" element={<MenuPageWrapper />} />
