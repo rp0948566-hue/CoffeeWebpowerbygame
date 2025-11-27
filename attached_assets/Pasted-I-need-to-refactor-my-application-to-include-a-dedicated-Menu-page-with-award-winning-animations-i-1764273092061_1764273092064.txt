@@ -1,0 +1,45 @@
+I need to refactor my application to include a dedicated "Menu" page with award-winning animations inspired by "Zoi Ice Tea" (drinkzoi.co).
+
+### 1. New Dependencies
+Please install: `npm install react-router-dom @studio-freight/react-lenis`
+(We need 'react-router-dom' for page navigation and 'lenis' for that ultra-smooth, high-end scroll feel).
+
+### 2. Architecture Changes (Router Setup)
+Refactor `src/App.tsx` to handle Routing.
+- Wrap the application in a `BrowserRouter`.
+- Use `AnimatePresence` (mode="wait") from Framer Motion to handle page transitions.
+- **Route 1:** `/` (The current Home Page).
+- **Route 2:** `/menu` (The New Menu Page).
+
+### 3. The "Zoi Style" Page Transition
+Create a reusable transition component or logic.
+- When navigating from Home -> Menu, the new page should not just "appear."
+- Implement a **"Liquid Curtain" effect**: A wave of color (Indigo/Slate-900) should slide up from the bottom, cover the screen, and then reveal the new page.
+
+### 4. The New `src/pages/MenuPage.tsx` (The "Universe Detail" Request)
+Create a stunning, standalone Menu page.
+- **Background:** Deep Slate/Black (`bg-[#0a0a0a]`).
+- **Atmosphere (The "Particles"):** Add floating background elements (blurred circles, subtle floating icons of leaves/bubbles) that drift slowly using `animate={{ y: [0, -20, 0] }}`.
+- **The Layout:**
+  - **Header:** Big "OUR FLAVORS" text (Titan One font) that reveals word-by-word.
+  - **Grid:** A staggered grid of the 5 products (Pizza, Coffee, etc.).
+- **The Product Cards (Zoi Style):**
+  - **State:** By default, the image is large.
+  - **Hover:** When hovered, the image scales up (`scale: 1.1`) and tilts slightly (`rotate: 3deg`), and the background color of the card shifts.
+  - **Detail:** Price and Description should fade in from the bottom on hover.
+
+### 5. Update Home Page (`src/App.tsx`)
+- **Nav Button:** Update the "Menu" button in the Navbar to use `Link to="/menu"`.
+- **Center Button:** Add a new, large "Explore Menu" button in the center of the Hero Section (below the "I Love Over Coffee" text).
+  - Style: Rounded pill shape, glassmorphism border.
+  - Animation: Magnetic hover effect (moves slightly with cursor).
+
+### 6. Code Generation
+Please generate the full code for:
+1. `src/App.tsx` (With Router and AnimatePresence).
+2. `src/pages/MenuPage.tsx` (The detailed Zoi-like page).
+3. `src/components/PageTransition.tsx` (The liquid wipe effect).
+
+Ensure `scrollTop` is reset to 0 on page change.
+
+Generate the code now.
