@@ -1,6 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.text-outline {
+  -webkit-text-stroke: 3px white;
+  color: transparent;
+  transition: all 0.3s ease;
+}
+.text-outline:hover {
+  color: #6366f1;
+  -webkit-text-stroke: 0px;
+  filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
+}
 
 /* LIGHT MODE */
 :root {
