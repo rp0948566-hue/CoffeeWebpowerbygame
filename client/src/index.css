@@ -15,6 +15,16 @@
   filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
 }
 
+.text-stroke {
+  -webkit-text-stroke: 2px rgba(255,255,255,0.5);
+  color: transparent;
+  transition: all 0.3s ease;
+}
+.text-stroke-hover {
+  -webkit-text-stroke: 0px;
+  color: white;
+}
+
 /* LIGHT MODE */
 :root {
   --button-outline: rgba(0,0,0, .10);

@@ -42,13 +42,9 @@ function GalleryMenuItem({ item, isActive, onHover, index }: GalleryItemProps) {
         <div className="flex flex-col">
           <motion.h3
             className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-none cursor-pointer transition-all duration-300 ${
-              isActive ? '' : 'text-outline'
+              isActive ? 'text-stroke-hover' : 'text-stroke'
             }`}
             style={{ fontFamily: "'Titan One', cursive" }}
-            animate={{
-              color: isActive ? '#ffffff' : 'transparent',
-              WebkitTextStroke: isActive ? '0px' : '2px white',
-            }}
             whileHover={{ scale: 1.02 }}
           >
             {item.title}
