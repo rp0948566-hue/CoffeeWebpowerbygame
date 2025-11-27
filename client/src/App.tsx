@@ -9,6 +9,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Navigation } from "@/components/Navigation";
 import { HeroSection } from "@/components/HeroSection";
 import { GameSection } from "@/components/GameSection";
+import { RefreshmentSection } from "@/components/RefreshmentSection";
 import { MenuSection } from "@/components/MenuSection";
 import { GallerySection } from "@/components/GallerySection";
 import { ContactSection } from "@/components/ContactSection";
@@ -47,6 +48,7 @@ function HomePage() {
         <main>
           <HeroSection />
           <GameSection />
+          <RefreshmentSection />
           <MenuSection />
           <GallerySection />
           <ContactSection />
