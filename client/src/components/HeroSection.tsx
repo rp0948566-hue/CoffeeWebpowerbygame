@@ -156,29 +156,6 @@ export function HeroSection() {
                 </Button>
               </Link>
             </MagneticButton>
-
-            <motion.div
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 2.0, ease: 'easeOut' }}
-              className="flex gap-4"
-            >
-              <Button
-                size="lg"
-                className="rounded-full px-8 text-lg font-bold"
-                data-testid="button-order-now"
-              >
-                Order Now
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="rounded-full px-8 text-lg border-white/20"
-                data-testid="button-our-story"
-              >
-                Our Story
-              </Button>
-            </motion.div>
           </motion.div>
         </div>
 
