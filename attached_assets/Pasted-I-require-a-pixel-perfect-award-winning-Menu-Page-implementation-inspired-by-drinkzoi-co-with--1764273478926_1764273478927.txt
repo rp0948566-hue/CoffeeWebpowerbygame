@@ -1,0 +1,56 @@
+I require a pixel-perfect, award-winning "Menu Page" implementation inspired by 'drinkzoi.co', with liquid page transitions and floating atmospheric elements.
+
+### 1. Project Setup & Dependencies
+Ensure these are installed: `npm install react-router-dom framer-motion lucide-react clsx tailwind-merge`
+
+### 2. Architecture: The "Liquid Router"
+Refactor `src/App.tsx` to handle page routing with a "Liquid Curtain" wipe effect.
+- **Router:** Use `BrowserRouter`.
+- **Animation Controller:** Wrap Routes in `AnimatePresence` with `mode="wait"`.
+- **The Effect:** When moving between Home and Menu, a black/indigo wave must slide up from the bottom, cover the screen 100%, and then slide up to reveal the new page.
+
+### 3. Component: `src/components/LiquidTransition.tsx`
+Create a reusable wrapper component.
+- **Logic:** It should wrap the page content.
+- **Entrance:** Content fades in *after* the curtain lifts.
+- **Exit:** Content stays visible until the curtain covers it.
+- **The Curtain:** Use a `motion.div` with `z-index: 50`. It should have a "curved" top edge (using `border-top-left-radius` or `clip-path`) during the animation to simulate liquid fluid.
+
+### 4. The Masterpiece: `src/pages/Menu.tsx`
+This page must be an immersive experience, not just a list.
+
+**A. The Atmosphere (Floating Particles)**
+- Create a background layer with deep dark colors (`bg-[#050505]`).
+- **Bubbles:** Create 5-10 div elements with radial gradients (transparent centers, white/blue outlines) that float upward infinitely using different durations (10s, 15s, 20s).
+- **Leaves/Ice:** Use `lucide-react` icons (`Leaf`, `Snowflake`) that float, rotate, and drift randomly across the screen using `animate={{ x: ..., y: ..., rotate: ... }}`.
+
+**B. The Typography**
+- **Header:** "FLAVORS" in massive text (`text-[10rem]`) using 'Titan One' font.
+- **Interaction:** The text should mask a video or have a gradient that shifts on mouse move.
+
+**C. The Product Cards (Zoi Interaction)**
+- **Grid:** 3 columns.
+- **Card State:**
+  - **Idle:** Image is grayscale or desaturated, Title is small.
+  - **Hover:**
+    1. The Image scales up 1.2x and rotates 5deg.
+    2. The Grayscale filter is removed (full color).
+    3. A colored "blob" (matching the drink flavor) fades in behind the bottle/cup.
+    4. The Price and "Add to Cart" button slide up from opacity 0.
+
+### 5. Implementation Details
+- **File Structure:**
+  - `src/App.tsx` (Router setup)
+  - `src/pages/Home.tsx` (Your existing Spline/Hero code)
+  - `src/pages/Menu.tsx` (The new Zoi code)
+  - `src/components/LiquidTransition.tsx` (The transition logic)
+
+**Data Source for Menu:**
+```typescript
+const items = [
+  { id: 1, name: "Artisan Pizza", price: "$12", src: "/Animation/1.png", color: "bg-orange-500" },
+  { id: 2, name: "Hot Coffee", price: "$5", src: "/Animation/2.png", color: "bg-amber-600" },
+  { id: 3, name: "Mojito", price: "$8", src: "/Animation/3.png", color: "bg-emerald-500" },
+  { id: 4, name: "Sandwich", price: "$7", src: "/Animation/4.png", color: "bg-red-500" },
+  { id: 5, name: "Cold Coffee", price: "$6", src: "/Animation/5.png", color: "bg-indigo-500" }
+];

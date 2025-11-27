@@ -1,4 +1,5 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, Component, type ReactNode, useState, useEffect } from 'react';
+import { Coffee } from 'lucide-react';
 
 const Spline = lazy(() => import('@splinetool/react-spline'));
 
@@ -7,20 +8,100 @@ interface SplineSceneProps {
   className?: string;
 }
 
-export function SplineScene({ scene, className }: SplineSceneProps) {
+interface ErrorBoundaryProps {
+  children: ReactNode;
+  fallback: ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+}
+
+class SplineErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(): ErrorBoundaryState {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error) {
+    console.log('Spline WebGL error caught:', error.message);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback;
+    }
+    return this.props.children;
+  }
+}
+
+function SplineFallback() {
   return (
-    <Suspense
-      fallback={
-        <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-            <span className="text-sm">Loading 3D Scene...</span>
-          </div>
+    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-accent/10 rounded-[2rem]">
+      <div className="flex flex-col items-center gap-4 text-center p-8">
+        <div className="w-24 h-24 rounded-full bg-primary/20 flex items-center justify-center">
+          <Coffee className="w-12 h-12 text-primary" />
         </div>
-      }
-    >
-      <Spline scene={scene} className={className} />
-    </Suspense>
+        <h3 
+          className="text-3xl font-bold text-primary"
+          style={{ fontFamily: "'Titan One', cursive" }}
+        >
+          LOVE OVER COFFEE
+        </h3>
+        <p className="text-sm text-muted-foreground max-w-xs">
+          Premium artisan coffee experience
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function LoadingSpinner() {
+  return (
+    <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-12 h-12 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+        <span className="text-sm">Loading 3D Scene...</span>
+      </div>
+    </div>
+  );
+}
+
+function checkWebGLSupport(): boolean {
+  try {
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    return !!gl;
+  } catch {
+    return false;
+  }
+}
+
+export function SplineScene({ scene, className }: SplineSceneProps) {
+  const [webglSupported, setWebglSupported] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    setWebglSupported(checkWebGLSupport());
+  }, []);
+
+  if (webglSupported === null) {
+    return <LoadingSpinner />;
+  }
+
+  if (!webglSupported) {
+    return <SplineFallback />;
+  }
+
+  return (
+    <SplineErrorBoundary fallback={<SplineFallback />}>
+      <Suspense fallback={<LoadingSpinner />}>
+        <Spline scene={scene} className={className} />
+      </Suspense>
+    </SplineErrorBoundary>
   );
 }
 
