@@ -108,21 +108,23 @@ function StaticHeroSection() {
   );
 }
 
+const smoothEase = [0.16, 1, 0.3, 1];
+
 function AnimatedLetter({ letter, index, isOutline }: { letter: string; index: number; isOutline?: boolean }) {
   return (
     <motion.span
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{
-        delay: index * 0.04,
-        duration: 0.3,
-        ease: "easeOut",
+        delay: index * 0.035,
+        duration: 0.4,
+        ease: smoothEase,
       }}
       className={`inline-block cursor-pointer gpu-layer ${isOutline ? 'text-outline' : ''}`}
       style={{ fontFamily: "'Titan One', cursive" }}
       whileHover={{
-        scale: 1.03,
-        transition: { duration: 0.15, ease: "easeOut" },
+        scale: 1.02,
+        transition: { duration: 0.2, ease: smoothEase },
       }}
     >
       {letter === ' ' ? '\u00A0' : letter}
@@ -152,7 +154,7 @@ function MagneticButton({ children }: { children: React.ReactNode }) {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
-    setPosition({ x: x * 0.1, y: y * 0.1 });
+    setPosition({ x: x * 0.08, y: y * 0.08 });
   };
 
   const handleMouseLeave = () => {
@@ -165,7 +167,7 @@ function MagneticButton({ children }: { children: React.ReactNode }) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       animate={{ x: position.x, y: position.y }}
-      transition={{ duration: 0.15, ease: "easeOut" }}
+      transition={{ duration: 0.25, ease: smoothEase }}
     >
       {children}
     </motion.div>
@@ -207,9 +209,9 @@ function AnimatedHeroSection() {
           </h1>
 
           <motion.div
-            initial={{ opacity: 0, y: 15 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.3, ease: "easeOut" }}
+            transition={{ delay: 0.6, duration: 0.4, ease: smoothEase }}
             className="flex flex-wrap justify-center lg:justify-start gap-2 sm:gap-3 mb-6 sm:mb-8"
           >
             {['Premium', 'Artisan', 'Crafted'].map((word, i) => (
@@ -217,8 +219,8 @@ function AnimatedHeroSection() {
                 key={word}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.7 + i * 0.08, duration: 0.2 }}
-                className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-white/20 text-xs sm:text-sm font-medium text-muted-foreground hover:border-primary/50 hover:text-white transition-colors duration-150"
+                transition={{ delay: 0.7 + i * 0.06, duration: 0.3, ease: smoothEase }}
+                className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-white/20 text-xs sm:text-sm font-medium text-muted-foreground hover:border-primary/50 hover:text-white transition-colors duration-200"
               >
                 {word}
               </motion.span>
@@ -226,9 +228,9 @@ function AnimatedHeroSection() {
           </motion.div>
 
           <motion.div
-            initial={{ y: 15, opacity: 0 }}
+            initial={{ y: 12, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.9, ease: "easeOut" }}
+            transition={{ duration: 0.4, delay: 0.9, ease: smoothEase }}
             className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
           >
             <MagneticButton>
@@ -245,9 +247,9 @@ function AnimatedHeroSection() {
         </div>
 
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, delay: 0.2, ease: "easeOut" }}
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.2, ease: smoothEase }}
           className="relative h-[300px] sm:h-[350px] md:h-[450px] lg:h-[500px] w-full bg-black/40 rounded-2xl sm:rounded-[2rem] border border-white/10 overflow-hidden gpu-layer"
         >
           <SpotlightSVG />
@@ -264,9 +266,9 @@ function AnimatedHeroSection() {
 
       <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden sm:block gpu-layer"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.1, duration: 0.2 }}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.1, duration: 0.4, ease: smoothEase }}
       >
         <div className="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center p-2 animate-bounce-slow">
           <div className="w-1.5 h-1.5 rounded-full bg-white/60" />

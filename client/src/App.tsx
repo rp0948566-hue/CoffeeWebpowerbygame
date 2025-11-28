@@ -100,17 +100,17 @@ function AppContent() {
   }, [tier, isMobile]);
 
   const lenisOptions = {
-    lerp: 0.04,
+    lerp: 0.045,
     duration: 1.8,
     smoothWheel: true,
-    wheelMultiplier: 0.6,
-    touchMultiplier: 1.5,
+    wheelMultiplier: 0.5,
+    touchMultiplier: 1.0,
     infinite: false,
     orientation: 'vertical' as const,
     gestureOrientation: 'vertical' as const,
     smoothTouch: false,
     syncTouch: false,
-    syncTouchLerp: 0.04,
+    syncTouchLerp: 0.045,
   };
 
   if (!enableLenis || isMobile) {

@@ -211,6 +211,14 @@ The site features a global background music player that persists across all page
 
 ## Recent Changes
 
+**November 28, 2025 - Ultra-Smooth Website Optimizations**
+- Optimized Lenis scroll settings: lerp 0.045, duration 1.8, wheelMultiplier 0.5 for butter-smooth scrolling
+- Implemented smooth easing curve [0.16, 1, 0.3, 1] across all Framer Motion animations
+- Enhanced page transitions: 0.6s curtain with smooth timing, 0.35s content fade-in
+- Improved hero section animations: smoother letter stagger (0.035s delay), gentler magnetic button effect
+- Optimized CSS transitions: 0.18s cubic-bezier easing for interactive elements
+- Removed overly aggressive GPU acceleration to prevent memory overhead on lower-end devices
+
 **November 28, 2025 - Global Background Music Player**
 - Created BackgroundAudio.tsx with glassmorphic mute button
 - Added to App.tsx as global component

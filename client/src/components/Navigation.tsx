@@ -88,6 +88,7 @@ export function Navigation() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
             className="md:hidden bg-background/95 backdrop-blur-md border-b border-white/10 overflow-hidden"
           >
             <div className="container mx-auto px-6 py-4 flex flex-col gap-4">
