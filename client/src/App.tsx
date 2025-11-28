@@ -18,6 +18,7 @@ import { FloatingScrollIcon } from "@/components/FloatingScrollIcon";
 import { Footer } from "@/components/Footer";
 import { Menu } from "@/pages/Menu";
 import { LiquidTransition } from "@/components/LiquidTransition";
+import { MaggieChat } from "@/components/MaggieChat";
 
 function ScrollToTop() {
   const location = useLocation();
@@ -91,6 +92,7 @@ function App() {
           <BrowserRouter>
             <ScrollToTop />
             <AnimatedRoutes />
+            <MaggieChat />
           </BrowserRouter>
         </ReactLenis>
         <Toaster />
