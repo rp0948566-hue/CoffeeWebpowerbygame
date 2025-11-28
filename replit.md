@@ -188,7 +188,34 @@ Click the expand button (with "CLOTH WAVE" badge) on any video in the Media Gall
 - 64x36 segment plane geometry for smooth wave deformation
 - Fallback HTML5 video player for devices without WebGL support
 
+## Global Background Music Player
+
+The site features a global background music player that persists across all pages.
+
+### Component
+- `BackgroundAudio.tsx` - Fixed position glassmorphic button in bottom-left corner
+
+### Features
+- **Audio Source**: Uses `/song.mp4` (video hidden, audio only)
+- **Glassmorphic Button**: Translucent glass effect with backdrop blur
+- **Mute Toggle**: Click to toggle between muted/playing states
+- **Visual Feedback**: Spinning ring + pulse animation when playing
+- **Browser Auto-Play Policy**: Starts muted, enables on first user click anywhere on the page
+- **Global**: Persists across all pages (added to App.tsx)
+
+### Usage
+1. Place your audio file as `public/song.mp4`
+2. The button appears in the bottom-left corner
+3. Click anywhere on the page to enable audio (browser policy)
+4. Click the button to toggle mute/unmute
+
 ## Recent Changes
+
+**November 28, 2025 - Global Background Music Player**
+- Created BackgroundAudio.tsx with glassmorphic mute button
+- Added to App.tsx as global component
+- Handles browser auto-play policy with one-click start
+- Spinning ring animation when playing
 
 **November 28, 2025 - WebGL Cloth Wave Video Player**
 - Created WavingVideo.tsx with custom GLSL shaders for cloth wave effect

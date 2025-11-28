@@ -18,6 +18,7 @@ import { Menu } from "@/pages/Menu";
 import { Memories } from "@/pages/Memories";
 import { LiquidTransition } from "@/components/LiquidTransition";
 import { usePerformanceMode } from "@/hooks/usePerformanceMode";
+import BackgroundAudio from "@/components/BackgroundAudio";
 
 function ScrollToTop() {
   const location = useLocation();
@@ -136,6 +137,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <AppContent />
+        <BackgroundAudio />
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>
