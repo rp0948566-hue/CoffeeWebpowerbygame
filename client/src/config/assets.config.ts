@@ -31,6 +31,27 @@ import garlicBreadImg from '@assets/stock_images/garlic_bread_cheese_9cd39aeb.jp
 import premiumCoffeeImg from '@assets/stock_images/premium_artisan_coff_fde1e3a8.jpg';
 import cafeStorefrontImg from '@assets/51_1764347957828.webp';
 
+// Gallery Images - Cafe photos
+import galleryLatteArt from '@assets/1_1764348063174.webp';
+import galleryBookshelf from '@assets/2_1764348063176.webp';
+import galleryStorefrontBalloons from '@assets/3_1764348063177.webp';
+import galleryInteriorLounge from '@assets/4_1764348063178.jpg';
+import galleryNightOutdoor from '@assets/5_1764348063180.jpg';
+import galleryNeonInterior from '@assets/6_1764348063181.jpg';
+import galleryToastSticks from '@assets/14_1764348075129.webp';
+import galleryColdCoffeeLogo from '@assets/15_1764348075130.webp';
+import galleryLimeDrink from '@assets/16_1764348075132.webp';
+import galleryTwoLattes from '@assets/18_1764348075133.webp';
+import galleryWrap from '@assets/19_1764348075134.webp';
+import galleryGreenCouch from '@assets/20_1764348075135.webp';
+import galleryBreadShake from '@assets/31_1764348087794.webp';
+import galleryFriesCoffee from '@assets/32_1764348087797.webp';
+import galleryThreeCoffees from '@assets/28_1764348115500.webp';
+import galleryWorkingPizza from '@assets/29_1764348127064.webp';
+import galleryStickyNotes from '@assets/30_1764348127068.webp';
+import galleryNeonCupLogo from '@assets/47_1764348153807.webp';
+import galleryWallPosters from '@assets/48_1764348153809.webp';
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // EXPORTED STOCK IMAGES
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -156,71 +177,25 @@ export interface MediaItem {
 }
 
 export const mediaGalleryItems: MediaItem[] = [
-  // ──────────────────────────────────────────────────────────────────────────
-  // VIDEO 1: Replace with your own cafe video
-  // ──────────────────────────────────────────────────────────────────────────
-  { 
-    id: 1, 
-    type: 'video', 
-    src: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',  // <- EDIT: Your video URL
-    thumbnail: 'https://picsum.photos/seed/vid1/800/600',  // <- EDIT: Video thumbnail image
-    title: 'Coffee Moments'  // <- EDIT: Video title
-  },
-  // ──────────────────────────────────────────────────────────────────────────
-  // IMAGE 1: Replace with your cafe photo
-  // ──────────────────────────────────────────────────────────────────────────
-  { 
-    id: 2, 
-    type: 'image', 
-    src: 'https://picsum.photos/seed/loc1/800/600',  // <- EDIT: Your image URL
-    title: 'Coffee Moments 1' 
-  },
-  // ──────────────────────────────────────────────────────────────────────────
-  // IMAGE 2: Replace with your cafe photo
-  // ──────────────────────────────────────────────────────────────────────────
-  { 
-    id: 3, 
-    type: 'image', 
-    src: 'https://picsum.photos/seed/loc2/800/600',  // <- EDIT: Your image URL
-    title: 'Coffee Moments 2' 
-  },
-  // ──────────────────────────────────────────────────────────────────────────
-  // VIDEO 2: Replace with your own cafe video
-  // ──────────────────────────────────────────────────────────────────────────
-  { 
-    id: 4, 
-    type: 'video', 
-    src: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',  // <- EDIT: Your video URL
-    thumbnail: 'https://picsum.photos/seed/vid2/800/600',  // <- EDIT: Video thumbnail image
-    title: 'Cafe Vibes' 
-  },
-  // ──────────────────────────────────────────────────────────────────────────
-  // IMAGES 3-6: Replace with your cafe/memory photos
-  // ──────────────────────────────────────────────────────────────────────────
-  { 
-    id: 5, 
-    type: 'image', 
-    src: 'https://picsum.photos/seed/loc3/800/600',  // <- EDIT: Your image URL
-    title: 'Coffee Moments 3' 
-  },
-  { 
-    id: 6, 
-    type: 'image', 
-    src: 'https://picsum.photos/seed/loc4/800/600',  // <- EDIT: Your image URL
-    title: 'Cafe Vibes 1' 
-  },
-  { 
-    id: 7, 
-    type: 'image', 
-    src: 'https://picsum.photos/seed/loc5/800/600',  // <- EDIT: Your image URL
-    title: 'Cafe Vibes 2' 
-  },
-  { 
-    id: 8, 
-    type: 'image', 
-    src: 'https://picsum.photos/seed/loc6/800/600',  // <- EDIT: Your image URL
-    title: 'Love Over Coffee' 
-  },
+  { id: 1, type: 'image', src: galleryLatteArt, title: 'Latte Art' },
+  { id: 2, type: 'image', src: galleryBookshelf, title: 'Cozy Reading Corner' },
+  { id: 3, type: 'image', src: galleryStorefrontBalloons, title: 'Grand Opening' },
+  { id: 4, type: 'image', src: galleryInteriorLounge, title: 'Lounge Area' },
+  { id: 5, type: 'image', src: galleryNightOutdoor, title: 'Evening Vibes' },
+  { id: 6, type: 'image', src: galleryNeonInterior, title: 'Neon Ambiance' },
+  { id: 7, type: 'image', src: galleryToastSticks, title: 'Toast Sticks' },
+  { id: 8, type: 'image', src: galleryColdCoffeeLogo, title: 'Cold Coffee' },
+  { id: 9, type: 'image', src: galleryLimeDrink, title: 'Fresh Lime' },
+  { id: 10, type: 'image', src: galleryTwoLattes, title: 'Perfect Pair' },
+  { id: 11, type: 'image', src: galleryWrap, title: 'Loaded Wrap' },
+  { id: 12, type: 'image', src: galleryGreenCouch, title: 'Elegant Interior' },
+  { id: 13, type: 'image', src: galleryBreadShake, title: 'Garlic Bread & Shake' },
+  { id: 14, type: 'image', src: galleryFriesCoffee, title: 'Fries & Cold Coffee' },
+  { id: 15, type: 'image', src: galleryThreeCoffees, title: 'Coffee Trio' },
+  { id: 16, type: 'image', src: galleryWorkingPizza, title: 'Work & Dine' },
+  { id: 17, type: 'image', src: galleryStickyNotes, title: 'Customer Love' },
+  { id: 18, type: 'image', src: galleryNeonCupLogo, title: 'Our Logo' },
+  { id: 19, type: 'image', src: galleryWallPosters, title: 'Coffee Wall Art' },
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════════
