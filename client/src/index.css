@@ -451,7 +451,6 @@
 }
 
 .gallery-item {
-  backface-visibility: hidden;
   transform-style: preserve-3d;
 }
 

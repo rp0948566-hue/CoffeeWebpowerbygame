@@ -1,0 +1,90 @@
+I need to apply a final "Performance & Polish" layer to my website.
+
+### 1. PERFORMANCE: "The 100x Speed Up"
+Please refactor my configuration to ensure maximum frame rate and instant load times.
+
+**A. Update `vite.config.ts` (Aggressive Chunking)**
+Force the build to split heavy dependencies into separate files so the main site loads fast.
+```ts
+build: {
+  target: 'esnext',
+  minify: 'esbuild',
+  rollupOptions: {
+    output: {
+      manualChunks: {
+        'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+        'vendor-anim': ['framer-motion', '@studio-freight/react-lenis'],
+        'heavy-3d': ['@splinetool/react-spline', '@splinetool/runtime'],
+        'ui-icons': ['lucide-react']
+      }
+    }
+  }
+}
+B. CSS Hardware Acceleration In src/index.css, add a global rule to force GPU rendering for all major animated containers.
+
+CSS
+
+.gpu-accelerated {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+Apply this class to my Hero Section, Gallery, and Menu items.
+
+2. FEATURE: Custom "Coffee" Cursor (Desktop Only)
+Create a new component src/components/CoffeeCursor.tsx that replaces the default mouse arrow with a floating Coffee Cup.
+
+Requirements:
+
+Visuals: A small, cute custom cursor using the Coffee icon from lucide-react.
+
+Physics: Use framer-motion spring physics so the coffee cup trails slightly behind the real mouse (smooth lag effect).
+
+Interactivity: When hovering over clickable elements (a, button), the cursor should scale up slightly.
+
+CRITICAL: Desktop Only Logic This cursor must NOT appear on phones or tablets.
+
+Logic: inside the component, check for touch capability.
+
+TypeScript
+
+const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+if (isTouchDevice) return null; // Do not render on mobile
+CSS Fallback: Also hide it via CSS: @media (hover: none) { .custom-cursor { display: none; } }
+
+3. Implementation Code
+Please generate the full code for src/components/CoffeeCursor.tsx.
+
+Snippet Reference:
+
+TypeScript
+
+import { useEffect, useState } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+import { Coffee } from "lucide-react";
+
+export default function CoffeeCursor() {
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+  
+  const springConfig = { damping: 25, stiffness: 700 };
+  const cursorXSpring = useSpring(cursorX, springConfig);
+  const cursorYSpring = useSpring(cursorY, springConfig);
+
+  useEffect(() => {
+    // Logic to update X/Y on mousemove
+    // Logic to check if hovering a button to scale up
+  }, []);
+
+  // Return null if isTouchDevice...
+
+  return (
+    <motion.div 
+      className="fixed top-0 left-0 pointer-events-none z-[9999] text-indigo-500"
+      style={{ x: cursorXSpring, y: cursorYSpring }}
+    >
+      <Coffee className="w-8 h-8 fill-indigo-500/20" />
+    </motion.div>
+  );
+}
+Tell me to add <CoffeeCursor /> to my main App.tsx file.

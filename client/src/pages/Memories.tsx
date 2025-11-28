@@ -1,29 +1,76 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
-const memories = Array.from({ length: 27 }).map((_, i) => ({
-  id: i,
-  src: `https://picsum.photos/seed/${i + 50}/400/600`,
-  caption: `Memory ${i + 1}`
-}));
+interface MemoryItem {
+  id: number;
+  seed: number;
+  version: number;
+  src: string;
+  caption: string;
+}
 
 const ITEM_COUNT = 27;
 const RADIUS = 800;
+const REFRESH_INTERVAL = 3000;
+
+const buildSrc = (seed: number, version: number) => 
+  `https://picsum.photos/seed/${seed + version * 100}/400/600`;
+
+const buildHighResSrc = (seed: number, version: number) => 
+  `https://picsum.photos/seed/${seed + version * 100}/800/1200`;
+
+const createInitialMemories = (): MemoryItem[] => 
+  Array.from({ length: ITEM_COUNT }).map((_, i) => ({
+    id: i,
+    seed: i + 50,
+    version: 0,
+    src: buildSrc(i + 50, 0),
+    caption: `Memory ${i + 1}`
+  }));
 
 export function Memories() {
-  const [selectedImage, setSelectedImage] = useState<typeof memories[0] | null>(null);
+  const [memories, setMemories] = useState<MemoryItem[]>(createInitialMemories);
+  const [selectedImage, setSelectedImage] = useState<MemoryItem | null>(null);
   const [isPaused, setIsPaused] = useState(false);
+  const [frozenImage, setFrozenImage] = useState<MemoryItem | null>(null);
 
-  const handleImageClick = (memory: typeof memories[0]) => {
+  const refreshRandomImage = useCallback(() => {
+    setMemories(prev => {
+      const randomIdx = Math.floor(Math.random() * prev.length);
+      
+      return prev.map((memory, idx) => {
+        if (idx === randomIdx) {
+          const newVersion = memory.version + 1;
+          return {
+            ...memory,
+            version: newVersion,
+            src: buildSrc(memory.seed, newVersion)
+          };
+        }
+        return memory;
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    if (selectedImage) return undefined;
+    
+    const interval = setInterval(refreshRandomImage, REFRESH_INTERVAL);
+    return () => clearInterval(interval);
+  }, [refreshRandomImage, selectedImage]);
+
+  const handleImageClick = (memory: MemoryItem) => {
+    setFrozenImage({ ...memory });
     setSelectedImage(memory);
     setIsPaused(true);
   };
 
   const handleClose = () => {
     setSelectedImage(null);
+    setFrozenImage(null);
     setIsPaused(false);
   };
 
@@ -74,43 +121,49 @@ export function Memories() {
             {memories.map((memory, index) => {
               const angle = (360 / ITEM_COUNT) * index;
               return (
-                <motion.div
+                <div
                   key={memory.id}
                   className="gallery-item absolute left-1/2 top-1/2 w-[180px] h-[240px] md:w-[220px] md:h-[300px] cursor-pointer"
                   style={{
-                    transform: `translate(-50%, -50%) rotateY(${angle}deg) translateZ(${RADIUS}px)`,
+                    transform: `translate(-50%, -50%) rotateY(${angle}deg) translateZ(${RADIUS}px) rotateY(-${angle}deg)`,
                     WebkitBoxReflect: 'below 10px linear-gradient(transparent, transparent, rgba(0,0,0,0.3))',
                   }}
-                  whileHover={{ scale: 1.05 }}
                   onClick={() => handleImageClick(memory)}
                   data-testid={`card-memory-${memory.id}`}
                 >
-                  <div className="w-full h-full rounded-xl overflow-hidden bg-white/10 backdrop-blur-md border border-white/20 shadow-xl shadow-black/20">
-                    <img
-                      src={memory.src}
-                      alt={memory.caption}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
+                  <div className="w-full h-full rounded-xl overflow-hidden bg-white/10 backdrop-blur-md border border-white/20 shadow-xl shadow-black/20 hover:scale-105 transition-transform duration-300">
+                    <AnimatePresence mode="wait">
+                      <motion.img
+                        key={`${memory.id}-${memory.version}`}
+                        src={memory.src}
+                        alt={memory.caption}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                        initial={{ opacity: 0, scale: 1.1 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.5 }}
+                      />
+                    </AnimatePresence>
                     <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent">
                       <p className="text-white text-sm font-medium text-center">
                         {memory.caption}
                       </p>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
         </div>
 
         <div className="text-center mt-8 text-muted-foreground text-sm">
-          <p>Drag or hover to pause rotation</p>
+          <p>Images refresh every 3 seconds • Hover to pause rotation</p>
         </div>
       </div>
 
       <AnimatePresence>
-        {selectedImage && (
+        {selectedImage && frozenImage && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -138,13 +191,13 @@ export function Memories() {
               onClick={(e) => e.stopPropagation()}
             >
               <img
-                src={selectedImage.src.replace('/400/600', '/800/1200')}
-                alt={selectedImage.caption}
+                src={buildHighResSrc(frozenImage.seed, frozenImage.version)}
+                alt={frozenImage.caption}
                 className="w-full h-full object-contain rounded-2xl shadow-2xl"
               />
               <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent rounded-b-2xl">
                 <h3 className="text-white text-xl font-bold text-center">
-                  {selectedImage.caption}
+                  {frozenImage.caption}
                 </h3>
               </div>
             </motion.div>
