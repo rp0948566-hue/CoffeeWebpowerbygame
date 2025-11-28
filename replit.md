@@ -162,7 +162,40 @@ To replace the placeholder coffee image in the "Premium Coffee Experience" area:
    import placeholderCoffee from '@assets/HOME/1.jpg'; // or .png
    ```
 
+## WebGL Cloth Wave Video Player
+
+The site features a premium WebGL video player inspired by Lusion.co with a cloth/flag waving animation effect.
+
+### Components
+- `WavingVideo.tsx` - Three.js mesh with custom GLSL shaders for cloth wave effect
+- `VideoModal.tsx` - Full-screen modal with WebGL canvas, controls, and error handling
+
+### Features
+- **Cloth Wave Animation**: Custom vertex shader creates realistic fabric wave movement
+- **Mouse Interaction**: Video tilts subtly following mouse position
+- **Entry Animation**: Starts with wild waving, calms down to stable over 2 seconds
+- **Hover Effect**: Gentle wave animation restarts when hovering over the video
+- **Performance Optimized**: Uses refs instead of state for animation loop (no React reconciliation overhead)
+- **Graceful Fallback**: WebGLErrorBoundary catches runtime failures, falls back to HTML5 video player
+
+### Usage
+Click the expand button (with "CLOTH WAVE" badge) on any video in the Media Gallery to open the WebGL player.
+
+### Technical Details
+- Uses `@react-three/fiber` for React integration with Three.js
+- Uses `@react-three/drei` for video texture loading
+- Shader uniforms: uTime, uAmplitude, uMouse, uTexture, uOpacity
+- 64x36 segment plane geometry for smooth wave deformation
+- Fallback HTML5 video player for devices without WebGL support
+
 ## Recent Changes
+
+**November 28, 2025 - WebGL Cloth Wave Video Player**
+- Created WavingVideo.tsx with custom GLSL shaders for cloth wave effect
+- Created VideoModal.tsx with WebGLErrorBoundary for graceful fallback
+- Integrated WebGL player into MediaGallery with "CLOTH WAVE" badge
+- Optimized animation loop to use refs instead of state (60fps without React overhead)
+- Added FallbackVideoPlayer for devices without WebGL support
 
 **November 28, 2025 - BUTTER SMOOTH 120 FPS Performance**
 - Complete rewrite of MediaGallery with momentum-based drag scrolling
