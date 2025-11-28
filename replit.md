@@ -106,3 +106,27 @@ Preferred communication style: Simple, everyday language.
 - Drizzle is configured with PostgreSQL dialect but the application currently uses in-memory storage
 - Schema defined in `shared/schema.ts` with users table structure
 - Migration path prepared for future PostgreSQL integration via Neon or other providers
+
+## Performance Optimizations
+
+**Spline 3D Deferral System**
+- The heavy Spline 3D library is lazy-loaded using React.lazy
+- A CSS-only "CyberLoadingUI" shows instantly while 3D scene loads in background
+- Features multiple spinning cyber rings, pulsing coffee icon, and animated progress bar
+- Cross-fade transition via AnimatePresence when 3D scene is ready
+- SplineErrorBoundary catches WebGL errors and shows fallback UI
+- WebGL support detection prevents crashes on unsupported devices
+
+**Loading UI Components**
+- `CyberLoadingUI` - Futuristic loading animation with cyber rings and particles
+- `SplineFallback` - Static fallback for WebGL-unsupported environments
+- Smooth opacity transitions prevent jarring content swaps
+
+## Recent Changes
+
+**November 28, 2025**
+- Implemented "Grandmaster Level" performance optimization
+- Created CyberLoadingUI with spinning rings, pulsing animations, and status indicators
+- Added React.lazy deferral for Spline 3D component
+- Implemented cross-fade transition system between loader and 3D scene
+- Removed "Order Now" and "Our Story" buttons from Hero section
