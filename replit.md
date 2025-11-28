@@ -124,9 +124,25 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-**November 28, 2025**
+**November 28, 2025 - Master Specification Implementation**
+- Added mobile device detection via `useIsMobile` hook - serves static fallback instead of 3D Spline on mobile
+- Created `AppManager.tsx` - "Time Travel" entry point with iframe to legacy site + "Enter 2025 Experience" button
+- Added CSS utilities: `.neon-border` (glowing neon effect), `.dark-map` (grayscale inverted map filter), `.floating-particle` animation
+- Updated GameSection with neon-border glow effect
+- HeroSection now conditionally renders SplineFallback on mobile devices for performance
+- Removed Maggie AI chatbot component
+
+**Earlier November 28, 2025**
 - Implemented "Grandmaster Level" performance optimization
 - Created CyberLoadingUI with spinning rings, pulsing animations, and status indicators
 - Added React.lazy deferral for Spline 3D component
 - Implemented cross-fade transition system between loader and 3D scene
 - Removed "Order Now" and "Our Story" buttons from Hero section
+
+## Key CSS Classes
+
+- `.text-outline` - Kinetic typography with stroke effect, fills on hover
+- `.text-stroke` - Secondary outline text effect for gallery items
+- `.neon-border` - Glowing indigo/purple neon border with box-shadow
+- `.dark-map` - Grayscale inverted Google Maps filter, reverts on hover
+- `.floating-particle` - Floating animation for decorative particles
