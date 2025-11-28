@@ -344,4 +344,93 @@
   .border.hover-elevate:not(.no-hover-interaction-elevate)::after {
     inset: -1px;
   }
+
+  /* GPU Acceleration for smooth animations */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    perspective: 1000px;
+    will-change: transform, opacity;
+  }
+}
+
+/* Performance-optimized CSS animations */
+@keyframes spin-slow {
+  from { transform: translateZ(0) rotate(0deg); }
+  to { transform: translateZ(0) rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+  from { transform: translateZ(0) rotate(360deg); }
+  to { transform: translateZ(0) rotate(0deg); }
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.7; transform: translateZ(0) scale(1); }
+  50% { opacity: 1; transform: translateZ(0) scale(1.05); }
+}
+
+@keyframes loading-bar {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(0%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+.animate-spin-reverse {
+  animation: spin-reverse 15s linear infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 2s ease-in-out infinite;
+}
+
+.animate-loading-bar {
+  animation: loading-bar 1.5s ease-in-out infinite;
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .animate-spin-slow,
+  .animate-spin-reverse,
+  .animate-pulse-slow,
+  .animate-loading-bar,
+  .animate-bounce-slow,
+  .floating-particle {
+    animation: none !important;
+  }
+}
+
+/* Mobile performance optimizations */
+@media (max-width: 768px) {
+  .text-outline {
+    -webkit-text-stroke: 2px white;
+  }
+  
+  .neon-border {
+    box-shadow: 0 0 5px rgba(99, 102, 241, 0.4),
+                0 0 10px rgba(99, 102, 241, 0.2);
+  }
 }

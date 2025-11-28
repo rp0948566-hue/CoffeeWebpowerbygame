@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
-import { motion, useMotionValue, useTransform, AnimatePresence } from 'framer-motion';
+import { useState, useMemo } from 'react';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Leaf, Snowflake, ShoppingCart, Star, Camera, ChevronDown, Coffee, Pizza, Sandwich, IceCream, GlassWater, Utensils } from 'lucide-react';
+import { ArrowLeft, Star, Camera, ChevronDown, Coffee, Pizza, Sandwich, IceCream, GlassWater, Utensils } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { usePerformance } from '@/hooks/use-performance';
 
 import cappuccinoImg from '@assets/stock_images/cappuccino_coffee_la_5d8da662.jpg';
 import biscoffImg from '@assets/stock_images/lotus_biscoff_coffee_f655c8f9.jpg';
@@ -72,9 +73,6 @@ const menuCategories = [
       { name: 'Cold Brew', description: 'Black - a delicate & complete drink.', price: '₹190.00' },
       { name: 'Condensed Latte', description: 'Espresso with condensed.', price: '₹200.00' },
       { name: 'Cranberry Cold Brew', description: 'Cranberry with cold brew.', price: '₹240.00' },
-      { name: 'Cranberry Espresso', description: 'Cranberry with espresso.', price: '₹170.00' },
-      { name: 'Orange Cold Brew', description: 'Orange with cold brew.', price: '₹240.00' },
-      { name: 'Orange Espresso', description: 'Orange with espresso.', price: '₹170.00' },
       { name: 'Vietnamese', description: 'Espresso, condensed, ice.', price: '₹220.00' },
     ]
   },
@@ -85,12 +83,9 @@ const menuCategories = [
     color: 'from-green-500 to-teal-500',
     items: [
       { name: 'Blueberry Ice Tea', description: 'Refreshing blueberry flavored iced tea.', price: '₹200.00' },
-      { name: 'Fresh Lime Soda', description: 'Refreshing water based sweet-salty drink.', price: '₹150.00' },
       { name: 'Lemon Mint Ice Tea', description: 'Classic lemon mint refresher.', price: '₹160.00' },
       { name: 'Peach Ice Tea', description: 'Sweet peach flavored iced tea.', price: '₹180.00' },
-      { name: 'Red Bull Ice Tea', description: 'Energizing ice tea combo.', price: '₹270.00' },
       { name: 'Strawberry Ice Tea', description: 'Fresh strawberry iced tea.', price: '₹180.00' },
-      { name: 'Watermelon Ice Tea', description: 'Summer watermelon refresher.', price: '₹180.00' },
     ]
   },
   {
@@ -101,18 +96,10 @@ const menuCategories = [
     items: [
       { name: 'Cafe Frappe', description: 'Rich, creamy and irresistable cold coffee.', price: '₹190.00' },
       { name: 'Caramel Creamy Frappe', description: 'Cafe frappe with the combination of caramel flavour.', price: '₹210.00' },
-      { name: 'Choco Cookie Frappe', description: 'Blending of espresso in ice cream n secret cookie and this flavour served with half cut passion.', price: '₹240.00' },
       { name: 'Choco Frappe', description: 'Cafe frappe with combination of chocolate fudge.', price: '₹200.00' },
-      { name: 'Cookie Crunchy Creamy Frappe', description: 'Unique flavour of hazelnut n caramel with chunks cookies. Recommended.', price: '₹240.00' },
-      { name: 'Dark Chocolate Frappe', description: 'Recommended to those who want combination of dark chocolate and frappe at the same time.', price: '₹200.00' },
-      { name: 'Iced Cappuccino', description: 'Espresso mixed with milk, chocolate and ice cubes. Topped with milk froth.', price: '₹190.00' },
-      { name: 'Iced Latte', description: 'Rich espresso and cold milk served over ice.', price: '₹190.00' },
-      { name: 'Iced Mocha', description: 'Espresso with chocolate, milk n cream over ice.', price: '₹200.00' },
-      { name: 'Irish Mocha Creamy Frappe', description: 'Cafe frappe mixed with Irish n chocolate flavour.', price: '₹220.00' },
-      { name: 'Mocha Hazelnut Frappe', description: 'A delicious cold coffee that is blended with chocolate and hazelnut flavour.', price: '₹230.00' },
-      { name: 'Nutella Frappe', description: 'Most desirable quencher in one glass. Nutella blended with espresso.', price: '₹300.00' },
+      { name: 'Dark Chocolate Frappe', description: 'Dark chocolate and frappe combination.', price: '₹200.00' },
       { name: 'Oreo Frappe', description: 'Oreo cookies blended with ice cream n espresso shot.', price: '₹220.00' },
-      { name: 'Tiramisu Frappe', description: 'Brownie chunks blended with amazing tiramisu flavour in cold coffee.', price: '₹240.00' },
+      { name: 'Tiramisu Frappe', description: 'Brownie chunks blended with amazing tiramisu flavour.', price: '₹240.00' },
     ]
   },
   {
@@ -121,16 +108,10 @@ const menuCategories = [
     icon: GlassWater,
     color: 'from-pink-500 to-rose-500',
     items: [
-      { name: 'Orange Tango', description: 'Blend of sweet and sour flair with touch of spice, leave you for crave more.', price: '₹240.00' },
-      { name: 'Blueberry Mango Mojito', description: 'Delicious combination of blue berry n mango.', price: '₹200.00' },
-      { name: 'Coco Hibiscus Bliss', description: 'Blend of hibiscus and white chocolate with every sip.', price: '₹220.00' },
-      { name: 'Cranberry Mojito', description: 'Enjoy the crisp, clean taste of cranberry with mudded lemon n ice.', price: '₹200.00' },
-      { name: 'Kiwi Mojito', description: 'A refreshing flavour of mint, ice and kiwi.', price: '₹360.00' },
       { name: 'Mango Mojito', description: 'Mango, mint n lime. The perfect refresher.', price: '₹180.00' },
-      { name: 'Masala Lemonade', description: 'Flavorful Indian beverage that blends the tanginess of lemon with a medley of warm spices.', price: '₹160.00' },
-      { name: 'Minty Berry Burst', description: 'Burst of refreshing mint and seasonal flavours of berry.', price: '₹210.00' },
-      { name: 'Virgin Mojito', description: 'Refreshing chilled mint mojito flavour made using syrup, ice, muddled lemons n mint leaves.', price: '₹170.00' },
-      { name: 'Watermelon Punch', description: 'Watermelon flavour refreshing drink to fight the heat.', price: '₹180.00' },
+      { name: 'Virgin Mojito', description: 'Refreshing chilled mint mojito.', price: '₹170.00' },
+      { name: 'Cranberry Mojito', description: 'Crisp, clean taste of cranberry with lemon n ice.', price: '₹200.00' },
+      { name: 'Watermelon Punch', description: 'Watermelon refreshing drink.', price: '₹180.00' },
     ]
   },
   {
@@ -139,16 +120,9 @@ const menuCategories = [
     icon: IceCream,
     color: 'from-pink-400 to-purple-500',
     items: [
-      { name: 'Biscoff Shake', description: 'Deliciousness of biscoff cookie blend to perfection.', price: '₹270.00' },
-      { name: 'Blueberry Shake', description: 'Blueberry flavour blended with vanilla ice cream.', price: '₹220.00' },
-      { name: 'Caramel Creamy Shake', description: 'Smoothness of caramel to make you drooooool!', price: '₹200.00' },
-      { name: 'Choco Brownie Shake', description: 'Super creamy, super chocolaty with chunks of brownie.', price: '₹240.00' },
-      { name: 'Dark Chocolate Hazelnut Shake', description: 'Chocolate shake flavoured with hazelnut.', price: '₹220.00' },
-      { name: 'Dark Chocolate Shake', description: 'As chocolaty as it can get!', price: '₹190.00' },
-      { name: 'Ferrero Rocher Shake', description: 'The exclusive shake loaded with ferrero rocher n nutella.', price: '₹300.00' },
-      { name: 'Kit-Kat Shake', description: 'A shake that deserves a break! Blended and topped with kit kat.', price: '₹220.00' },
-      { name: 'Nutella Shake', description: 'For the nutella lovers.', price: '₹280.00' },
       { name: 'Oreo Shake', description: 'You Want Oreo? We Got Oreo.', price: '₹220.00' },
+      { name: 'Nutella Shake', description: 'For the nutella lovers.', price: '₹280.00' },
+      { name: 'Dark Chocolate Shake', description: 'As chocolaty as it can get!', price: '₹190.00' },
       { name: 'Strawberry Shake', description: 'The strawberry shake that you deserve.', price: '₹200.00' },
     ]
   },
@@ -158,13 +132,10 @@ const menuCategories = [
     icon: Pizza,
     color: 'from-red-500 to-orange-500',
     items: [
-      { name: 'Classic Margarita Pizza', description: 'Classic Margarita, Home Made Tomato Sauce, Mozzarella And Evo.', price: '₹310.00' },
-      { name: 'Paneer Bhurji Pizza', description: 'Spicy paneer bhurji on our traditional margarita.', price: '₹400.00' },
-      { name: 'Pesto Mushroom Pizza', description: 'Basil Pesto, Mushroom, Caramelized Onion, Feta Cheese, Cherry Tomatoes, Parmesan Cheese And Mozzarella.', price: '₹440.00' },
-      { name: 'Tandoori Paneer Pizza', description: 'Jumble Of Cottage Cheese, Onion, Capsicum With Cheese Blend And Tandoori Mayonnaise.', price: '₹420.00' },
-      { name: 'Farm Fresh Pizza', description: 'Tasty combination of onion, tomato and capsicum and mozzarella.', price: '₹330.00' },
-      { name: 'Supreme Pizza', description: 'Yummy toppings of green chilli, onion, tomato, capsicum and paneer with cheese blend.', price: '₹410.00' },
-      { name: 'Multi Cheese Nirmana Pizza', description: 'Poke your senses with this pizza, cooked with onion, capsicum, jalapeno and sweet corn with blended cheese.', price: '₹440.00' },
+      { name: 'Classic Margarita Pizza', description: 'Classic Margarita with Mozzarella.', price: '₹310.00' },
+      { name: 'Farm Fresh Pizza', description: 'Onion, tomato and capsicum with mozzarella.', price: '₹330.00' },
+      { name: 'Tandoori Paneer Pizza', description: 'Cottage cheese, onion, capsicum with tandoori mayo.', price: '₹420.00' },
+      { name: 'Supreme Pizza', description: 'Green chilli, onion, tomato, capsicum, paneer.', price: '₹410.00' },
     ]
   },
   {
@@ -173,15 +144,10 @@ const menuCategories = [
     icon: Sandwich,
     color: 'from-yellow-500 to-amber-500',
     items: [
-      { name: 'French Toast Sandwich', description: 'A new style french toast made using saute vegetables and different mayonnaise in masala loaf.', price: '₹280.00' },
-      { name: 'Pesto Grilled Veg Sandwich', description: 'French Loaff Stuffed With English Grilled Veg, Mozzarella, Cocktail Sauce And Served With Fries.', price: '₹330.00' },
-      { name: 'Veg Club Sandwich', description: 'Fresh Lettuce, Coleslaw, Onion, Tomato, Cucumber, Cheese Slice.', price: '₹260.00' },
-      { name: 'Veg Grilled Sandwich', description: 'Tasty combination of onion, tomato and capsicum.', price: '₹200.00' },
-      { name: 'Cheese Corn Sandwich', description: 'A combination of cheese n corn parked in two layers to give you a heavenly experience.', price: '₹220.00' },
-      { name: 'Mexican Sandwich', description: 'A tasteful sandwich made of bell peppers and onions with three different mayonnaise.', price: '₹220.00' },
-      { name: 'Mushroom Sandwich', description: 'Fantastic combination of saute mushroom n onion with cheese dressing.', price: '₹220.00' },
-      { name: 'Tandoori Paneer Sandwich', description: 'Paneer is an emotion. Try it to know what it tastes like.', price: '₹270.00' },
-      { name: 'Triple Cheese Sandwich', description: 'Onion, tomato, capsicum & lettuce loaded with cheese, blended and placed between three slices of brown breads.', price: '₹320.00' },
+      { name: 'Veg Club Sandwich', description: 'Fresh Lettuce, Coleslaw, Onion, Tomato.', price: '₹260.00' },
+      { name: 'Cheese Corn Sandwich', description: 'A combination of cheese n corn.', price: '₹220.00' },
+      { name: 'Tandoori Paneer Sandwich', description: 'Paneer is an emotion.', price: '₹270.00' },
+      { name: 'Triple Cheese Sandwich', description: 'Loaded with cheese.', price: '₹320.00' },
     ]
   },
   {
@@ -190,10 +156,9 @@ const menuCategories = [
     icon: Utensils,
     color: 'from-orange-400 to-red-400',
     items: [
-      { name: 'Alfredo Pasta (White)', description: 'A creamy sauce with lots of parmesan cheese serves with bread.', price: '₹400.00' },
-      { name: 'Penne Arrabiata (Red)', description: 'A spicy combination of fresh homemade tomato sauce, garlic and chilly flakes served with bread.', price: '₹370.00' },
-      { name: 'Penne Creamy Pesto', description: 'A Creamy Combination Of Fresh Pesto, Cream And Lots Of Parmesan Cheese Served With Bread.', price: '₹440.00' },
-      { name: 'Penne Pink Sauce', description: 'Simply cooked penne pasta mixed with a silky smooth & decadent white sauce.', price: '₹420.00' },
+      { name: 'Alfredo Pasta (White)', description: 'Creamy sauce with parmesan cheese.', price: '₹400.00' },
+      { name: 'Penne Arrabiata (Red)', description: 'Spicy fresh tomato sauce.', price: '₹370.00' },
+      { name: 'Penne Pink Sauce', description: 'Silky smooth decadent white sauce.', price: '₹420.00' },
     ]
   },
   {
@@ -202,14 +167,9 @@ const menuCategories = [
     icon: Utensils,
     color: 'from-yellow-400 to-orange-400',
     items: [
-      { name: 'Baked Fries', description: 'Crispy french fries backed with cheese sauce and mozzarella cheese.', price: '₹280.00' },
-      { name: 'French Fries', description: "For you, if you're the fries before guys kind.", price: '₹170.00' },
-      { name: 'Peri Peri Fries', description: 'Fries topped with your favourite peri peri spices.', price: '₹220.00' },
-      { name: 'Masala Fries', description: 'A spicy treat by chef special.', price: '₹190.00' },
-      { name: 'Barbeque Fries', description: 'Fries topped with tandoori and chilli dressing.', price: '₹240.00' },
-      { name: 'Cheese Jalapeno Fries', description: 'Fries topped with cheese and jalapeno dressing.', price: '₹240.00' },
-      { name: 'Mexican Fries', description: 'Fries topped with cheese, mayo and jalapeno dressing.', price: '₹240.00' },
-      { name: 'Nachos Fries', description: 'A combination of fries and nachos, topped with chilli and plain mayo.', price: '₹260.00' },
+      { name: 'French Fries', description: "Fries before guys kind.", price: '₹170.00' },
+      { name: 'Peri Peri Fries', description: 'With peri peri spices.', price: '₹220.00' },
+      { name: 'Cheese Jalapeno Fries', description: 'With cheese and jalapeno.', price: '₹240.00' },
     ]
   },
   {
@@ -220,9 +180,7 @@ const menuCategories = [
     items: [
       { name: 'Cheese Garlic Bread', description: 'Cheese blend, garlic and butter.', price: '₹220.00' },
       { name: 'Chili Corn Garlic Bread', description: 'Cheese blend, corn, green chili.', price: '₹250.00' },
-      { name: 'Masala Pull-A-Part Garlic Bread', description: 'Freshly baked garlic bread with garlic butter, indian masala and cheese.', price: '₹400.00' },
-      { name: 'OTC Garlic Bread', description: 'Cheese blend, onion, tomato, capsicum with spices.', price: '₹300.00' },
-      { name: 'Pesto Pull-A-Part Garlic Bread', description: 'Freshly Baked Garlic Bread with Garlic Butter, Pesto, diced tomato and cheese.', price: '₹440.00' },
+      { name: 'OTC Garlic Bread', description: 'Onion, tomato, capsicum with spices.', price: '₹300.00' },
     ]
   },
 ];
@@ -242,139 +200,89 @@ const categoryImages: Record<string, string> = {
   'garlic-bread': garlicBreadImg,
 };
 
-function FloatingBubble({ delay, size, left, duration }: { delay: number; size: number; left: string; duration: number }) {
-  return (
-    <motion.div
-      className="absolute rounded-full pointer-events-none"
-      style={{
-        width: size,
-        height: size,
-        left,
-        bottom: '-100px',
-        background: `radial-gradient(circle at 30% 30%, transparent 40%, rgba(255,255,255,0.1) 60%, transparent 70%)`,
-        border: '1px solid rgba(255,255,255,0.08)',
-      }}
-      animate={{
-        y: [0, -window.innerHeight - 200],
-        x: [0, Math.random() * 100 - 50],
-        scale: [1, 1.1, 0.9, 1],
-        opacity: [0, 0.6, 0.6, 0],
-      }}
-      transition={{
-        duration,
-        delay,
-        repeat: Infinity,
-        ease: 'linear',
-      }}
-    />
+function SimpleBackground({ particleCount }: { particleCount: number }) {
+  const particles = useMemo(() => 
+    [...Array(particleCount)].map((_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      size: 2 + Math.random() * 4,
+      delay: Math.random() * 5,
+    })), [particleCount]
   );
-}
-
-function FloatingIcon({ Icon, delay, startX, startY }: { Icon: typeof Leaf; delay: number; startX: string; startY: string }) {
-  return (
-    <motion.div
-      className="absolute text-white/10 pointer-events-none"
-      style={{ left: startX, top: startY }}
-      animate={{
-        x: [0, 30, -20, 40, 0],
-        y: [0, -40, -20, -60, 0],
-        rotate: [0, 45, -30, 60, 0],
-        opacity: [0.1, 0.2, 0.15, 0.2, 0.1],
-      }}
-      transition={{
-        duration: 20,
-        delay,
-        repeat: Infinity,
-        ease: 'easeInOut',
-      }}
-    >
-      <Icon className="w-12 h-12" />
-    </motion.div>
-  );
-}
-
-function AtmosphericBackground() {
-  const bubbles = [
-    { delay: 0, size: 60, left: '10%', duration: 15 },
-    { delay: 2, size: 40, left: '25%', duration: 12 },
-    { delay: 4, size: 80, left: '45%', duration: 18 },
-    { delay: 1, size: 30, left: '60%', duration: 10 },
-    { delay: 3, size: 50, left: '75%', duration: 14 },
-    { delay: 5, size: 70, left: '85%', duration: 16 },
-  ];
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-      {bubbles.map((bubble, i) => (
-        <FloatingBubble key={i} {...bubble} />
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          className="absolute rounded-full bg-white/5 animate-pulse-slow"
+          style={{
+            left: p.left,
+            top: p.top,
+            width: p.size,
+            height: p.size,
+            animationDelay: `${p.delay}s`,
+            transform: 'translateZ(0)',
+          }}
+        />
       ))}
-      <FloatingIcon Icon={Leaf} delay={0} startX="5%" startY="20%" />
-      <FloatingIcon Icon={Snowflake} delay={2} startX="90%" startY="30%" />
-      <FloatingIcon Icon={Leaf} delay={4} startX="15%" startY="70%" />
-      <FloatingIcon Icon={Snowflake} delay={6} startX="80%" startY="60%" />
     </div>
   );
 }
 
-function MassiveHeader() {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  
-  const gradientX = useTransform(mouseX, [0, window.innerWidth], [0, 100]);
-  const gradientY = useTransform(mouseY, [0, window.innerHeight], [0, 100]);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [mouseX, mouseY]);
+function MassiveHeader({ reduceMotion }: { reduceMotion: boolean }) {
+  if (reduceMotion) {
+    return (
+      <div className="relative py-10 md:py-16 overflow-hidden">
+        <p className="text-center text-primary/80 text-sm uppercase tracking-[0.3em] mb-4">
+          Menu Highlights
+        </p>
+        <h1
+          className="text-[2.5rem] sm:text-[4rem] md:text-[5rem] lg:text-[7rem] font-black text-center leading-none select-none bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
+          style={{ fontFamily: "'Titan One', cursive" }}
+          data-testid="text-flavors-title"
+        >
+          OUR MENU
+        </h1>
+        <p className="text-center text-muted-foreground text-base md:text-lg mt-4 max-w-2xl mx-auto px-6">
+          Discover our handcrafted selection of premium beverages and artisan bites
+        </p>
+      </div>
+    );
+  }
 
   return (
     <motion.div 
-      className="relative py-12 md:py-20 overflow-hidden"
+      className="relative py-10 md:py-16 overflow-hidden gpu-accelerated"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ delay: 0.3, duration: 0.8 }}
+      transition={{ duration: 0.5 }}
     >
       <motion.p
         className="text-center text-primary/80 text-sm uppercase tracking-[0.3em] mb-4"
-        initial={{ y: -20, opacity: 0 }}
+        initial={{ y: -10, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.6 }}
+        transition={{ duration: 0.4 }}
       >
         Menu Highlights
       </motion.p>
       <motion.h1
-        className="text-[3rem] sm:text-[5rem] md:text-[7rem] lg:text-[9rem] xl:text-[11rem] font-black text-center leading-none select-none"
-        style={{
-          fontFamily: "'Titan One', cursive",
-          background: `linear-gradient(${gradientX.get()}deg, #6366f1, #a855f7, #ec4899, #6366f1)`,
-          backgroundSize: '200% 200%',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-        }}
-        animate={{
-          backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: 'linear',
-        }}
+        className="text-[2.5rem] sm:text-[4rem] md:text-[5rem] lg:text-[7rem] font-black text-center leading-none select-none bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
+        style={{ fontFamily: "'Titan One', cursive", transform: 'translateZ(0)' }}
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.5 }}
         data-testid="text-flavors-title"
       >
         OUR MENU
       </motion.h1>
       
       <motion.p
-        className="text-center text-muted-foreground text-lg md:text-xl mt-4 max-w-2xl mx-auto px-6"
-        initial={{ y: 20, opacity: 0 }}
+        className="text-center text-muted-foreground text-base md:text-lg mt-4 max-w-2xl mx-auto px-6"
+        initial={{ y: 10, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.5, duration: 0.6 }}
+        transition={{ delay: 0.2, duration: 0.4 }}
       >
         Discover our handcrafted selection of premium beverages and artisan bites
       </motion.p>
@@ -385,310 +293,216 @@ function MassiveHeader() {
 interface HighlightCardProps {
   item: typeof menuHighlights[0];
   index: number;
+  reduceMotion: boolean;
 }
 
-function HighlightCard({ item, index }: HighlightCardProps) {
+function HighlightCard({ item, index, reduceMotion }: HighlightCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+
+  const cardContent = (
+    <div className="relative rounded-2xl overflow-hidden bg-white/[0.03] border border-white/10 backdrop-blur-sm h-full">
+      {!reduceMotion && isHovered && (
+        <div 
+          className={`absolute inset-0 bg-gradient-to-br ${item.gradient} rounded-2xl opacity-80`}
+          style={{ transform: 'translateZ(0)' }}
+        />
+      )}
+
+      <div className="relative z-10 p-3 sm:p-4">
+        <div className="relative h-32 sm:h-40 md:h-48 mb-3 sm:mb-4 flex items-center justify-center overflow-hidden rounded-xl">
+          <img
+            src={item.src}
+            alt={item.name}
+            className={`w-full h-full object-cover rounded-xl transition-transform duration-300 ${isHovered ? 'scale-105' : 'scale-100'}`}
+            loading="lazy"
+            style={{ transform: 'translateZ(0)' }}
+          />
+          
+          <div className="absolute top-2 left-2 flex gap-1">
+            {item.photos > 0 && (
+              <Badge variant="secondary" className="text-xs bg-black/60 backdrop-blur-sm border-0">
+                <Camera className="w-3 h-3 mr-1" />
+                {item.photos}
+              </Badge>
+            )}
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="font-bold text-white text-sm sm:text-base line-clamp-2">{item.name}</h3>
+            {item.price && (
+              <span className="text-primary font-bold text-sm whitespace-nowrap">{item.price}</span>
+            )}
+          </div>
+          
+          <p className="text-xs sm:text-sm text-gray-400 line-clamp-2">{item.description}</p>
+
+          {item.reviews > 0 && (
+            <div className="flex items-center gap-1 text-xs text-gray-500">
+              <Star className="w-3 h-3 fill-yellow-500 text-yellow-500" />
+              {item.reviews} {item.reviews === 1 ? 'review' : 'reviews'}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
+  if (reduceMotion) {
+    return (
+      <div
+        className="relative group cursor-pointer gpu-accelerated"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        data-testid={`card-highlight-${item.id}`}
+      >
+        {cardContent}
+      </div>
+    );
+  }
 
   return (
     <motion.div
-      className="relative group cursor-pointer"
-      initial={{ opacity: 0, y: 60 }}
+      className="relative group cursor-pointer gpu-accelerated"
+      initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{
-        delay: 0.4 + index * 0.08,
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1],
+        delay: 0.1 + index * 0.05,
+        duration: 0.4,
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       data-testid={`card-highlight-${item.id}`}
     >
-      <div className="relative rounded-2xl overflow-hidden bg-white/[0.03] border border-white/10 backdrop-blur-sm h-full">
-        <motion.div
-          className={`absolute inset-0 bg-gradient-to-br ${item.gradient} rounded-2xl`}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ 
-            opacity: isHovered ? 1 : 0,
-            scale: isHovered ? 1.2 : 0.8,
-          }}
-          transition={{ duration: 0.4 }}
-        />
-
-        <div className="relative z-10 p-4">
-          <div className="relative h-40 md:h-48 mb-4 flex items-center justify-center overflow-hidden rounded-xl">
-            <motion.div
-              className={`absolute inset-0 ${item.color} rounded-full blur-3xl`}
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ 
-                opacity: isHovered ? 0.3 : 0,
-                scale: isHovered ? 1.5 : 0,
-              }}
-              transition={{ duration: 0.5 }}
-            />
-            
-            <motion.img
-              src={item.src}
-              alt={item.name}
-              className="relative z-10 w-full h-full object-cover rounded-xl"
-              style={{
-                filter: isHovered ? 'grayscale(0%) saturate(1.2)' : 'grayscale(30%) saturate(0.9)',
-              }}
-              animate={{
-                scale: isHovered ? 1.1 : 1,
-                rotate: isHovered ? 2 : 0,
-              }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <motion.h3
-              className="text-lg md:text-xl font-bold text-white"
-              style={{ fontFamily: "'Titan One', cursive" }}
-              animate={{
-                scale: isHovered ? 1.02 : 1,
-              }}
-              transition={{ duration: 0.3 }}
-            >
-              {item.name}
-            </motion.h3>
-
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              {item.reviews > 0 && (
-                <span className="flex items-center gap-1">
-                  <Star className="w-3 h-3 fill-yellow-500 text-yellow-500" />
-                  {item.reviews} {item.reviews === 1 ? 'review' : 'reviews'}
-                </span>
-              )}
-              {item.reviews > 0 && item.photos > 0 && <span>·</span>}
-              {item.photos > 0 && (
-                <span className="flex items-center gap-1">
-                  <Camera className="w-3 h-3" />
-                  {item.photos} {item.photos === 1 ? 'photo' : 'photos'}
-                </span>
-              )}
-            </div>
-
-            <motion.p
-              className="text-sm text-muted-foreground line-clamp-2"
-              initial={{ opacity: 0.6 }}
-              animate={{ opacity: isHovered ? 1 : 0.6 }}
-            >
-              {item.description}
-            </motion.p>
-
-            <motion.div
-              className="flex items-center justify-between pt-2"
-              initial={{ opacity: 0.8, y: 0 }}
-              animate={{
-                opacity: isHovered ? 1 : 0.8,
-                y: isHovered ? 0 : 5,
-              }}
-              transition={{ duration: 0.3 }}
-            >
-              {item.price ? (
-                <span className="text-xl font-bold text-white">{item.price}</span>
-              ) : (
-                <Badge variant="secondary" className="text-xs">Price varies</Badge>
-              )}
-              
-              <motion.div
-                initial={{ opacity: 0, x: 10 }}
-                animate={{
-                  opacity: isHovered ? 1 : 0,
-                  x: isHovered ? 0 : 10,
-                }}
-                transition={{ duration: 0.3 }}
-              >
-                <Button
-                  size="sm"
-                  className={`rounded-full ${item.color} hover:opacity-90 text-white gap-1`}
-                  data-testid={`button-add-${item.id}`}
-                >
-                  <ShoppingCart className="w-3 h-3" />
-                  Add
-                </Button>
-              </motion.div>
-            </motion.div>
-          </div>
-        </div>
-      </div>
+      {cardContent}
     </motion.div>
   );
 }
 
-interface CategorySectionProps {
-  category: typeof menuCategories[0];
-  index: number;
-}
-
-function CategorySection({ category, index }: CategorySectionProps) {
-  const [isExpanded, setIsExpanded] = useState(index < 3);
+function CategorySection({ category, categoryImage, reduceMotion }: { 
+  category: typeof menuCategories[0]; 
+  categoryImage: string;
+  reduceMotion: boolean;
+}) {
+  const [isExpanded, setIsExpanded] = useState(false);
   const Icon = category.icon;
+
+  const content = (
+    <div className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden">
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="w-full p-4 sm:p-6 flex items-center gap-4 hover:bg-white/[0.02] transition-colors"
+        data-testid={`category-${category.id}`}
+      >
+        <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br ${category.color} flex items-center justify-center flex-shrink-0`}>
+          <Icon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+        </div>
+        
+        <div className="flex-1 text-left">
+          <h3 className="font-bold text-white text-base sm:text-lg">{category.name}</h3>
+          <p className="text-xs sm:text-sm text-gray-400">{category.items.length} items</p>
+        </div>
+
+        <ChevronDown className={`w-5 h-5 sm:w-6 sm:h-6 text-gray-400 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
+      </button>
+
+      {isExpanded && (
+        <div className="border-t border-white/10">
+          <div className="p-3 sm:p-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+            {category.items.map((item, i) => (
+              <div
+                key={i}
+                className="p-3 sm:p-4 bg-white/[0.02] rounded-xl border border-white/5 hover:border-primary/30 transition-colors"
+              >
+                <div className="flex justify-between items-start gap-2 mb-1">
+                  <h4 className="font-semibold text-white text-sm">{item.name}</h4>
+                  <span className="text-primary font-bold text-sm whitespace-nowrap">{item.price}</span>
+                </div>
+                <p className="text-xs text-gray-400 line-clamp-2">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
+  if (reduceMotion) {
+    return content;
+  }
 
   return (
     <motion.div
-      className="mb-8"
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.8 + index * 0.1, duration: 0.5 }}
-      data-testid={`category-${category.id}`}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.4 }}
+      className="gpu-accelerated"
     >
-      <button
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full flex items-center justify-between p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:bg-white/[0.05] transition-colors group"
-      >
-        <div className="flex items-center gap-4">
-          <div className={`p-3 rounded-xl bg-gradient-to-br ${category.color}`}>
-            <Icon className="w-6 h-6 text-white" />
-          </div>
-          <div className="text-left">
-            <h3 className="text-xl font-bold text-white" style={{ fontFamily: "'Titan One', cursive" }}>
-              {category.name}
-            </h3>
-            <p className="text-sm text-muted-foreground">{category.items.length} items</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-4">
-          <img
-            src={categoryImages[category.id]}
-            alt={category.name}
-            className="w-16 h-16 rounded-lg object-cover opacity-60 group-hover:opacity-100 transition-opacity"
-          />
-          <motion.div
-            animate={{ rotate: isExpanded ? 180 : 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <ChevronDown className="w-6 h-6 text-muted-foreground" />
-          </motion.div>
-        </div>
-      </button>
-
-      <AnimatePresence>
-        {isExpanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4 px-2">
-              {category.items.map((item, i) => (
-                <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.03 }}
-                  className="flex items-center justify-between p-4 rounded-lg bg-white/[0.02] border border-white/5 hover:bg-white/[0.05] hover:border-white/10 transition-all group cursor-pointer"
-                >
-                  <div className="flex-1 min-w-0 pr-4">
-                    <h4 className="font-semibold text-white group-hover:text-primary transition-colors">
-                      {item.name}
-                    </h4>
-                    <p className="text-sm text-muted-foreground line-clamp-1">{item.description}</p>
-                  </div>
-                  <div className="flex items-center gap-3 flex-shrink-0">
-                    <span className="font-bold text-white">{item.price}</span>
-                    <Button size="sm" variant="ghost" className="rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                      <ShoppingCart className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {content}
     </motion.div>
   );
 }
 
 export function Menu() {
+  const { shouldReduceAnimations, particleCount, isMobile } = usePerformance();
+
   return (
-    <div className="min-h-screen bg-[#050505] relative overflow-hidden">
-      <AtmosphericBackground />
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      <SimpleBackground particleCount={isMobile ? 3 : particleCount} />
       
-      <nav className="fixed top-0 left-0 right-0 z-40 bg-[#050505]/80 backdrop-blur-md border-b border-white/5">
-        <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-          <Link to="/" data-testid="link-back-home">
-            <Button
-              variant="ghost"
-              className="gap-2 text-muted-foreground hover:text-white"
+      <div className="relative z-10">
+        <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-white/10">
+          <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+            <Link to="/" data-testid="link-back-home">
+              <Button variant="ghost" size="sm" className="gap-2">
+                <ArrowLeft className="w-4 h-4" />
+                <span className="hidden sm:inline">Back</span>
+              </Button>
+            </Link>
+            
+            <h1 
+              className="text-lg sm:text-xl font-bold text-primary"
+              style={{ fontFamily: "'Titan One', cursive" }}
             >
-              <ArrowLeft className="w-4 h-4" />
-              Back to Home
-            </Button>
-          </Link>
+              LOVE OVER COFFEE
+            </h1>
+            
+            <div className="w-16 sm:w-20" />
+          </div>
+        </header>
 
-          <Link
-            to="/"
-            className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent"
-            style={{ fontFamily: "'Titan One', cursive" }}
-            data-testid="link-logo-menu"
-          >
-            LOC
-          </Link>
+        <MassiveHeader reduceMotion={shouldReduceAnimations} />
 
-          <div className="w-32" />
-        </div>
-      </nav>
-
-      <main className="relative z-10 container mx-auto px-4 md:px-6 pt-28 pb-20">
-        <MassiveHeader />
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="mb-12"
-        >
-          <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2" style={{ fontFamily: "'Titan One', cursive" }}>
-            <Star className="w-6 h-6 text-yellow-500" />
-            Popular Highlights
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <section className="container mx-auto px-4 sm:px-6 pb-8 sm:pb-12">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Popular Highlights</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
             {menuHighlights.map((item, index) => (
-              <HighlightCard key={item.id} item={item} index={index} />
+              <HighlightCard 
+                key={item.id} 
+                item={item} 
+                index={index} 
+                reduceMotion={shouldReduceAnimations}
+              />
             ))}
           </div>
-        </motion.div>
+        </section>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-        >
-          <h2 className="text-2xl font-bold text-white mb-6" style={{ fontFamily: "'Titan One', cursive" }}>
-            Full Menu
-          </h2>
-          {menuCategories.map((category, index) => (
-            <CategorySection key={category.id} category={category} index={index} />
-          ))}
-        </motion.div>
-
-        <motion.div
-          className="text-center mt-16"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-        >
-          <Link to="/" data-testid="link-back-bottom">
-            <Button
-              size="lg"
-              variant="outline"
-              className="rounded-full px-12 border-white/20 hover:bg-white/5"
-            >
-              Back to Home
-            </Button>
-          </Link>
-        </motion.div>
-      </main>
-
-      <div className="fixed bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#050505] to-transparent pointer-events-none z-20" />
+        <section className="container mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Full Menu</h2>
+          <div className="space-y-3 sm:space-y-4">
+            {menuCategories.map((category) => (
+              <CategorySection 
+                key={category.id} 
+                category={category}
+                categoryImage={categoryImages[category.id]}
+                reduceMotion={shouldReduceAnimations}
+              />
+            ))}
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
-
-export default Menu;

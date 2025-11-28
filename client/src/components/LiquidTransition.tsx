@@ -8,8 +8,8 @@ interface LiquidTransitionProps {
 const curtainVariants = {
   initial: {
     y: '100%',
-    borderTopLeftRadius: '50% 100px',
-    borderTopRightRadius: '50% 100px',
+    borderTopLeftRadius: '50% 60px',
+    borderTopRightRadius: '50% 60px',
   },
   animate: {
     y: '100%',
@@ -21,10 +21,10 @@ const curtainVariants = {
   },
   exit: {
     y: ['100%', '0%', '-100%'],
-    borderTopLeftRadius: ['50% 100px', '20% 40px', '0% 0px'],
-    borderTopRightRadius: ['50% 100px', '20% 40px', '0% 0px'],
+    borderTopLeftRadius: ['50% 60px', '20% 30px', '0% 0px'],
+    borderTopRightRadius: ['50% 60px', '20% 30px', '0% 0px'],
     transition: {
-      duration: 1.2,
+      duration: 0.8,
       times: [0, 0.4, 1],
       ease: [0.22, 1, 0.36, 1],
     },
@@ -34,21 +34,21 @@ const curtainVariants = {
 const contentVariants = {
   initial: {
     opacity: 0,
-    y: 20,
+    y: 15,
   },
   animate: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
-      delay: 0.1,
+      duration: 0.4,
+      delay: 0.05,
       ease: [0.22, 1, 0.36, 1],
     },
   },
   exit: {
     opacity: 0,
     transition: {
-      duration: 0.3,
+      duration: 0.2,
     },
   },
 };
@@ -57,11 +57,12 @@ export function LiquidTransition({ children }: LiquidTransitionProps) {
   return (
     <>
       <motion.div
-        className="fixed inset-0 z-50 bg-gradient-to-b from-[#0a0118] via-indigo-950 to-[#050505] pointer-events-none"
+        className="fixed inset-0 z-50 bg-gradient-to-b from-[#0a0118] via-indigo-950 to-[#050505] pointer-events-none gpu-accelerated"
         initial="initial"
         animate="animate"
         exit="exit"
         variants={curtainVariants}
+        style={{ transform: 'translateZ(0)' }}
       />
       
       <motion.div
@@ -69,7 +70,7 @@ export function LiquidTransition({ children }: LiquidTransitionProps) {
         animate="animate"
         exit="exit"
         variants={contentVariants}
-        className="min-h-screen"
+        className="min-h-screen gpu-accelerated"
       >
         {children}
       </motion.div>
@@ -83,10 +84,10 @@ export function LiquidCurtainEnter() {
       className="fixed inset-0 z-50 pointer-events-none overflow-hidden"
       initial={{ opacity: 1 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0, transition: { delay: 1 } }}
+      exit={{ opacity: 0, transition: { delay: 0.6 } }}
     >
       <motion.div
-        className="absolute inset-0 bg-gradient-to-b from-[#0a0118] via-indigo-950 to-[#050505]"
+        className="absolute inset-0 bg-gradient-to-b from-[#0a0118] via-indigo-950 to-[#050505] gpu-accelerated"
         initial={{ 
           y: 0,
           borderTopLeftRadius: '0% 0px',
@@ -94,24 +95,15 @@ export function LiquidCurtainEnter() {
         }}
         animate={{ 
           y: '-100%',
-          borderTopLeftRadius: '50% 80px',
-          borderTopRightRadius: '50% 80px',
+          borderTopLeftRadius: '50% 50px',
+          borderTopRightRadius: '50% 50px',
         }}
         transition={{
-          duration: 0.8,
+          duration: 0.6,
           ease: [0.22, 1, 0.36, 1],
-          delay: 0.1,
+          delay: 0.05,
         }}
-      />
-      
-      <motion.div
-        className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-primary/20 via-accent/10 to-transparent blur-2xl"
-        initial={{ y: 0, opacity: 0.8 }}
-        animate={{ y: '-150%', opacity: 0 }}
-        transition={{
-          duration: 1,
-          ease: [0.22, 1, 0.36, 1],
-        }}
+        style={{ transform: 'translateZ(0)' }}
       />
     </motion.div>
   );

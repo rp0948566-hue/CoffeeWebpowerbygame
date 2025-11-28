@@ -2,48 +2,35 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { SplineScene, SpotlightSVG } from './SplineScene';
+import { SplineScene, SpotlightSVG, SplineFallback } from './SplineScene';
+import { usePerformance } from '@/hooks/use-performance';
 
-const letterVariants = {
-  hidden: { opacity: 0, y: 100, rotateX: -90 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    rotateX: 0,
-    transition: {
-      delay: i * 0.08,
-      duration: 0.6,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  }),
-};
+function AnimatedLetter({ letter, index, isOutline, reduceMotion }: { letter: string; index: number; isOutline?: boolean; reduceMotion: boolean }) {
+  if (reduceMotion) {
+    return (
+      <span
+        className={`inline-block ${isOutline ? 'text-outline' : ''}`}
+        style={{ fontFamily: "'Titan One', cursive" }}
+      >
+        {letter === ' ' ? '\u00A0' : letter}
+      </span>
+    );
+  }
 
-const wordVariants = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: (i: number) => ({
-    opacity: 1,
-    scale: 1,
-    transition: {
-      delay: 0.8 + i * 0.15,
-      duration: 0.5,
-      ease: 'easeOut',
-    },
-  }),
-};
-
-function AnimatedLetter({ letter, index, isOutline }: { letter: string; index: number; isOutline?: boolean }) {
   return (
     <motion.span
-      custom={index}
-      variants={letterVariants}
-      initial="hidden"
-      animate="visible"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        delay: index * 0.05,
+        duration: 0.4,
+        ease: [0.22, 1, 0.36, 1],
+      }}
       className={`inline-block cursor-pointer ${isOutline ? 'text-outline' : ''}`}
-      style={{ fontFamily: "'Titan One', cursive" }}
+      style={{ fontFamily: "'Titan One', cursive", transform: 'translateZ(0)' }}
       whileHover={{
-        scale: 1.1,
-        rotate: [0, -5, 5, 0],
-        transition: { duration: 0.3 },
+        scale: 1.05,
+        transition: { duration: 0.2 },
       }}
     >
       {letter === ' ' ? '\u00A0' : letter}
@@ -51,7 +38,7 @@ function AnimatedLetter({ letter, index, isOutline }: { letter: string; index: n
   );
 }
 
-function KineticText({ text, isOutline, startIndex = 0 }: { text: string; isOutline?: boolean; startIndex?: number }) {
+function KineticText({ text, isOutline, startIndex = 0, reduceMotion }: { text: string; isOutline?: boolean; startIndex?: number; reduceMotion: boolean }) {
   return (
     <span className="inline-block">
       {text.split('').map((letter, i) => (
@@ -60,20 +47,25 @@ function KineticText({ text, isOutline, startIndex = 0 }: { text: string; isOutl
           letter={letter}
           index={startIndex + i}
           isOutline={isOutline}
+          reduceMotion={reduceMotion}
         />
       ))}
     </span>
   );
 }
 
-function MagneticButton({ children }: { children: React.ReactNode }) {
+function MagneticButton({ children, disabled }: { children: React.ReactNode; disabled?: boolean }) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  if (disabled) {
+    return <div>{children}</div>;
+  }
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
-    setPosition({ x: x * 0.2, y: y * 0.2 });
+    setPosition({ x: x * 0.15, y: y * 0.15 });
   };
 
   const handleMouseLeave = () => {
@@ -85,7 +77,8 @@ function MagneticButton({ children }: { children: React.ReactNode }) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       animate={{ x: position.x, y: position.y }}
-      transition={{ type: 'spring', stiffness: 150, damping: 15 }}
+      transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+      style={{ transform: 'translateZ(0)' }}
     >
       {children}
     </motion.div>
@@ -93,106 +86,151 @@ function MagneticButton({ children }: { children: React.ReactNode }) {
 }
 
 export function HeroSection() {
+  const { shouldReduceAnimations, isMobile, isLowEnd } = usePerformance();
+  
+  const containerAnimation = shouldReduceAnimations 
+    ? {} 
+    : {
+        initial: { scale: 0.95, opacity: 0 },
+        animate: { scale: 1, opacity: 1 },
+        transition: { duration: 0.6, delay: 0.3 }
+      };
+
   return (
-    <section id="home" className="relative pt-24 pb-16 px-6 min-h-screen flex items-center overflow-hidden">
+    <section id="home" className="relative pt-24 pb-16 px-6 min-h-screen flex items-center overflow-hidden gpu-accelerated">
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
       
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
         <div className="z-20 text-center lg:text-left">
           <h1
-            className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl leading-none mb-8"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-none mb-6 sm:mb-8"
             data-testid="text-hero-title"
             style={{ fontFamily: "'Titan One', cursive" }}
           >
-            <div className="mb-2">
-              <KineticText text="LOVE" isOutline startIndex={0} />
+            <div className="mb-1 sm:mb-2">
+              <KineticText text="LOVE" isOutline startIndex={0} reduceMotion={shouldReduceAnimations} />
             </div>
-            <div className="mb-2">
-              <KineticText text="OVER" startIndex={4} />
+            <div className="mb-1 sm:mb-2">
+              <KineticText text="OVER" startIndex={4} reduceMotion={shouldReduceAnimations} />
             </div>
             <div className="text-primary">
-              <KineticText text="COFFEE" startIndex={8} />
+              <KineticText text="COFFEE" startIndex={8} reduceMotion={shouldReduceAnimations} />
             </div>
           </h1>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.5, duration: 0.6 }}
-            className="flex flex-wrap justify-center lg:justify-start gap-3 mb-8"
-          >
-            {['Premium', 'Artisan', 'Crafted'].map((word, i) => (
-              <motion.span
-                key={word}
-                custom={i}
-                variants={wordVariants}
-                initial="hidden"
-                animate="visible"
-                className="px-4 py-2 rounded-full border border-white/20 text-sm font-medium text-muted-foreground backdrop-blur-sm"
-                whileHover={{
-                  scale: 1.05,
-                  borderColor: 'rgba(99, 102, 241, 0.5)',
-                  color: '#fff',
-                }}
-              >
-                {word}
-              </motion.span>
-            ))}
-          </motion.div>
+          {shouldReduceAnimations ? (
+            <div className="flex flex-wrap justify-center lg:justify-start gap-2 sm:gap-3 mb-6 sm:mb-8">
+              {['Premium', 'Artisan', 'Crafted'].map((word) => (
+                <span
+                  key={word}
+                  className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-white/20 text-xs sm:text-sm font-medium text-muted-foreground backdrop-blur-sm"
+                >
+                  {word}
+                </span>
+              ))}
+            </div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.4 }}
+              className="flex flex-wrap justify-center lg:justify-start gap-2 sm:gap-3 mb-6 sm:mb-8"
+            >
+              {['Premium', 'Artisan', 'Crafted'].map((word, i) => (
+                <motion.span
+                  key={word}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.9 + i * 0.1, duration: 0.3 }}
+                  className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-white/20 text-xs sm:text-sm font-medium text-muted-foreground backdrop-blur-sm hover:border-primary/50 hover:text-white transition-colors duration-200"
+                  style={{ transform: 'translateZ(0)' }}
+                >
+                  {word}
+                </motion.span>
+              ))}
+            </motion.div>
+          )}
 
-          <motion.div
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1.8, ease: 'easeOut' }}
-            className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
-          >
-            <MagneticButton>
+          {shouldReduceAnimations ? (
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               <Link to="/menu" data-testid="link-explore-menu">
                 <Button
                   size="lg"
-                  className="rounded-full px-10 py-6 text-lg font-bold bg-gradient-to-r from-primary to-accent border border-white/20 backdrop-blur-sm shadow-lg shadow-primary/25"
+                  className="rounded-full px-8 sm:px-10 py-5 sm:py-6 text-base sm:text-lg font-bold bg-gradient-to-r from-primary to-accent border border-white/20 backdrop-blur-sm shadow-lg shadow-primary/25"
                 >
                   Explore Menu
                 </Button>
               </Link>
-            </MagneticButton>
-          </motion.div>
+            </div>
+          ) : (
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.4, delay: 1.2 }}
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
+            >
+              <MagneticButton disabled={isMobile}>
+                <Link to="/menu" data-testid="link-explore-menu">
+                  <Button
+                    size="lg"
+                    className="rounded-full px-8 sm:px-10 py-5 sm:py-6 text-base sm:text-lg font-bold bg-gradient-to-r from-primary to-accent border border-white/20 backdrop-blur-sm shadow-lg shadow-primary/25"
+                  >
+                    Explore Menu
+                  </Button>
+                </Link>
+              </MagneticButton>
+            </motion.div>
+          )}
         </div>
 
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0, rotateY: -15 }}
-          animate={{ scale: 1, opacity: 1, rotateY: 0 }}
-          transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="relative h-[350px] sm:h-[400px] md:h-[500px] w-full bg-black/40 rounded-[2rem] border border-white/10 overflow-hidden"
-        >
-          <SpotlightSVG />
-          <div className="relative z-10 w-full h-full">
-            <SplineScene
-              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-              className="w-full h-full"
-            />
+        {shouldReduceAnimations ? (
+          <div 
+            className="relative h-[300px] sm:h-[350px] md:h-[450px] lg:h-[500px] w-full bg-black/40 rounded-2xl sm:rounded-[2rem] border border-white/10 overflow-hidden"
+          >
+            <SpotlightSVG />
+            <div className="relative z-10 w-full h-full">
+              {isLowEnd ? (
+                <SplineFallback />
+              ) : (
+                <SplineScene
+                  scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                  className="w-full h-full"
+                />
+              )}
+            </div>
           </div>
-        </motion.div>
+        ) : (
+          <motion.div
+            {...containerAnimation}
+            className="relative h-[300px] sm:h-[350px] md:h-[450px] lg:h-[500px] w-full bg-black/40 rounded-2xl sm:rounded-[2rem] border border-white/10 overflow-hidden gpu-accelerated"
+          >
+            <SpotlightSVG />
+            <div className="relative z-10 w-full h-full">
+              {isLowEnd ? (
+                <SplineFallback />
+              ) : (
+                <SplineScene
+                  scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                  className="w-full h-full"
+                />
+              )}
+            </div>
+          </motion.div>
+        )}
       </div>
 
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 2.5, duration: 0.5 }}
-      >
+      {!shouldReduceAnimations && (
         <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
-          className="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center p-2"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden sm:block"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 0.3 }}
         >
-          <motion.div
-            animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
-            transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
-            className="w-1.5 h-1.5 rounded-full bg-white/60"
-          />
+          <div className="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center p-2 animate-bounce-slow">
+            <div className="w-1.5 h-1.5 rounded-full bg-white/60 animate-pulse" />
+          </div>
         </motion.div>
-      </motion.div>
+      )}
     </section>
   );
 }
