@@ -12,8 +12,107 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fira+Code:wght@300..700&family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400..700;1,400..700&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Outfit:wght@100..900&family=Oxanium:wght@200..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
   </head>
   <body>
+    <!--
+    ╔══════════════════════════════════════════════════════════════════════════════╗
+    ║                    LOVE OVER COFFEE - ASSET MANAGEMENT GUIDE                 ║
+    ╠══════════════════════════════════════════════════════════════════════════════╣
+    ║                                                                              ║
+    ║  ALL ASSETS ARE MANAGED IN ONE FILE:                                         ║
+    ║  📁 client/src/config/assets.config.ts                                       ║
+    ║                                                                              ║
+    ║  This file controls ALL images, videos, audio, and links used in the app.   ║
+    ║                                                                              ║
+    ╠══════════════════════════════════════════════════════════════════════════════╣
+    ║  HOW TO CHANGE ASSETS:                                                       ║
+    ╠══════════════════════════════════════════════════════════════════════════════╣
+    ║                                                                              ║
+    ║  1. CHANGE HERO IMAGE:                                                       ║
+    ║     - Open: client/src/config/assets.config.ts                               ║
+    ║     - Find: heroAssets.mainImage                                             ║
+    ║     - Change the import path to your new image                               ║
+    ║                                                                              ║
+    ║  2. CHANGE MENU IMAGES:                                                      ║
+    ║     - Open: client/src/config/assets.config.ts                               ║
+    ║     - Find: menuHighlights or menuCategories                                 ║
+    ║     - Update the 'src' or 'img' property with new image URL                  ║
+    ║                                                                              ║
+    ║  3. CHANGE GALLERY IMAGES:                                                   ║
+    ║     - Open: client/src/config/assets.config.ts                               ║
+    ║     - Find: galleryItems                                                     ║
+    ║     - Update the 'src' property with new image URL                           ║
+    ║                                                                              ║
+    ║  4. CHANGE VIDEOS:                                                           ║
+    ║     - Open: client/src/config/assets.config.ts                               ║
+    ║     - Find: mediaGalleryItems                                                ║
+    ║     - Update the 'src' property with new video URL                           ║
+    ║                                                                              ║
+    ║  5. CHANGE BACKGROUND MUSIC:                                                 ║
+    ║     - Open: client/src/config/assets.config.ts                               ║
+    ║     - Find: audioAssets.backgroundMusic                                      ║
+    ║     - Change the path to your new audio file                                 ║
+    ║                                                                              ║
+    ║  6. CHANGE EXTERNAL LINKS:                                                   ║
+    ║     - Open: client/src/config/assets.config.ts                               ║
+    ║     - Find: externalLinks                                                    ║
+    ║     - Update legacySite, drinkZoi, social media links                        ║
+    ║                                                                              ║
+    ╠══════════════════════════════════════════════════════════════════════════════╣
+    ║  ADDING NEW IMAGES:                                                          ║
+    ╠══════════════════════════════════════════════════════════════════════════════╣
+    ║                                                                              ║
+    ║  Option A - Local Images:                                                    ║
+    ║  1. Add your image to: attached_assets/stock_images/                         ║
+    ║  2. Import it at the top of assets.config.ts:                                ║
+    ║     import myImage from '@assets/stock_images/my-image.jpg';                 ║
+    ║  3. Add to stockImages object or use directly                                ║
+    ║                                                                              ║
+    ║  Option B - URL Images:                                                      ║
+    ║  1. Use a direct URL in the config:                                          ║
+    ║     src: "https://images.unsplash.com/photo-xxxxx?w=800"                     ║
+    ║                                                                              ║
+    ╠══════════════════════════════════════════════════════════════════════════════╣
+    ║  FILE STRUCTURE:                                                             ║
+    ╠══════════════════════════════════════════════════════════════════════════════╣
+    ║                                                                              ║
+    ║  📁 attached_assets/                                                         ║
+    ║     └── 📁 stock_images/          <- Add local images here                   ║
+    ║         ├── cappuccino_coffee.jpg                                            ║
+    ║         ├── espresso_shot.jpg                                                ║
+    ║         └── ... (all menu/gallery images)                                    ║
+    ║                                                                              ║
+    ║  📁 client/                                                                  ║
+    ║     └── 📁 src/                                                              ║
+    ║         └── 📁 config/                                                       ║
+    ║             └── 📄 assets.config.ts   <- MAIN ASSET CONFIG FILE              ║
+    ║         └── 📁 hooks/                                                        ║
+    ║             └── 📄 useAssets.ts       <- Hook to access assets               ║
+    ║                                                                              ║
+    ║  📁 public/                                                                  ║
+    ║     ├── 📄 favicon.png            <- Site icon                               ║
+    ║     └── 📄 song.mp4               <- Background music                        ║
+    ║                                                                              ║
+    ╠══════════════════════════════════════════════════════════════════════════════╣
+    ║  USING ASSETS IN COMPONENTS:                                                 ║
+    ╠══════════════════════════════════════════════════════════════════════════════╣
+    ║                                                                              ║
+    ║  import { useAssets } from '@/hooks/useAssets';                              ║
+    ║                                                                              ║
+    ║  function MyComponent() {                                                    ║
+    ║    const { stock, hero, gallery, menu, audio } = useAssets();                ║
+    ║                                                                              ║
+    ║    return (                                                                  ║
+    ║      <div>                                                                   ║
+    ║        <img src={stock.cappuccino} alt="Cappuccino" />                       ║
+    ║        <img src={hero.mainImage} alt="Hero" />                               ║
+    ║      </div>                                                                  ║
+    ║    );                                                                        ║
+    ║  }                                                                           ║
+    ║                                                                              ║
+    ╚══════════════════════════════════════════════════════════════════════════════╝
+    -->
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
