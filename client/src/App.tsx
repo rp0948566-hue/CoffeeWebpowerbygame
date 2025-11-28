@@ -23,6 +23,7 @@ import { DrinkPortal } from "@/components/DrinkPortal";
 import { CoffeeCursor } from "@/components/CoffeeCursor";
 import { FloatingParticles } from "@/components/FloatingParticles";
 import { GallerySection } from "@/components/GallerySection";
+import { ScrollNavigation } from "@/components/ScrollNavigation";
 
 function ScrollToTop() {
   const location = useLocation();
@@ -52,13 +53,25 @@ function HomePage() {
       <div className="relative min-h-screen">
         <Navigation />
         <main>
-          <HeroSection />
+          <section id="home">
+            <HeroSection />
+          </section>
           <MenuSection />
-          <GallerySection />
-          <MediaGallery />
-          <DrinkPortal />
-          <LocationSection />
-          <ContactSection />
+          <section id="gallery">
+            <GallerySection />
+          </section>
+          <section id="media">
+            <MediaGallery />
+          </section>
+          <section id="portal">
+            <DrinkPortal />
+          </section>
+          <section id="location">
+            <LocationSection />
+          </section>
+          <section id="contact">
+            <ContactSection />
+          </section>
         </main>
         <Footer />
         <FloatingScrollIcon />
@@ -145,6 +158,7 @@ function App() {
       <TooltipProvider>
         <FloatingParticles />
         <CoffeeCursor />
+        <ScrollNavigation />
         <AppContent />
         <BackgroundAudio />
         <Toaster />
