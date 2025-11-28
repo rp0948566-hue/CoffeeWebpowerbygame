@@ -21,7 +21,6 @@ import { usePerformanceMode } from "@/hooks/usePerformanceMode";
 import BackgroundAudio from "@/components/BackgroundAudio";
 import { DrinkPortal } from "@/components/DrinkPortal";
 import { CoffeeCursor } from "@/components/CoffeeCursor";
-import { Maggie } from "@/components/Maggie";
 
 function ScrollToTop() {
   const location = useLocation();
@@ -142,7 +141,6 @@ function App() {
       <TooltipProvider>
         <CoffeeCursor />
         <AppContent />
-        <Maggie />
         <BackgroundAudio />
         <Toaster />
       </TooltipProvider>
