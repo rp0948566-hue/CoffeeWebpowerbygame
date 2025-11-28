@@ -1,4 +1,4 @@
-import { Suspense, lazy, Component, type ReactNode, useState, useEffect, useRef } from 'react';
+import { Suspense, lazy, Component, type ReactNode, useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Coffee } from 'lucide-react';
 
@@ -44,9 +44,20 @@ export function SplineFallback() {
   return (
     <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-accent/10 rounded-[2rem]">
       <div className="flex flex-col items-center gap-4 text-center p-8">
-        <div className="w-24 h-24 rounded-full bg-primary/20 flex items-center justify-center">
+        <motion.div 
+          className="w-24 h-24 rounded-full bg-primary/20 flex items-center justify-center"
+          animate={{ 
+            scale: [1, 1.1, 1],
+            boxShadow: [
+              '0 0 20px rgba(99, 102, 241, 0.3)',
+              '0 0 40px rgba(99, 102, 241, 0.5)',
+              '0 0 20px rgba(99, 102, 241, 0.3)'
+            ]
+          }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+        >
           <Coffee className="w-12 h-12 text-primary" />
-        </div>
+        </motion.div>
         <h3 
           className="text-3xl font-bold text-primary"
           style={{ fontFamily: "'Titan One', cursive" }}
@@ -61,95 +72,145 @@ export function SplineFallback() {
   );
 }
 
-function CyberLoadingUI() {
-  const [loadingText, setLoadingText] = useState('INITIALIZING');
-  const textOptions = ['INITIALIZING', 'BREWING 3D', 'LOADING ASSETS', 'ALMOST READY'];
-  
-  useEffect(() => {
-    let index = 0;
-    const interval = setInterval(() => {
-      index = (index + 1) % textOptions.length;
-      setLoadingText(textOptions[index]);
-    }, 800);
-    return () => clearInterval(interval);
-  }, []);
+function SmoothLoadingUI() {
+  const particles = useMemo(() => 
+    [...Array(30)].map((_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      size: 1 + Math.random() * 2,
+      duration: 2 + Math.random() * 3,
+      delay: Math.random() * 2,
+    })), []
+  );
 
   return (
     <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950/50 to-slate-900 rounded-[2rem] overflow-hidden relative">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.1),transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.15),transparent_60%)]" />
       
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px]">
-          <div 
-            className="absolute inset-0 rounded-full border-2 border-indigo-500/30 animate-[spin_8s_linear_infinite]"
-            style={{ boxShadow: '0 0 30px rgba(99, 102, 241, 0.3)' }}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] sm:w-[320px] sm:h-[320px]">
+          <motion.div 
+            className="absolute inset-0 rounded-full border-2 border-indigo-500/40"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+            style={{ boxShadow: '0 0 40px rgba(99, 102, 241, 0.4)' }}
           />
-          <div 
-            className="absolute inset-4 rounded-full border border-purple-500/40 animate-[spin_6s_linear_infinite_reverse]"
-            style={{ boxShadow: '0 0 20px rgba(168, 85, 247, 0.2)' }}
+          <motion.div 
+            className="absolute inset-6 rounded-full border border-purple-500/50"
+            animate={{ rotate: -360 }}
+            transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
+            style={{ boxShadow: '0 0 30px rgba(168, 85, 247, 0.3)' }}
           />
-          <div 
-            className="absolute inset-8 rounded-full border-2 border-dashed border-indigo-400/20 animate-[spin_12s_linear_infinite]"
+          <motion.div 
+            className="absolute inset-12 rounded-full border-2 border-dashed border-indigo-400/30"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
           />
-          <div 
-            className="absolute inset-12 rounded-full border border-fuchsia-500/30 animate-[spin_4s_linear_infinite_reverse]"
-            style={{ boxShadow: '0 0 15px rgba(217, 70, 239, 0.2)' }}
+          <motion.div 
+            className="absolute inset-[4.5rem] rounded-full border border-fuchsia-500/40"
+            animate={{ rotate: -360 }}
+            transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
+            style={{ boxShadow: '0 0 20px rgba(217, 70, 239, 0.25)' }}
           />
           
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative">
-              <div 
-                className="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-600/80 to-purple-600/80 flex items-center justify-center animate-pulse"
-                style={{ boxShadow: '0 0 40px rgba(99, 102, 241, 0.5), 0 0 80px rgba(139, 92, 246, 0.3)' }}
+            <motion.div 
+              className="relative"
+              animate={{ 
+                scale: [1, 1.08, 1],
+              }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <motion.div 
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center"
+                animate={{
+                  boxShadow: [
+                    '0 0 30px rgba(99, 102, 241, 0.5), 0 0 60px rgba(139, 92, 246, 0.3)',
+                    '0 0 50px rgba(99, 102, 241, 0.7), 0 0 100px rgba(139, 92, 246, 0.5)',
+                    '0 0 30px rgba(99, 102, 241, 0.5), 0 0 60px rgba(139, 92, 246, 0.3)'
+                  ]
+                }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
               >
-                <Coffee className="w-10 h-10 text-white" />
-              </div>
+                <Coffee className="w-10 h-10 sm:w-12 sm:h-12 text-white" />
+              </motion.div>
               
-              <div className="absolute -inset-2 rounded-full border border-white/10 animate-ping opacity-30" />
-            </div>
+              <motion.div 
+                className="absolute -inset-3 rounded-full border border-white/20"
+                animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
+              />
+              <motion.div 
+                className="absolute -inset-6 rounded-full border border-white/10"
+                animate={{ scale: [1, 1.5, 1], opacity: [0.3, 0, 0.3] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: 'easeOut', delay: 0.3 }}
+              />
+            </motion.div>
           </div>
         </div>
         
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 rounded-full bg-indigo-400/60"
+        {particles.map((particle) => (
+          <motion.div
+            key={particle.id}
+            className="absolute rounded-full bg-indigo-400/70"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animation: `pulse ${2 + Math.random() * 2}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 2}s`,
+              left: particle.left,
+              top: particle.top,
+              width: particle.size,
+              height: particle.size,
+            }}
+            animate={{
+              opacity: [0.3, 0.8, 0.3],
+              scale: [1, 1.5, 1],
+            }}
+            transition={{
+              duration: particle.duration,
+              repeat: Infinity,
+              ease: 'easeInOut',
+              delay: particle.delay,
             }}
           />
         ))}
       </div>
       
-      <div className="absolute bottom-8 left-0 right-0 flex flex-col items-center gap-3">
+      <motion.div 
+        className="absolute bottom-6 sm:bottom-8 left-0 right-0 flex flex-col items-center gap-3"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-          <span 
-            className="text-sm font-mono text-indigo-300/80 tracking-widest"
-            style={{ textShadow: '0 0 10px rgba(99, 102, 241, 0.5)' }}
+          <motion.div 
+            className="w-2 h-2 rounded-full bg-indigo-500"
+            animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }}
+            transition={{ duration: 1, repeat: Infinity }}
+          />
+          <motion.span 
+            className="text-xs sm:text-sm font-mono text-indigo-300/90 tracking-widest"
+            style={{ textShadow: '0 0 15px rgba(99, 102, 241, 0.6)' }}
+            animate={{ opacity: [0.7, 1, 0.7] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
           >
-            {loadingText}
-          </span>
-          <span className="text-indigo-400/60 animate-pulse">...</span>
+            BREWING 3D EXPERIENCE
+          </motion.span>
         </div>
         
-        <div className="w-32 h-1 bg-slate-800 rounded-full overflow-hidden">
+        <div className="w-40 h-1.5 bg-slate-800/80 rounded-full overflow-hidden backdrop-blur-sm">
           <motion.div 
-            className="h-full bg-gradient-to-r from-indigo-600 to-purple-600"
-            initial={{ width: '0%' }}
-            animate={{ width: '100%' }}
-            transition={{ duration: 3, ease: 'easeInOut', repeat: Infinity }}
+            className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 rounded-full"
+            style={{ backgroundSize: '200% 100%' }}
+            animate={{ 
+              x: ['-100%', '100%'],
+              backgroundPosition: ['0% 0%', '100% 0%']
+            }}
+            transition={{ 
+              x: { duration: 1.5, repeat: Infinity, ease: 'easeInOut' },
+              backgroundPosition: { duration: 2, repeat: Infinity, ease: 'linear' }
+            }}
           />
         </div>
-      </div>
-      
-      <div className="absolute top-4 left-4 flex items-center gap-2 text-xs font-mono text-white/30">
-        <div className="w-2 h-2 rounded-full bg-green-500/60 animate-pulse" />
-        <span>SYSTEM.3D.RENDER</span>
-      </div>
+      </motion.div>
     </div>
   );
 }
@@ -157,7 +218,7 @@ function CyberLoadingUI() {
 function checkWebGLSupport(): boolean {
   try {
     const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    const gl = canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     return !!gl;
   } catch {
     return false;
@@ -167,20 +228,33 @@ function checkWebGLSupport(): boolean {
 export function SplineScene({ scene, className }: SplineSceneProps) {
   const [webglSupported, setWebglSupported] = useState<boolean | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [loadProgress, setLoadProgress] = useState(0);
   const splineRef = useRef<any>(null);
 
   useEffect(() => {
     setWebglSupported(checkWebGLSupport());
+    
+    const progressInterval = setInterval(() => {
+      setLoadProgress(prev => {
+        if (prev >= 90) return prev;
+        return prev + Math.random() * 15;
+      });
+    }, 200);
+
+    return () => clearInterval(progressInterval);
   }, []);
 
-  const handleSplineLoad = () => {
+  const handleSplineLoad = (splineApp: any) => {
+    splineRef.current = splineApp;
+    setLoadProgress(100);
+    
     setTimeout(() => {
       setIsLoaded(true);
-    }, 500);
+    }, 300);
   };
 
   if (webglSupported === null) {
-    return <CyberLoadingUI />;
+    return <SmoothLoadingUI />;
   }
 
   if (!webglSupported) {
@@ -190,24 +264,27 @@ export function SplineScene({ scene, className }: SplineSceneProps) {
   return (
     <SplineErrorBoundary fallback={<SplineFallback />}>
       <div className="relative w-full h-full">
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {!isLoaded && (
             <motion.div
               key="loader"
               initial={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
+              exit={{ opacity: 0, scale: 1.05 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className="absolute inset-0 z-10"
             >
-              <CyberLoadingUI />
+              <SmoothLoadingUI />
             </motion.div>
           )}
         </AnimatePresence>
         
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isLoaded ? 1 : 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ 
+            opacity: isLoaded ? 1 : 0,
+            scale: isLoaded ? 1 : 0.95
+          }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0"
         >
           <Suspense fallback={null}>

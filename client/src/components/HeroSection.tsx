@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { SplineScene, SpotlightSVG, SplineFallback } from './SplineScene';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { SplineScene, SpotlightSVG } from './SplineScene';
 
 const letterVariants = {
   hidden: { opacity: 0, y: 100, rotateX: -90 },
@@ -94,8 +93,6 @@ function MagneticButton({ children }: { children: React.ReactNode }) {
 }
 
 export function HeroSection() {
-  const isMobile = useIsMobile();
-  
   return (
     <section id="home" className="relative pt-24 pb-16 px-6 min-h-screen flex items-center overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
@@ -170,14 +167,10 @@ export function HeroSection() {
         >
           <SpotlightSVG />
           <div className="relative z-10 w-full h-full">
-            {isMobile ? (
-              <SplineFallback />
-            ) : (
-              <SplineScene
-                scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                className="w-full h-full"
-              />
-            )}
+            <SplineScene
+              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+              className="w-full h-full"
+            />
           </div>
         </motion.div>
       </div>
