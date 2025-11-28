@@ -4,6 +4,52 @@ A premium coffee shop website with stunning 3D animations, smooth transitions, a
 
 ---
 
+## Running Locally in VS Code
+
+### Prerequisites
+- **Node.js** version 18 or higher
+- **npm** (comes with Node.js)
+
+### Setup Steps
+
+1. **Clone or download the project** to your computer
+
+2. **Open the project folder in VS Code**
+
+3. **Install dependencies** - Open the terminal in VS Code (`Ctrl+``) and run:
+   ```bash
+   npm install
+   ```
+
+4. **Start the development server**:
+   ```bash
+   npm run dev
+   ```
+
+5. **Open your browser** and go to:
+   ```
+   http://localhost:5000
+   ```
+
+That's it! The website will load and run. Any changes you make will auto-refresh.
+
+### Available Commands
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server (http://localhost:5000) |
+| `npm run build` | Build for production |
+| `npm run start` | Run production build |
+| `npm run check` | Check TypeScript types |
+
+### Troubleshooting
+
+- **Port 5000 already in use?** Stop any other apps using that port, or edit `server/index.ts` to change the port number.
+- **Module not found errors?** Run `npm install` again to ensure all packages are installed.
+- **3D animations not loading?** This is normal on first load - Spline assets are lazy-loaded for performance.
+
+---
+
 ## Quick Start: Where to Edit Assets
 
 **ONE FILE controls ALL images, videos, and media:**
