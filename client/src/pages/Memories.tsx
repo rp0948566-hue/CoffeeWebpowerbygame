@@ -75,7 +75,7 @@ export function Memories() {
   };
 
   return (
-    <div className="min-h-screen bg-background overflow-hidden">
+    <div className="min-h-screen bg-background overflow-hidden gpu-accelerated">
       <div className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-white/10">
         <div className="container mx-auto px-6 h-20 flex items-center justify-between">
           <Link to="/">
@@ -111,7 +111,7 @@ export function Memories() {
           </p>
         </div>
 
-        <div className="gallery-container h-[600px] md:h-[700px] flex items-center justify-center">
+        <div className="gallery-container h-[600px] md:h-[700px] flex items-center justify-center gpu-accelerated">
           <div 
             className={`gallery-cylinder relative w-[300px] h-[400px] md:w-[350px] md:h-[450px]`}
             style={{ 

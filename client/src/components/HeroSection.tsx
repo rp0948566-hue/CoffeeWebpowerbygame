@@ -7,7 +7,7 @@ import { usePerformance } from '@/hooks/use-performance';
 
 function StaticHeroSection() {
   return (
-    <section id="home" className="relative pt-24 pb-16 px-6 min-h-screen flex items-center overflow-hidden">
+    <section id="home" className="relative pt-24 pb-16 px-6 min-h-screen flex items-center overflow-hidden gpu-accelerated">
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
       
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">

@@ -474,7 +474,7 @@ export function Menu() {
   const { shouldReduceAnimations } = usePerformance();
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen bg-background relative overflow-hidden gpu-accelerated">
       <div className="relative z-10">
         <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-white/10">
           <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">

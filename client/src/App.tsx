@@ -16,6 +16,7 @@ import { Footer } from "@/components/Footer";
 import { Menu } from "@/pages/Menu";
 import { Memories } from "@/pages/Memories";
 import { LiquidTransition } from "@/components/LiquidTransition";
+import CoffeeCursor from "@/components/CoffeeCursor";
 
 function ScrollToTop() {
   const location = useLocation();
@@ -95,6 +96,7 @@ function App() {
           <BrowserRouter>
             <ScrollToTop />
             <AnimatedRoutes />
+            <CoffeeCursor />
           </BrowserRouter>
         </ReactLenis>
         <Toaster />
