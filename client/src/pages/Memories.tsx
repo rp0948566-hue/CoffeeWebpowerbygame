@@ -34,7 +34,21 @@ const CAFE_IMAGES = [
   { id: '1534040385115-33dcb3acba5b', caption: 'Sweet Treats' },
   { id: '1559925393-8be0ec4767c8', caption: 'Night Cafe' },
   { id: '1506619216599-9d16d0903dfd', caption: 'Good Times' },
+  { id: '1442512595331-e89e73853f31', caption: 'Cappuccino Art' },
+  { id: '1453614512568-c4024d13c247', caption: 'Croissant Morning' },
+  { id: '1485182708500-e8f1f318ba72', caption: 'Rainy Day Cafe' },
+  { id: '1461023058943-07fcbe16d735', caption: 'Coffee Setup' },
+  { id: '1504630083234-14187a9df0f5', caption: 'Pour Over' },
+  { id: '1498804103079-a6351b050096', caption: 'Reading Corner' },
+  { id: '1453227588063-bb302b62f50b', caption: 'Iced Latte' },
+  { id: '1478145046317-39f10e56b5e9', caption: 'Coffee Break' },
+  { id: '1461010083959-8a5727311252', caption: 'Window Seat' },
+  { id: '1442411210769-b95c4632195e', caption: 'Cafe Terrace' },
+  { id: '1447933601403-0c6688de566e', caption: 'Coffee Beans' },
+  { id: '1511081692775-05d0f180a065', caption: 'Warm Atmosphere' },
 ];
+
+const DISPLAY_COUNT = 18;
 
 const buildSrc = (imageId: string) => 
   `https://images.unsplash.com/photo-${imageId}?w=400&h=600&fit=crop&q=80`;
@@ -43,7 +57,7 @@ const buildHighResSrc = (imageId: string) =>
   `https://images.unsplash.com/photo-${imageId}?w=800&h=1200&fit=crop&q=80`;
 
 const createInitialMemories = (): MemoryItem[] => 
-  CAFE_IMAGES.map((img, i) => ({
+  CAFE_IMAGES.slice(0, DISPLAY_COUNT).map((img, i) => ({
     id: i,
     seed: i,
     version: 0,
@@ -65,10 +79,7 @@ export function Memories() {
 
   const refreshRandomImage = useCallback(() => {
     setMemories(prev => {
-      const currentImageIds = new Set(prev.map(m => {
-        const imgIdx = (m.seed + m.version) % CAFE_IMAGES.length;
-        return CAFE_IMAGES[imgIdx].id;
-      }));
+      const currentImageIds = new Set(prev.map(m => CAFE_IMAGES[m.seed].id));
       
       const availableImages = CAFE_IMAGES.filter(img => !currentImageIds.has(img.id));
       if (availableImages.length === 0) return prev;
@@ -82,7 +93,7 @@ export function Memories() {
           return {
             ...memory,
             seed: newImageIdx,
-            version: 0,
+            version: memory.version + 1,
             src: buildSrc(newImage.id),
             caption: newImage.caption
           };
@@ -242,7 +253,7 @@ export function Memories() {
             }}
           >
             {memories.map((memory, index) => {
-              const angle = (360 / CAFE_IMAGES.length) * index;
+              const angle = (360 / DISPLAY_COUNT) * index;
               return (
                 <div
                   key={memory.id}
@@ -325,7 +336,7 @@ export function Memories() {
               onClick={(e) => e.stopPropagation()}
             >
               <img
-                src={buildHighResSrc(CAFE_IMAGES[(frozenImage.seed + frozenImage.version) % CAFE_IMAGES.length].id)}
+                src={buildHighResSrc(CAFE_IMAGES[frozenImage.seed].id)}
                 alt={frozenImage.caption}
                 className="w-full h-full object-contain rounded-2xl shadow-2xl"
                 draggable={false}
