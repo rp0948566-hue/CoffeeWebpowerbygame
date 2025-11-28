@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Play, Pause, Maximize2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { VideoModal, useVideoModal } from './VideoModal';
 
 interface MediaItem {
   id: number;
@@ -11,22 +12,23 @@ interface MediaItem {
 }
 
 const defaultMedia: MediaItem[] = [
-  { id: 1, type: 'image', src: 'https://picsum.photos/seed/loc1/800/600', title: 'Coffee Moments 1' },
-  { id: 2, type: 'image', src: 'https://picsum.photos/seed/loc2/800/600', title: 'Coffee Moments 2' },
-  { id: 3, type: 'image', src: 'https://picsum.photos/seed/loc3/800/600', title: 'Coffee Moments 3' },
-  { id: 4, type: 'image', src: 'https://picsum.photos/seed/loc4/800/600', title: 'Cafe Vibes 1' },
-  { id: 5, type: 'image', src: 'https://picsum.photos/seed/loc5/800/600', title: 'Cafe Vibes 2' },
-  { id: 6, type: 'image', src: 'https://picsum.photos/seed/loc6/800/600', title: 'Premium Brews 1' },
-  { id: 7, type: 'image', src: 'https://picsum.photos/seed/loc7/800/600', title: 'Premium Brews 2' },
-  { id: 8, type: 'image', src: 'https://picsum.photos/seed/loc8/800/600', title: 'Love Over Coffee' },
+  { id: 1, type: 'video', src: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4', thumbnail: 'https://picsum.photos/seed/vid1/800/600', title: 'Coffee Moments' },
+  { id: 2, type: 'image', src: 'https://picsum.photos/seed/loc1/800/600', title: 'Coffee Moments 1' },
+  { id: 3, type: 'image', src: 'https://picsum.photos/seed/loc2/800/600', title: 'Coffee Moments 2' },
+  { id: 4, type: 'video', src: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4', thumbnail: 'https://picsum.photos/seed/vid2/800/600', title: 'Cafe Vibes' },
+  { id: 5, type: 'image', src: 'https://picsum.photos/seed/loc3/800/600', title: 'Coffee Moments 3' },
+  { id: 6, type: 'image', src: 'https://picsum.photos/seed/loc4/800/600', title: 'Cafe Vibes 1' },
+  { id: 7, type: 'image', src: 'https://picsum.photos/seed/loc5/800/600', title: 'Cafe Vibes 2' },
+  { id: 8, type: 'image', src: 'https://picsum.photos/seed/loc6/800/600', title: 'Love Over Coffee' },
 ];
 
 interface MediaCardProps {
   item: MediaItem;
   isActive: boolean;
+  onOpenWebGL?: (videoUrl: string, title?: string) => void;
 }
 
-function MediaCard({ item, isActive }: MediaCardProps) {
+function MediaCard({ item, isActive, onOpenWebGL }: MediaCardProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -49,9 +51,16 @@ function MediaCard({ item, isActive }: MediaCardProps) {
     }
   };
 
+  const handleOpenWebGL = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onOpenWebGL) {
+      onOpenWebGL(item.src, item.title);
+    }
+  };
+
   if (item.type === 'video') {
     return (
-      <div className="media-card relative w-full h-full rounded-2xl overflow-hidden bg-black/40 border border-white/10">
+      <div className="media-card relative w-full h-full rounded-2xl overflow-hidden bg-black/40 border border-white/10 group">
         <video
           ref={videoRef}
           src={item.src}
@@ -71,9 +80,10 @@ function MediaCard({ item, isActive }: MediaCardProps) {
           </div>
         )}
 
+        {/* Play/Pause button */}
         <button
           onClick={togglePlay}
-          className="absolute inset-0 flex items-center justify-center bg-black/20 group"
+          className="absolute inset-0 flex items-center justify-center bg-black/20"
           style={{ transition: 'background-color 0.1s linear' }}
           data-testid={`button-play-${item.id}`}
         >
@@ -88,6 +98,22 @@ function MediaCard({ item, isActive }: MediaCardProps) {
             )}
           </div>
         </button>
+
+        {/* WebGL Fullscreen Button */}
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={handleOpenWebGL}
+          className="absolute top-3 right-3 z-10 w-10 h-10 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 border border-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+          data-testid={`button-webgl-${item.id}`}
+        >
+          <Maximize2 className="w-4 h-4 text-white" />
+        </Button>
+
+        {/* Cloth Wave Badge */}
+        <div className="absolute top-3 left-3 z-10 px-2 py-1 rounded-full bg-gradient-to-r from-indigo-600/80 to-purple-600/80 backdrop-blur-sm border border-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <span className="text-[10px] text-white font-medium tracking-wide">CLOTH WAVE</span>
+        </div>
 
         {item.title && (
           <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
@@ -144,6 +170,9 @@ export function MediaGallery({
   const lastXRef = useRef(0);
   const lastTimeRef = useRef(0);
   const momentumRef = useRef<number | null>(null);
+  
+  // WebGL Video Modal
+  const { isOpen, videoUrl, title: videoTitle, openVideo, closeVideo } = useVideoModal();
 
   const updateScrollButtons = useCallback(() => {
     if (sliderRef.current) {
@@ -328,11 +357,23 @@ export function MediaGallery({
               className="media-slide-butter flex-shrink-0 w-[280px] sm:w-[320px] md:w-[360px] h-[400px] sm:h-[450px] md:h-[500px] snap-center"
               data-testid={`media-slide-${item.id}`}
             >
-              <MediaCard item={item} isActive={index === activeIndex} />
+              <MediaCard 
+                item={item} 
+                isActive={index === activeIndex} 
+                onOpenWebGL={openVideo}
+              />
             </div>
           ))}
         </div>
       </div>
+
+      {/* WebGL Cloth Wave Video Modal */}
+      <VideoModal
+        isOpen={isOpen}
+        onClose={closeVideo}
+        videoUrl={videoUrl}
+        title={videoTitle}
+      />
 
       <style>{`
         .media-slider-butter {
