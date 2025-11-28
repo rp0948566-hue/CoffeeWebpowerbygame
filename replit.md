@@ -211,6 +211,23 @@ The site features a global background music player that persists across all page
 
 ## Recent Changes
 
+**November 28, 2025 - Complete Master Specification Implementation**
+- Created `CoffeeCursor.tsx` - Custom coffee cup cursor that trails mouse with spring physics
+  - Automatically disables on touch devices
+  - Uses Framer Motion springs for smooth cursor following
+  - Expands when hovering over interactive elements
+- Created `DrinkPortal.tsx` - Liquid-gradient banner section
+  - Links to drinkzoi.co partner brand
+  - Floating bubble animations
+  - Teal/cyan gradient with glassmorphic elements
+- Created `Maggie.tsx` - AI Chatbot powered by Google Gemini API
+  - Coffee shop barista personality
+  - Full chat history support
+  - Floating chat button with pulse animation
+  - Glassmorphic chat window design
+  - Uses existing VITE_GEMINI_API_KEY
+- Integrated all new components into App.tsx and HomePage
+
 **November 28, 2025 - Ultra-Smooth Website Optimizations**
 - Optimized Lenis scroll settings: lerp 0.045, duration 1.8, wheelMultiplier 0.5 for butter-smooth scrolling
 - Implemented smooth easing curve [0.16, 1, 0.3, 1] across all Framer Motion animations
@@ -250,7 +267,6 @@ The site features a global background music player that persists across all page
 - Added CSS utilities: `.neon-border` (glowing neon effect), `.dark-map` (grayscale inverted map filter), `.floating-particle` animation
 - Updated GameSection with neon-border glow effect
 - HeroSection now conditionally renders SplineFallback on mobile devices for performance
-- Removed Maggie AI chatbot component
 
 ## Adding Videos & Images
 

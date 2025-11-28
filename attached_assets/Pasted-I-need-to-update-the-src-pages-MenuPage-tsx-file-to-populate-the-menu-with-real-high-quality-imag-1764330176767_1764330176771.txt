@@ -1,0 +1,56 @@
+I need to update the `src/pages/MenuPage.tsx` file to populate the menu with real, high-quality images for every single item.
+
+### 1. The Task
+Refactor the `products` data array to include specific, high-resolution image URLs for all 20+ items across all categories (Coffee, Pizza, Pastries, Noodles).
+
+### 2. The Data Structure (Master Menu List)
+Please replace the existing data with this comprehensive list. Use these specific Unsplash source URLs which are guaranteed to look good:
+
+```typescript
+const menuCategories = [
+  {
+    id: "coffee",
+    title: "Signature Brews",
+    items: [
+      { id: 101, name: "Espresso", price: "$3.50", desc: "Pure energy in a cup.", img: "[https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=800&auto=format&fit=crop)" },
+      { id: 102, name: "Cappuccino", price: "$4.50", desc: "Frothy, artistic, classic.", img: "[https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=800&auto=format&fit=crop)" },
+      { id: 103, name: "Iced Latte", price: "$5.00", desc: "Chilled perfection.", img: "[https://images.unsplash.com/photo-1517701604599-bb29b5c5090c?w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1517701604599-bb29b5c5090c?w=800&auto=format&fit=crop)" },
+      { id: 104, name: "Mocha", price: "$5.50", desc: "Chocolate meets coffee.", img: "[https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=800&auto=format&fit=crop)" }
+    ]
+  },
+  {
+    id: "pizza",
+    title: "Artisan Pizzas",
+    items: [
+      { id: 201, name: "Margherita", price: "$12.00", desc: "Basil, Mozzarella, Tomato.", img: "[https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800&auto=format&fit=crop)" },
+      { id: 202, name: "Pepperoni", price: "$14.00", desc: "Spicy & Savory.", img: "[https://images.unsplash.com/photo-1628840042765-356cda07504e?w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1628840042765-356cda07504e?w=800&auto=format&fit=crop)" },
+      { id: 203, name: "BBQ Chicken", price: "$15.00", desc: "Smoky goodness.", img: "[https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&auto=format&fit=crop)" },
+      { id: 204, name: "Veggie Supreme", price: "$13.00", desc: "Garden fresh crunch.", img: "[https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&auto=format&fit=crop)" }
+    ]
+  },
+  {
+    id: "pastry",
+    title: "Fresh Pastries",
+    items: [
+      { id: 301, name: "Croissant", price: "$3.50", desc: "Buttery layers.", img: "[https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&auto=format&fit=crop)" },
+      { id: 302, name: "Choco Muffin", price: "$4.00", desc: "Decadent & moist.", img: "[https://images.unsplash.com/photo-1607958996333-41aef7caefaa?w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1607958996333-41aef7caefaa?w=800&auto=format&fit=crop)" },
+      { id: 303, name: "Cheesecake", price: "$6.00", desc: "Creamy slice of heaven.", img: "[https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=800&auto=format&fit=crop)" }
+    ]
+  }
+];
+3. Implementation Logic
+Update src/pages/MenuPage.tsx to map through this categorized data.
+
+Layout: Create a section for each category title (Titan One font).
+
+Grid: Use a grid-cols-1 md:grid-cols-2 lg:grid-cols-4 layout for the items.
+
+Card Design (Zoi Interaction):
+
+Use the img property for the src attribute.
+
+Apply object-cover and rounded-2xl to the images.
+
+Ensure the "Hover Scale & Rotate" animation works on these new images.
+
+Please rewrite src/pages/MenuPage.tsx with this new data structure and rendering logic.

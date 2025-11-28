@@ -19,6 +19,10 @@ import { Memories } from "@/pages/Memories";
 import { LiquidTransition } from "@/components/LiquidTransition";
 import { usePerformanceMode } from "@/hooks/usePerformanceMode";
 import BackgroundAudio from "@/components/BackgroundAudio";
+import { GameSection } from "@/components/GameSection";
+import { DrinkPortal } from "@/components/DrinkPortal";
+import { CoffeeCursor } from "@/components/CoffeeCursor";
+import { Maggie } from "@/components/Maggie";
 
 function ScrollToTop() {
   const location = useLocation();
@@ -51,6 +55,8 @@ function HomePage() {
           <HeroSection />
           <MenuSection />
           <MediaGallery />
+          <GameSection />
+          <DrinkPortal />
           <LocationSection />
           <ContactSection />
         </main>
@@ -136,7 +142,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
+        <CoffeeCursor />
         <AppContent />
+        <Maggie />
         <BackgroundAudio />
         <Toaster />
       </TooltipProvider>

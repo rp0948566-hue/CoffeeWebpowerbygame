@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Loader2, Coffee, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { apiRequest } from '@/lib/queryClient';
 
 interface Message {
   id: string;
@@ -12,25 +12,6 @@ interface Message {
 }
 
 const smoothEase = [0.16, 1, 0.3, 1];
-
-const SYSTEM_PROMPT = `You are Maggie, the friendly AI barista at Love Over Coffee. You're warm, enthusiastic, and extremely knowledgeable about coffee, beverages, and the cafe's menu. Your personality is welcoming and slightly playful.
-
-Key traits:
-- You love helping customers discover new drinks
-- You can recommend pairings between coffee and food
-- You share fun coffee facts occasionally
-- You're proud of the cafe's cozy atmosphere
-- Keep responses concise and friendly (2-3 sentences max unless they ask for details)
-
-The cafe serves:
-- Hot coffees: Cappuccino, Latte, Mocha, Espresso, Flat White
-- Cold coffees: Cafe Frappe, Caramel Frappe, Tiramisu Frappe, Oreo Frappe
-- Ice Teas: Lemon Mint, Peach, Strawberry, Blueberry
-- Mocktails: Virgin Mojito, Mango Mojito, Cranberry Mojito
-- Shakes: Oreo, Nutella, Dark Chocolate, Strawberry
-- Food: Pizzas, Sandwiches, Pasta, Garlic Bread, Nachos, Fries
-
-Always be helpful and recommend items based on customer preferences.`;
 
 export function Maggie() {
   const [isOpen, setIsOpen] = useState(false);
@@ -72,46 +53,28 @@ export function Maggie() {
     };
 
     setMessages((prev) => [...prev, userMessage]);
+    const currentInput = input.trim();
     setInput('');
     setIsLoading(true);
 
     try {
-      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-      
-      if (!apiKey) {
-        throw new Error('API key not configured');
-      }
-
-      const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-
-      const chatHistory = messages.map((msg) => ({
-        role: msg.role === 'assistant' ? 'model' : 'user',
-        parts: [{ text: msg.content }],
-      }));
-
-      const chat = model.startChat({
-        history: [
-          { role: 'user', parts: [{ text: SYSTEM_PROMPT }] },
-          { role: 'model', parts: [{ text: "Got it! I'm Maggie, ready to help!" }] },
-          ...chatHistory,
-        ],
+      const response = await apiRequest('POST', '/api/chat', {
+        message: currentInput,
+        history: messages.map(m => ({ role: m.role, content: m.content })),
       });
 
-      const result = await chat.sendMessage(input.trim());
-      const response = await result.response;
-      const text = response.text();
+      const data = await response.json();
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: text,
+        content: data.response || "I couldn't process that. Please try again!",
         timestamp: new Date(),
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
-      console.error('Gemini API error:', error);
+      console.error('Chat API error:', error);
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
