@@ -136,14 +136,17 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-**November 28, 2025 - Ultra Smooth 120 FPS Performance**
-- Added MediaGallery component for video/image slider on homepage
-- Optimized ALL animations to 150-250ms for instant feel (was 400-800ms)
-- Added GPU acceleration to all animated elements with `will-change` properties
-- Removed custom cursor for cleaner performance
-- Page transitions now 0.25-0.4s (was 0.6-0.8s)
-- Gallery 3D cylinder optimized with backface-visibility and transform hints
-- Added ultra-smooth scrolling with Lenis (lerp: 0.06, duration: 2)
+**November 28, 2025 - BUTTER SMOOTH 120 FPS Performance**
+- Complete rewrite of MediaGallery with momentum-based drag scrolling
+- Interactive 3D Gallery with mouse drag rotation + momentum physics
+- Map section with lazy-loading iframe and smooth filter transitions
+- Ultra-smooth Lenis scroll: lerp 0.04, duration 1.8, wheelMultiplier 0.6
+- GPU acceleration on ALL elements: translateZ(0), backface-visibility, will-change
+- CSS containment for layout/paint optimization
+- Removed all jank sources: instant transitions (100-150ms)
+- Mobile-optimized with touch-friendly gestures
+- Custom momentum scrolling for horizontal gallery
+- requestAnimationFrame-based smooth 3D rotation
 
 **November 28, 2025 - Master Specification Implementation**
 - Added mobile device detection via `useIsMobile` hook - serves static fallback instead of 3D Spline on mobile

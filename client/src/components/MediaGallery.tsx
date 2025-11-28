@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -51,11 +51,12 @@ function MediaCard({ item, isActive }: MediaCardProps) {
 
   if (item.type === 'video') {
     return (
-      <div className="media-card relative w-full h-full rounded-2xl overflow-hidden bg-black/40 border border-white/10 gpu-accelerated">
+      <div className="media-card relative w-full h-full rounded-2xl overflow-hidden bg-black/40 border border-white/10">
         <video
           ref={videoRef}
           src={item.src}
-          className={`w-full h-full object-cover transition-opacity duration-200 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+          className={`w-full h-full object-cover ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+          style={{ transition: 'opacity 0.15s linear' }}
           muted
           loop
           playsInline
@@ -72,10 +73,14 @@ function MediaCard({ item, isActive }: MediaCardProps) {
 
         <button
           onClick={togglePlay}
-          className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/30 transition-colors duration-150 group"
+          className="absolute inset-0 flex items-center justify-center bg-black/20 group"
+          style={{ transition: 'background-color 0.1s linear' }}
           data-testid={`button-play-${item.id}`}
         >
-          <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30 group-hover:scale-110 transition-transform duration-150">
+          <div 
+            className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30"
+            style={{ transition: 'transform 0.1s ease-out' }}
+          >
             {isPlaying ? (
               <Pause className="w-6 h-6 text-white" />
             ) : (
@@ -94,13 +99,20 @@ function MediaCard({ item, isActive }: MediaCardProps) {
   }
 
   return (
-    <div className="media-card relative w-full h-full rounded-2xl overflow-hidden bg-black/40 border border-white/10 gpu-accelerated">
+    <div className="media-card relative w-full h-full rounded-2xl overflow-hidden bg-black/40 border border-white/10">
       <img
         src={item.src}
         alt={item.title || 'Gallery image'}
-        className="w-full h-full object-cover"
+        className={`w-full h-full object-cover ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+        style={{ transition: 'opacity 0.15s linear' }}
         loading="lazy"
+        onLoad={() => setIsLoaded(true)}
       />
+      {!isLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-indigo-900/30 to-purple-900/30">
+          <div className="w-6 h-6 border-2 border-white/20 border-t-white/60 rounded-full animate-spin" />
+        </div>
+      )}
       {item.title && (
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
           <p className="text-white text-sm font-medium">{item.title}</p>
@@ -125,14 +137,21 @@ export function MediaGallery({
   const [activeIndex, setActiveIndex] = useState(0);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const velocityRef = useRef(0);
+  const lastXRef = useRef(0);
+  const lastTimeRef = useRef(0);
+  const momentumRef = useRef<number | null>(null);
 
-  const updateScrollButtons = () => {
+  const updateScrollButtons = useCallback(() => {
     if (sliderRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;
       setCanScrollLeft(scrollLeft > 10);
       setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
     }
-  };
+  }, []);
 
   useEffect(() => {
     const slider = sliderRef.current;
@@ -141,18 +160,122 @@ export function MediaGallery({
       updateScrollButtons();
       return () => slider.removeEventListener('scroll', updateScrollButtons);
     }
+  }, [updateScrollButtons]);
+
+  const applyMomentum = useCallback(() => {
+    if (!sliderRef.current) return;
+    
+    const friction = 0.95;
+    velocityRef.current *= friction;
+    
+    if (Math.abs(velocityRef.current) > 0.5) {
+      sliderRef.current.scrollLeft -= velocityRef.current;
+      momentumRef.current = requestAnimationFrame(applyMomentum);
+    } else {
+      if (momentumRef.current) {
+        cancelAnimationFrame(momentumRef.current);
+        momentumRef.current = null;
+      }
+    }
   }, []);
 
-  const scroll = (direction: 'left' | 'right') => {
-    if (sliderRef.current) {
-      const cardWidth = 320;
-      const scrollAmount = direction === 'left' ? -cardWidth : cardWidth;
-      sliderRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!sliderRef.current) return;
+    
+    if (momentumRef.current) {
+      cancelAnimationFrame(momentumRef.current);
+      momentumRef.current = null;
+    }
+    
+    setIsDragging(true);
+    setStartX(e.pageX - sliderRef.current.offsetLeft);
+    setScrollLeft(sliderRef.current.scrollLeft);
+    lastXRef.current = e.pageX;
+    lastTimeRef.current = performance.now();
+    velocityRef.current = 0;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !sliderRef.current) return;
+    e.preventDefault();
+    
+    const x = e.pageX - sliderRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    sliderRef.current.scrollLeft = scrollLeft - walk;
+    
+    const now = performance.now();
+    const dt = now - lastTimeRef.current;
+    if (dt > 0) {
+      velocityRef.current = (e.pageX - lastXRef.current) / dt * 16;
+    }
+    lastXRef.current = e.pageX;
+    lastTimeRef.current = now;
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    if (Math.abs(velocityRef.current) > 0.5) {
+      momentumRef.current = requestAnimationFrame(applyMomentum);
     }
   };
 
+  const handleMouseLeave = () => {
+    if (isDragging) {
+      setIsDragging(false);
+      if (Math.abs(velocityRef.current) > 0.5) {
+        momentumRef.current = requestAnimationFrame(applyMomentum);
+      }
+    }
+  };
+
+  const smoothScrollTo = (target: number) => {
+    if (!sliderRef.current) return;
+    
+    const start = sliderRef.current.scrollLeft;
+    const distance = target - start;
+    const duration = 400;
+    let startTime: number | null = null;
+    
+    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+    
+    const animate = (currentTime: number) => {
+      if (!startTime) startTime = currentTime;
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = easeOutCubic(progress);
+      
+      if (sliderRef.current) {
+        sliderRef.current.scrollLeft = start + distance * eased;
+      }
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+    
+    requestAnimationFrame(animate);
+  };
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (!sliderRef.current) return;
+    const cardWidth = 340;
+    const currentScroll = sliderRef.current.scrollLeft;
+    const target = direction === 'left' 
+      ? currentScroll - cardWidth 
+      : currentScroll + cardWidth;
+    smoothScrollTo(target);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (momentumRef.current) {
+        cancelAnimationFrame(momentumRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <section className="py-16 md:py-24 overflow-hidden gpu-accelerated">
+    <section className="py-16 md:py-24 overflow-hidden">
       <div className="container mx-auto px-6 mb-8">
         <p className="text-primary/80 text-sm uppercase tracking-[0.3em] mb-4 text-center">
           {subtitle}
@@ -193,17 +316,16 @@ export function MediaGallery({
 
         <div
           ref={sliderRef}
-          className="media-slider flex gap-4 overflow-x-auto px-6 pb-4 scroll-smooth snap-x snap-mandatory"
-          style={{ 
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-            WebkitOverflowScrolling: 'touch'
-          }}
+          className={`media-slider-butter flex gap-5 overflow-x-auto px-6 pb-4 snap-x snap-mandatory select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseLeave}
         >
           {media.map((item, index) => (
             <div 
               key={item.id}
-              className="media-slide flex-shrink-0 w-[280px] sm:w-[320px] md:w-[360px] h-[400px] sm:h-[450px] md:h-[500px] snap-center"
+              className="media-slide-butter flex-shrink-0 w-[280px] sm:w-[320px] md:w-[360px] h-[400px] sm:h-[450px] md:h-[500px] snap-center"
               data-testid={`media-slide-${item.id}`}
             >
               <MediaCard item={item} isActive={index === activeIndex} />
@@ -213,8 +335,19 @@ export function MediaGallery({
       </div>
 
       <style>{`
-        .media-slider::-webkit-scrollbar {
+        .media-slider-butter {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+          -webkit-overflow-scrolling: touch;
+          overscroll-behavior-x: contain;
+        }
+        .media-slider-butter::-webkit-scrollbar {
           display: none;
+        }
+        .media-slide-butter {
+          transform: translateZ(0);
+          will-change: transform;
+          backface-visibility: hidden;
         }
       `}</style>
     </section>

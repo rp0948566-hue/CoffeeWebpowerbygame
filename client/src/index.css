@@ -530,34 +530,102 @@ img {
   to { transform: rotateY(360deg) translateZ(0); }
 }
 
-/* ========== ULTRA SMOOTH MEDIA GALLERY ========== */
-.media-slider {
+/* ========== ULTRA SMOOTH MEDIA GALLERY (BUTTER EDITION) ========== */
+.media-slider,
+.media-slider-butter {
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
   overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.media-slide {
+.media-slider::-webkit-scrollbar,
+.media-slider-butter::-webkit-scrollbar {
+  display: none;
+}
+
+.media-slide,
+.media-slide-butter {
   transform: translateZ(0);
   will-change: transform;
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  scroll-snap-align: center;
 }
 
 .media-card {
   transform: translateZ(0);
   will-change: transform, opacity;
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  contain: layout paint;
 }
 
 .media-card video,
 .media-card img {
   transform: translateZ(0);
-  will-change: transform;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* Smooth video loading */
 video {
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+  transform: translateZ(0);
+}
+
+/* ========== BUTTER SMOOTH MAP SECTION ========== */
+.map-container-butter {
+  transform: translateZ(0);
+  will-change: transform, box-shadow;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  contain: layout;
+}
+
+.map-container-butter:hover {
+  box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.25);
+}
+
+.map-iframe-butter {
+  transform: translateZ(0);
+  will-change: filter, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* ========== BUTTER SMOOTH 3D GALLERY ========== */
+.gallery-container-butter {
+  perspective: 1500px;
+  perspective-origin: center center;
+  transform: translateZ(0);
+  will-change: transform;
+  contain: layout;
+}
+
+.gallery-cylinder-butter {
+  transform-style: preserve-3d;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.gallery-item-butter {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
+  contain: layout paint;
+}
+
+.gallery-item-butter img {
+  will-change: opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 /* ========== INSTANT LOADING OPTIMIZATIONS ========== */
@@ -568,12 +636,21 @@ video {
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+/* ULTRA SMOOTH BODY - BUTTER FEEL */
+body {
+  overscroll-behavior: none;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Prevent layout shifts */
 img, video {
   max-width: 100%;
   height: auto;
+  content-visibility: auto;
 }
 
 /* Smooth backdrop blur performance */
@@ -583,15 +660,70 @@ img, video {
 .backdrop-blur-xl {
   transform: translateZ(0);
   will-change: backdrop-filter;
+  backface-visibility: hidden;
 }
 
 /* Force GPU layer for gradients */
 [class*="bg-gradient"] {
   transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* Smooth border transitions */
 .border,
 [class*="border-"] {
-  transition: border-color 0.15s ease-out;
+  transition: border-color 0.12s ease-out;
+}
+
+/* ========== BUTTER SMOOTH GLOBAL TRANSITIONS ========== */
+section {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Ultra-smooth hover states */
+a:hover, button:hover, [role="button"]:hover {
+  transform: translateY(-1px) translateZ(0);
+}
+
+a:active, button:active, [role="button"]:active {
+  transform: translateY(0) scale(0.98) translateZ(0);
+}
+
+/* Smooth section transitions */
+.container {
+  transform: translateZ(0);
+}
+
+/* Remove jank from scrolling */
+* {
+  scroll-behavior: inherit;
+}
+
+/* High refresh rate optimization */
+@media (min-resolution: 2dppx) {
+  * {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* ========== MOBILE BUTTER SMOOTH ========== */
+@media (max-width: 768px) {
+  .gallery-container-butter {
+    perspective: 1000px;
+  }
+  
+  .gallery-item-butter {
+    contain: strict;
+  }
+  
+  .media-slide-butter {
+    contain: strict;
+  }
+  
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
 }

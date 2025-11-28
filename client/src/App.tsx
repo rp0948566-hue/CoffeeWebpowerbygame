@@ -90,10 +90,24 @@ function AnimatedRoutes() {
 }
 
 function App() {
+  const lenisOptions = {
+    lerp: 0.04,
+    duration: 1.8,
+    smoothWheel: true,
+    wheelMultiplier: 0.6,
+    touchMultiplier: 1.5,
+    infinite: false,
+    orientation: 'vertical' as const,
+    gestureOrientation: 'vertical' as const,
+    smoothTouch: true,
+    syncTouch: true,
+    syncTouchLerp: 0.04,
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <ReactLenis root options={{ lerp: 0.06, duration: 2, smoothWheel: true, wheelMultiplier: 0.8 }}>
+        <ReactLenis root options={lenisOptions}>
           <BrowserRouter>
             <ScrollToTop />
             <AnimatedRoutes />
