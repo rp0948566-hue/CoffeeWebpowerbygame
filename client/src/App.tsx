@@ -21,6 +21,8 @@ import { usePerformanceMode } from "@/hooks/usePerformanceMode";
 import BackgroundAudio from "@/components/BackgroundAudio";
 import { DrinkPortal } from "@/components/DrinkPortal";
 import { CoffeeCursor } from "@/components/CoffeeCursor";
+import { FloatingParticles } from "@/components/FloatingParticles";
+import { GallerySection } from "@/components/GallerySection";
 
 function ScrollToTop() {
   const location = useLocation();
@@ -52,6 +54,7 @@ function HomePage() {
         <main>
           <HeroSection />
           <MenuSection />
+          <GallerySection />
           <MediaGallery />
           <DrinkPortal />
           <LocationSection />
@@ -103,17 +106,18 @@ function AppContent() {
   }, [tier, isMobile]);
 
   const lenisOptions = {
-    lerp: 0.045,
-    duration: 1.8,
+    lerp: 0.06,
+    duration: 1.5,
     smoothWheel: true,
-    wheelMultiplier: 0.5,
-    touchMultiplier: 1.0,
+    wheelMultiplier: 0.8,
+    touchMultiplier: 1.2,
     infinite: false,
     orientation: 'vertical' as const,
     gestureOrientation: 'vertical' as const,
     smoothTouch: false,
     syncTouch: false,
-    syncTouchLerp: 0.045,
+    syncTouchLerp: 0.06,
+    easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
   };
 
   if (!enableLenis || isMobile) {
@@ -139,6 +143,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
+        <FloatingParticles />
         <CoffeeCursor />
         <AppContent />
         <BackgroundAudio />
