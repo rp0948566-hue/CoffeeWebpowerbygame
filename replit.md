@@ -109,18 +109,30 @@ Preferred communication style: Simple, everyday language.
 
 ## Performance Optimizations
 
-**Spline 3D Deferral System**
-- The heavy Spline 3D library is lazy-loaded using React.lazy
-- A CSS-only "CyberLoadingUI" shows instantly while 3D scene loads in background
-- Features multiple spinning cyber rings, pulsing coffee icon, and animated progress bar
-- Cross-fade transition via AnimatePresence when 3D scene is ready
-- SplineErrorBoundary catches WebGL errors and shows fallback UI
-- WebGL support detection prevents crashes on unsupported devices
+**Device Capability Detection (`usePerformance` hook)**
+- Detects low-end devices using CPU cores (<4), memory (<4GB), and connection speed
+- Detects mobile devices via viewport width and touch capability
+- Respects `prefers-reduced-motion` system preference
+- Returns `shouldReduceAnimations` flag for conditional rendering decisions
 
-**Loading UI Components**
-- `CyberLoadingUI` - Futuristic loading animation with cyber rings and particles
-- `SplineFallback` - Static fallback for WebGL-unsupported environments
-- Smooth opacity transitions prevent jarring content swaps
+**Conditional Rendering Strategy**
+- Low-end/mobile/reduced-motion devices receive completely static JSX components
+- High-end devices get full framer-motion animated experiences
+- StaticHeroSection vs AnimatedHeroSection - no motion code runs on low-end
+- StaticHighlightCard/StaticCategorySection vs Animated versions on Menu page
+- SplineScene immediately returns SplineFallback on mobile/low-end (no WebGL loading)
+
+**Spline 3D Deferral System**
+- WebGL support detection prevents crashes on unsupported devices
+- Mobile/low-end devices skip WebGL entirely and show SplineFallback
+- High-end devices get lazy-loaded Spline with AnimatedLoadingUI
+- SplineErrorBoundary catches WebGL errors and shows fallback UI
+
+**CSS Performance Optimizations**
+- `.gpu-accelerated` class forces GPU compositing with transform3d and will-change
+- Reduced motion animations: `spin-slow`, `pulse-slow`, `bounce-slow` run at 30+ seconds
+- `@media (prefers-reduced-motion)` disables all animations system-wide
+- Mobile-specific styles reduce visual complexity automatically
 
 ## Recent Changes
 
