@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { SpotlightSVG, SplineFallback } from './SplineScene';
 import { usePerformanceMode } from '@/hooks/usePerformanceMode';
-
-// Placeholder image - User will replace with their own image from HOME folder named "1"
-import placeholderCoffee from '@assets/stock_images/premium_artisan_coff_fde1e3a8.jpg';
+import { heroAssets } from '@/config/assets.config';
 
 const SplineScene = lazy(() => import('./SplineScene').then(m => ({ default: m.SplineScene })));
 
@@ -29,7 +27,7 @@ function StaticFallbackImage() {
           )}
           
           <img
-            src={placeholderCoffee}
+            src={heroAssets.mainImage}
             alt="Premium Coffee Experience"
             className={`w-full h-full object-cover transition-all duration-700 ease-out ${
               imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
@@ -256,7 +254,7 @@ function AnimatedHeroSection() {
           <div className="relative z-10 w-full h-full">
             <Suspense fallback={<SplineLoader />}>
               <SplineScene
-                scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                scene={heroAssets.splineScene}
                 className="w-full h-full"
               />
             </Suspense>

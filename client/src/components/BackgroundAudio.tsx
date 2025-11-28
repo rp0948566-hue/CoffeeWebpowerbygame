@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Volume2, VolumeX } from "lucide-react";
+import { audioAssets } from '@/config/assets.config';
 
 export default function BackgroundAudio() {
   const [isMuted, setIsMuted] = useState(true);
@@ -18,7 +19,7 @@ export default function BackgroundAudio() {
 
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.volume = 0.2;
+      audioRef.current.volume = audioAssets.defaultVolume;
       audioRef.current.play().catch(() => {});
     }
 
@@ -60,7 +61,7 @@ export default function BackgroundAudio() {
     >
       <audio 
         ref={audioRef} 
-        src="/song.mp4" 
+        src={audioAssets.backgroundMusic}
         loop 
         playsInline
         preload="auto"

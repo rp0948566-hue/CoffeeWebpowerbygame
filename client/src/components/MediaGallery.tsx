@@ -2,25 +2,9 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, Play, Pause, Maximize2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { VideoModal, useVideoModal } from './VideoModal';
+import { mediaGalleryItems, type MediaItem } from '@/config/assets.config';
 
-interface MediaItem {
-  id: number;
-  type: 'video' | 'image';
-  src: string;
-  thumbnail?: string;
-  title?: string;
-}
-
-const defaultMedia: MediaItem[] = [
-  { id: 1, type: 'video', src: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4', thumbnail: 'https://picsum.photos/seed/vid1/800/600', title: 'Coffee Moments' },
-  { id: 2, type: 'image', src: 'https://picsum.photos/seed/loc1/800/600', title: 'Coffee Moments 1' },
-  { id: 3, type: 'image', src: 'https://picsum.photos/seed/loc2/800/600', title: 'Coffee Moments 2' },
-  { id: 4, type: 'video', src: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4', thumbnail: 'https://picsum.photos/seed/vid2/800/600', title: 'Cafe Vibes' },
-  { id: 5, type: 'image', src: 'https://picsum.photos/seed/loc3/800/600', title: 'Coffee Moments 3' },
-  { id: 6, type: 'image', src: 'https://picsum.photos/seed/loc4/800/600', title: 'Cafe Vibes 1' },
-  { id: 7, type: 'image', src: 'https://picsum.photos/seed/loc5/800/600', title: 'Cafe Vibes 2' },
-  { id: 8, type: 'image', src: 'https://picsum.photos/seed/loc6/800/600', title: 'Love Over Coffee' },
-];
+const defaultMedia = mediaGalleryItems;
 
 interface MediaCardProps {
   item: MediaItem;

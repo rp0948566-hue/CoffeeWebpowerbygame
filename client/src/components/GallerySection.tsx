@@ -1,14 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
-
-const galleryItems = [
-  { id: 1, title: "ARTISAN PIZZA", category: "Savory", src: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800&auto=format&fit=crop" },
-  { id: 2, title: "HOT COFFEE", category: "Brew", src: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&auto=format&fit=crop" },
-  { id: 3, title: "FRESH MOJITO", category: "Refresh", src: "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=800&auto=format&fit=crop" },
-  { id: 4, title: "CLUB SANDWICH", category: "Snack", src: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=800&auto=format&fit=crop" },
-  { id: 5, title: "COLD COFFEE", category: "Chilled", src: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&auto=format&fit=crop" },
-];
+import { galleryItems } from '@/config/assets.config';
 
 const springTransition = {
   type: "spring" as const,
