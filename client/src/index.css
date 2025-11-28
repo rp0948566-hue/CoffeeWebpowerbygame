@@ -709,21 +709,159 @@ a:active, button:active, [role="button"]:active {
   }
 }
 
-/* ========== MOBILE BUTTER SMOOTH ========== */
+/* ========== GPU LAYER - HARDWARE ACCELERATION ========== */
+.gpu-layer {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform, opacity;
+}
+
+/* Static floating animation for fallback images */
+@keyframes static-float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-10px) scale(1.02); }
+}
+
+.static-float {
+  animation: static-float 4s ease-in-out infinite;
+}
+
+/* ========== CONTENT VISIBILITY OPTIMIZATION ========== */
+section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}
+
+/* ========== MOBILE ULTRA PERFORMANCE MODE ========== */
 @media (max-width: 768px) {
+  /* CRITICAL: Remove expensive effects on mobile */
+  * {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  
+  /* Reduce shadows on mobile for performance */
+  .shadow-lg,
+  .shadow-xl,
+  .shadow-2xl {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  /* Glass card solid fallback */
+  .glass-card,
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur-lg,
+  .backdrop-blur-xl {
+    background: rgba(20, 20, 30, 0.95) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  
+  /* Disable heavy animations */
+  .animate-spin-slow,
+  .animate-spin-reverse,
+  .animate-pulse-slow,
+  .floating-particle {
+    animation: none !important;
+  }
+  
+  /* Reduce neon border effects */
+  .neon-border {
+    box-shadow: 0 0 5px rgba(99, 102, 241, 0.3) !important;
+  }
+  
+  /* Simplify text outlines */
+  .text-outline {
+    -webkit-text-stroke: 2px white;
+  }
+  
+  /* Optimize gallery for mobile */
   .gallery-container-butter {
-    perspective: 1000px;
+    perspective: 800px;
   }
   
-  .gallery-item-butter {
-    contain: strict;
-  }
-  
+  .gallery-item-butter,
   .media-slide-butter {
     contain: strict;
   }
   
+  /* Native scroll feel */
   body {
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior: none;
+  }
+  
+  /* Disable hover transforms on touch devices */
+  a:hover, button:hover, [role="button"]:hover {
+    transform: none !important;
+  }
+  
+  /* Optimize images */
+  img {
+    content-visibility: auto;
+  }
+  
+  /* Reduce map section load */
+  .map-container-butter {
+    will-change: auto;
+  }
+  
+  /* Faster transitions */
+  * {
+    transition-duration: 0.1s !important;
+  }
+}
+
+/* ========== LOW POWER MODE (Data Saver) ========== */
+@media (prefers-reduced-data: reduce) {
+  img, video {
+    content-visibility: auto;
+  }
+  
+  .gpu-layer {
+    will-change: auto;
+  }
+}
+
+/* ========== REDUCED MOTION ========== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .static-float,
+  .animate-bounce-slow,
+  .animate-spin-slow,
+  .floating-particle {
+    animation: none !important;
+  }
+}
+
+/* ========== PERFORMANCE TIER OVERRIDES ========== */
+[data-performance-tier="LOW"] {
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur-lg,
+  .backdrop-blur-xl {
+    backdrop-filter: none !important;
+    background: rgba(20, 20, 30, 0.95) !important;
+  }
+  
+  .shadow-lg,
+  .shadow-xl {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
+[data-is-mobile="true"] {
+  .gpu-layer {
+    will-change: auto;
   }
 }

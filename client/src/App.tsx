@@ -17,6 +17,7 @@ import { Footer } from "@/components/Footer";
 import { Menu } from "@/pages/Menu";
 import { Memories } from "@/pages/Memories";
 import { LiquidTransition } from "@/components/LiquidTransition";
+import { usePerformanceMode } from "@/hooks/usePerformanceMode";
 
 function ScrollToTop() {
   const location = useLocation();
@@ -89,7 +90,14 @@ function AnimatedRoutes() {
   );
 }
 
-function App() {
+function AppContent() {
+  const { enableLenis, isMobile, tier } = usePerformanceMode();
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-performance-tier', tier);
+    document.documentElement.setAttribute('data-is-mobile', String(isMobile));
+  }, [tier, isMobile]);
+
   const lenisOptions = {
     lerp: 0.04,
     duration: 1.8,
@@ -99,20 +107,35 @@ function App() {
     infinite: false,
     orientation: 'vertical' as const,
     gestureOrientation: 'vertical' as const,
-    smoothTouch: true,
-    syncTouch: true,
+    smoothTouch: false,
+    syncTouch: false,
     syncTouchLerp: 0.04,
   };
 
+  if (!enableLenis || isMobile) {
+    return (
+      <BrowserRouter>
+        <ScrollToTop />
+        <AnimatedRoutes />
+      </BrowserRouter>
+    );
+  }
+
+  return (
+    <ReactLenis root options={lenisOptions}>
+      <BrowserRouter>
+        <ScrollToTop />
+        <AnimatedRoutes />
+      </BrowserRouter>
+    </ReactLenis>
+  );
+}
+
+function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <ReactLenis root options={lenisOptions}>
-          <BrowserRouter>
-            <ScrollToTop />
-            <AnimatedRoutes />
-          </BrowserRouter>
-        </ReactLenis>
+        <AppContent />
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>

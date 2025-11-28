@@ -109,30 +109,43 @@ Preferred communication style: Simple, everyday language.
 
 ## Performance Optimizations
 
-**Device Capability Detection (`usePerformance` hook)**
-- Detects low-end devices using CPU cores (<4), memory (<4GB), and connection speed
-- Detects mobile devices via viewport width and touch capability
-- Respects `prefers-reduced-motion` system preference
-- Returns `shouldReduceAnimations` flag for conditional rendering decisions
+### Adaptive Graphics Engine (`usePerformanceMode` hook)
+- **Tier System**: HIGH / MEDIUM / LOW based on device capabilities
+- **Detection Criteria**:
+  - `navigator.hardwareConcurrency` (CPU cores < 4 = LOW)
+  - `navigator.deviceMemory` (RAM < 4GB = LOW)
+  - `navigator.connection.saveData` (Data Saver = LOW)
+  - `window.matchMedia('(max-width: 768px)')` (Mobile = LOW)
+- **Returns**: `{ tier, show3D, enableBlur, enableLenis, isMobile, ... }`
 
-**Conditional Rendering Strategy**
-- Low-end/mobile/reduced-motion devices receive completely static JSX components
-- High-end devices get full framer-motion animated experiences
-- StaticHeroSection vs AnimatedHeroSection - no motion code runs on low-end
-- StaticHighlightCard/StaticCategorySection vs Animated versions on Menu page
-- SplineScene immediately returns SplineFallback on mobile/low-end (no WebGL loading)
+### Conditional Rendering Strategy
+- **LOW Tier / Mobile**: Static fallback images, no 3D, no Lenis, native scroll
+- **HIGH Tier / Desktop**: Full 3D Spline, Lenis smooth scroll, all animations
+- StaticHeroSection shows floating gradient fallback (0kb 3D assets)
+- 3D Spline lazy-loaded with React.lazy() + Suspense
 
-**Spline 3D Deferral System**
-- WebGL support detection prevents crashes on unsupported devices
-- Mobile/low-end devices skip WebGL entirely and show SplineFallback
-- High-end devices get lazy-loaded Spline with AnimatedLoadingUI
-- SplineErrorBoundary catches WebGL errors and shows fallback UI
+### Lenis Scroll Engine
+- **Desktop Only**: Butter-smooth scroll with lerp: 0.04, duration: 1.8
+- **Mobile**: Native browser scrolling (always smoother on phones)
+- Conditionally disabled based on `usePerformanceMode().enableLenis`
 
-**CSS Performance Optimizations**
-- `.gpu-accelerated` class forces GPU compositing with transform3d and will-change
-- Reduced motion animations: `spin-slow`, `pulse-slow`, `bounce-slow` run at 30+ seconds
-- `@media (prefers-reduced-motion)` disables all animations system-wide
-- Mobile-specific styles reduce visual complexity automatically
+### CSS Performance Optimizations
+- `.gpu-layer` class: translate3d(0,0,0), backface-visibility, perspective
+- Mobile removes ALL backdrop-filter (blur kills FPS)
+- Mobile removes heavy box-shadows
+- `content-visibility: auto` on sections (lazy render)
+- `contain: strict` on gallery items (isolated paint)
+- Data attributes: `[data-performance-tier]`, `[data-is-mobile]`
+
+### Mobile Specific Overrides
+```css
+@media (max-width: 768px) {
+  backdrop-filter: none !important;
+  box-shadow: simplified !important;
+  animation: disabled for heavy effects !important;
+  transition-duration: 0.1s !important;
+}
+```
 
 ## Recent Changes
 

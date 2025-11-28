@@ -1,13 +1,31 @@
-import { useState } from 'react';
+import { useState, Suspense, lazy } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { SplineScene, SpotlightSVG, SplineFallback } from './SplineScene';
-import { usePerformance } from '@/hooks/use-performance';
+import { SpotlightSVG, SplineFallback } from './SplineScene';
+import { usePerformanceMode } from '@/hooks/usePerformanceMode';
+
+const SplineScene = lazy(() => import('./SplineScene').then(m => ({ default: m.SplineScene })));
+
+function StaticFallbackImage() {
+  return (
+    <div className="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-indigo-900/30 via-purple-900/20 to-black/40">
+      <div className="static-float absolute inset-0 flex items-center justify-center">
+        <div className="w-48 h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-primary/30 to-accent/20 blur-3xl" />
+      </div>
+      <div className="relative z-10 text-center">
+        <div className="w-32 h-32 md:w-48 md:h-48 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary/40 to-accent/30 flex items-center justify-center static-float">
+          <span className="text-4xl md:text-6xl">☕</span>
+        </div>
+        <p className="text-white/60 text-sm">Premium Coffee Experience</p>
+      </div>
+    </div>
+  );
+}
 
 function StaticHeroSection() {
   return (
-    <section id="home" className="relative pt-24 pb-16 px-6 min-h-screen flex items-center overflow-hidden gpu-accelerated">
+    <section id="home" className="relative pt-24 pb-16 px-6 min-h-screen flex items-center overflow-hidden gpu-layer">
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
       
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
@@ -43,7 +61,7 @@ function StaticHeroSection() {
             <Link to="/menu" data-testid="link-explore-menu">
               <Button
                 size="lg"
-                className="rounded-full px-8 sm:px-10 py-5 sm:py-6 text-base sm:text-lg font-bold bg-gradient-to-r from-primary to-accent border border-white/20 shadow-lg shadow-primary/25"
+                className="rounded-full px-8 sm:px-10 py-5 sm:py-6 text-base sm:text-lg font-bold bg-gradient-to-r from-primary to-accent border border-white/20"
               >
                 Explore Menu
               </Button>
@@ -54,10 +72,7 @@ function StaticHeroSection() {
         <div className="relative h-[300px] sm:h-[350px] md:h-[450px] lg:h-[500px] w-full bg-black/40 rounded-2xl sm:rounded-[2rem] border border-white/10 overflow-hidden">
           <SpotlightSVG />
           <div className="relative z-10 w-full h-full">
-            <SplineScene
-              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-              className="w-full h-full"
-            />
+            <StaticFallbackImage />
           </div>
         </div>
       </div>
@@ -75,7 +90,7 @@ function AnimatedLetter({ letter, index, isOutline }: { letter: string; index: n
         duration: 0.3,
         ease: "easeOut",
       }}
-      className={`inline-block cursor-pointer gpu-accelerated ${isOutline ? 'text-outline' : ''}`}
+      className={`inline-block cursor-pointer gpu-layer ${isOutline ? 'text-outline' : ''}`}
       style={{ fontFamily: "'Titan One', cursive" }}
       whileHover={{
         scale: 1.03,
@@ -118,7 +133,7 @@ function MagneticButton({ children }: { children: React.ReactNode }) {
 
   return (
     <motion.div
-      className="gpu-accelerated"
+      className="gpu-layer"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       animate={{ x: position.x, y: position.y }}
@@ -129,9 +144,20 @@ function MagneticButton({ children }: { children: React.ReactNode }) {
   );
 }
 
+function SplineLoader() {
+  return (
+    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-indigo-900/20 to-purple-900/20">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-12 h-12 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+        <p className="text-white/40 text-sm">Loading 3D Scene...</p>
+      </div>
+    </div>
+  );
+}
+
 function AnimatedHeroSection() {
   return (
-    <section id="home" className="relative pt-24 pb-16 px-6 min-h-screen flex items-center overflow-hidden gpu-accelerated">
+    <section id="home" className="relative pt-24 pb-16 px-6 min-h-screen flex items-center overflow-hidden gpu-layer">
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
       
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
@@ -194,20 +220,22 @@ function AnimatedHeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.2, ease: "easeOut" }}
-          className="relative h-[300px] sm:h-[350px] md:h-[450px] lg:h-[500px] w-full bg-black/40 rounded-2xl sm:rounded-[2rem] border border-white/10 overflow-hidden gpu-accelerated"
+          className="relative h-[300px] sm:h-[350px] md:h-[450px] lg:h-[500px] w-full bg-black/40 rounded-2xl sm:rounded-[2rem] border border-white/10 overflow-hidden gpu-layer"
         >
           <SpotlightSVG />
           <div className="relative z-10 w-full h-full">
-            <SplineScene
-              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-              className="w-full h-full"
-            />
+            <Suspense fallback={<SplineLoader />}>
+              <SplineScene
+                scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                className="w-full h-full"
+              />
+            </Suspense>
           </div>
         </motion.div>
       </div>
 
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden sm:block gpu-accelerated"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden sm:block gpu-layer"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.1, duration: 0.2 }}
@@ -221,9 +249,9 @@ function AnimatedHeroSection() {
 }
 
 export function HeroSection() {
-  const { shouldReduceAnimations, isLowEnd, isMobile, prefersReducedMotion } = usePerformance();
+  const { tier, show3D, isMobile, prefersReducedMotion } = usePerformanceMode();
   
-  if (shouldReduceAnimations || isLowEnd || isMobile || prefersReducedMotion) {
+  if (tier === 'LOW' || isMobile || prefersReducedMotion || !show3D) {
     return <StaticHeroSection />;
   }
 
