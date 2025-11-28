@@ -13,6 +13,7 @@ import { RefreshmentSection } from "@/components/RefreshmentSection";
 import { MenuSection } from "@/components/MenuSection";
 import { GallerySection } from "@/components/GallerySection";
 import { ContactSection } from "@/components/ContactSection";
+import { LocationSection } from "@/components/LocationSection";
 import { FloatingScrollIcon } from "@/components/FloatingScrollIcon";
 import { Footer } from "@/components/Footer";
 import { Menu } from "@/pages/Menu";
@@ -51,6 +52,7 @@ function HomePage() {
           <RefreshmentSection />
           <MenuSection />
           <GallerySection />
+          <LocationSection />
           <ContactSection />
         </main>
         <Footer />
