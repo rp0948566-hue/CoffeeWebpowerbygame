@@ -12,7 +12,7 @@ const contactInfo = [
   {
     icon: Phone,
     title: 'Call Us',
-    details: ['+1 (555) 123-4567', '+1 (555) 987-6543'],
+    details: ['093296 97769'],
   },
   {
     icon: Mail,
@@ -22,7 +22,7 @@ const contactInfo = [
   {
     icon: Clock,
     title: 'Open Hours',
-    details: ['Mon-Fri: 7AM - 10PM', 'Sat-Sun: 8AM - 11PM'],
+    details: ['Daily: 9:30 AM – 12:30 AM'],
   },
 ];
 
