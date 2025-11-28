@@ -5,19 +5,47 @@ import { Button } from '@/components/ui/button';
 import { SpotlightSVG, SplineFallback } from './SplineScene';
 import { usePerformanceMode } from '@/hooks/usePerformanceMode';
 
+// Placeholder image - User will replace with their own image from HOME folder named "1"
+import placeholderCoffee from '@assets/stock_images/premium_artisan_coff_fde1e3a8.jpg';
+
 const SplineScene = lazy(() => import('./SplineScene').then(m => ({ default: m.SplineScene })));
 
 function StaticFallbackImage() {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  
   return (
-    <div className="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-indigo-900/30 via-purple-900/20 to-black/40">
-      <div className="static-float absolute inset-0 flex items-center justify-center">
-        <div className="w-48 h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-primary/30 to-accent/20 blur-3xl" />
+    <div className="relative w-full h-full overflow-hidden bg-gradient-to-br from-indigo-900/30 via-purple-900/20 to-black/40">
+      {/* Glowing background effect */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-[80%] h-[80%] rounded-full bg-gradient-to-br from-primary/20 to-accent/10 blur-3xl static-float" />
       </div>
-      <div className="relative z-10 text-center">
-        <div className="w-32 h-32 md:w-48 md:h-48 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary/40 to-accent/30 flex items-center justify-center static-float">
-          <span className="text-4xl md:text-6xl">☕</span>
+      
+      {/* Premium Coffee Image */}
+      <div className="relative z-10 w-full h-full flex items-center justify-center p-4 sm:p-6 md:p-8">
+        <div className="relative w-full h-full max-w-[90%] max-h-[90%] rounded-2xl overflow-hidden shadow-2xl shadow-primary/20">
+          {/* Loading shimmer */}
+          {!imageLoaded && (
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shimmer" />
+          )}
+          
+          <img
+            src={placeholderCoffee}
+            alt="Premium Coffee Experience"
+            className={`w-full h-full object-cover transition-all duration-700 ease-out ${
+              imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
+            }`}
+            onLoad={() => setImageLoaded(true)}
+            loading="eager"
+          />
+          
+          {/* Overlay gradient for depth */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
+          
+          {/* Text overlay */}
+          <div className="absolute bottom-4 left-4 right-4 text-center">
+            <p className="text-white/80 text-sm font-medium tracking-wide">Premium Coffee Experience</p>
+          </div>
         </div>
-        <p className="text-white/60 text-sm">Premium Coffee Experience</p>
       </div>
     </div>
   );

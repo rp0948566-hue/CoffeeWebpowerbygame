@@ -728,6 +728,23 @@ a:active, button:active, [role="button"]:active {
   animation: static-float 4s ease-in-out infinite;
 }
 
+/* Shimmer loading effect */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Ultra smooth image transitions */
+img {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
 /* ========== CONTENT VISIBILITY OPTIMIZATION ========== */
 section {
   content-visibility: auto;

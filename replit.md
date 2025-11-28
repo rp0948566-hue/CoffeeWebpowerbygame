@@ -147,6 +147,21 @@ Preferred communication style: Simple, everyday language.
 }
 ```
 
+## Adding Your Own Hero Image
+
+To replace the placeholder coffee image in the "Premium Coffee Experience" area:
+
+1. Add your image file to the project (name it `1.jpg` or `1.png`)
+2. Open `client/src/components/HeroSection.tsx`
+3. Replace this line:
+   ```typescript
+   import placeholderCoffee from '@assets/stock_images/premium_artisan_coff_fde1e3a8.jpg';
+   ```
+   With:
+   ```typescript
+   import placeholderCoffee from '@assets/HOME/1.jpg'; // or .png
+   ```
+
 ## Recent Changes
 
 **November 28, 2025 - BUTTER SMOOTH 120 FPS Performance**
