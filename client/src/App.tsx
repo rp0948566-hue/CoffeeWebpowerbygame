@@ -10,7 +10,6 @@ import { Navigation } from "@/components/Navigation";
 import { HeroSection } from "@/components/HeroSection";
 import { RefreshmentSection } from "@/components/RefreshmentSection";
 import { MenuSection } from "@/components/MenuSection";
-import { GallerySection } from "@/components/GallerySection";
 import { ContactSection } from "@/components/ContactSection";
 import { LocationSection } from "@/components/LocationSection";
 import { FloatingScrollIcon } from "@/components/FloatingScrollIcon";
@@ -49,7 +48,6 @@ function HomePage() {
           <HeroSection />
           <RefreshmentSection />
           <MenuSection />
-          <GallerySection />
           <LocationSection />
           <ContactSection />
         </main>
