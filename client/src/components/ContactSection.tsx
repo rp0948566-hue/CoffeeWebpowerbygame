@@ -7,7 +7,7 @@ const contactInfo = [
   {
     icon: MapPin,
     title: 'Visit Us',
-    details: ['123 Coffee Street', 'Brew District, CA 90210'],
+    details: ['Love Over Coffee, PLOT NO 11', 'Scheme No 51 & 113, Indore, MP 452010'],
   },
   {
     icon: Phone,
