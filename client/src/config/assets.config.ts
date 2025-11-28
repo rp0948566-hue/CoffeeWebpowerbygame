@@ -57,59 +57,94 @@ export const stockImages = {
 // ═══════════════════════════════════════════════════════════════════════════════
 // HERO SECTION ASSETS
 // ═══════════════════════════════════════════════════════════════════════════════
+// 
+// ┌─────────────────────────────────────────────────────────────────────────────┐
+// │  🏠  USER EDITABLE: Home screen / Hero section settings                     │
+// │                                                                             │
+// │  mainImage: The main background image for the hero section                  │
+// │  splineScene: 3D animated scene (optional - keep or remove)                 │
+// │  title: The big text displayed on homepage                                  │
+// │  tagline: Subtitle text under the main title                                │
+// └─────────────────────────────────────────────────────────────────────────────┘
 
 export const heroAssets = {
-  mainImage: premiumCoffeeImg,
-  splineScene: "https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode",
+  mainImage: premiumCoffeeImg,  // <- EDIT: Replace with your hero image (import at top of file)
+  splineScene: "https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode",  // <- EDIT: 3D scene URL (optional)
   title: {
-    line1: "LOVE",
-    line2: "OVER", 
-    line3: "COFFEE",
+    line1: "LOVE",    // <- EDIT: First line of title
+    line2: "OVER",    // <- EDIT: Second line of title
+    line3: "COFFEE",  // <- EDIT: Third line of title
   },
-  tagline: "Experience the perfect blend of premium flavors and cozy vibes",
-  badges: ["Premium", "Artisan", "Crafted"],
+  tagline: "Experience the perfect blend of premium flavors and cozy vibes",  // <- EDIT: Tagline
+  badges: ["Premium", "Artisan", "Crafted"],  // <- EDIT: Badge labels
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // GALLERY SECTION - Images shown in the specialty gallery
 // ═══════════════════════════════════════════════════════════════════════════════
+// 
+// ┌─────────────────────────────────────────────────────────────────────────────┐
+// │  🖼️  USER EDITABLE: Replace these placeholder images with your own photos  │
+// │                                                                             │
+// │  HOW TO CHANGE:                                                             │
+// │  1. Replace the 'src' URL with your own image URL                           │
+// │  2. Or import a local image: import myImg from '@assets/stock_images/x.jpg' │
+// │  3. Change 'title' and 'category' to match your content                     │
+// │                                                                             │
+// │  RECOMMENDED SIZE: 800x600px or larger, landscape orientation               │
+// └─────────────────────────────────────────────────────────────────────────────┘
 
 export const galleryItems = [
   { 
     id: 1, 
-    title: "ARTISAN PIZZA", 
-    category: "Savory", 
-    src: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800&auto=format&fit=crop" 
+    title: "ARTISAN PIZZA",  // <- EDIT: Change title
+    category: "Savory",       // <- EDIT: Change category
+    src: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800&auto=format&fit=crop"  // <- EDIT: Replace with your image URL
   },
   { 
     id: 2, 
     title: "HOT COFFEE", 
     category: "Brew", 
-    src: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&auto=format&fit=crop" 
+    src: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&auto=format&fit=crop"  // <- EDIT: Replace with your image URL
   },
   { 
     id: 3, 
     title: "FRESH MOJITO", 
     category: "Refresh", 
-    src: "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=800&auto=format&fit=crop" 
+    src: "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=800&auto=format&fit=crop"  // <- EDIT: Replace with your image URL
   },
   { 
     id: 4, 
     title: "CLUB SANDWICH", 
     category: "Snack", 
-    src: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=800&auto=format&fit=crop" 
+    src: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=800&auto=format&fit=crop"  // <- EDIT: Replace with your image URL
   },
   { 
     id: 5, 
     title: "COLD COFFEE", 
     category: "Chilled", 
-    src: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&auto=format&fit=crop" 
+    src: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&auto=format&fit=crop"  // <- EDIT: Replace with your image URL
   },
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // MEDIA GALLERY - Videos and images for the media carousel
 // ═══════════════════════════════════════════════════════════════════════════════
+// 
+// ┌─────────────────────────────────────────────────────────────────────────────┐
+// │  🎬  USER EDITABLE: Replace these placeholder videos/images                 │
+// │                                                                             │
+// │  FOR VIDEOS:                                                                │
+// │  1. Replace 'src' with your video URL (MP4 format recommended)              │
+// │  2. Replace 'thumbnail' with a preview image URL                            │
+// │  3. Set type: 'video'                                                       │
+// │                                                                             │
+// │  FOR IMAGES:                                                                │
+// │  1. Replace 'src' with your image URL                                       │
+// │  2. Set type: 'image'                                                       │
+// │                                                                             │
+// │  RECOMMENDED: Upload your own cafe/coffee shop photos and videos here!      │
+// └─────────────────────────────────────────────────────────────────────────────┘
 
 export interface MediaItem {
   id: number;
@@ -120,54 +155,69 @@ export interface MediaItem {
 }
 
 export const mediaGalleryItems: MediaItem[] = [
+  // ──────────────────────────────────────────────────────────────────────────
+  // VIDEO 1: Replace with your own cafe video
+  // ──────────────────────────────────────────────────────────────────────────
   { 
     id: 1, 
     type: 'video', 
-    src: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4', 
-    thumbnail: 'https://picsum.photos/seed/vid1/800/600', 
-    title: 'Coffee Moments' 
+    src: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',  // <- EDIT: Your video URL
+    thumbnail: 'https://picsum.photos/seed/vid1/800/600',  // <- EDIT: Video thumbnail image
+    title: 'Coffee Moments'  // <- EDIT: Video title
   },
+  // ──────────────────────────────────────────────────────────────────────────
+  // IMAGE 1: Replace with your cafe photo
+  // ──────────────────────────────────────────────────────────────────────────
   { 
     id: 2, 
     type: 'image', 
-    src: 'https://picsum.photos/seed/loc1/800/600', 
+    src: 'https://picsum.photos/seed/loc1/800/600',  // <- EDIT: Your image URL
     title: 'Coffee Moments 1' 
   },
+  // ──────────────────────────────────────────────────────────────────────────
+  // IMAGE 2: Replace with your cafe photo
+  // ──────────────────────────────────────────────────────────────────────────
   { 
     id: 3, 
     type: 'image', 
-    src: 'https://picsum.photos/seed/loc2/800/600', 
+    src: 'https://picsum.photos/seed/loc2/800/600',  // <- EDIT: Your image URL
     title: 'Coffee Moments 2' 
   },
+  // ──────────────────────────────────────────────────────────────────────────
+  // VIDEO 2: Replace with your own cafe video
+  // ──────────────────────────────────────────────────────────────────────────
   { 
     id: 4, 
     type: 'video', 
-    src: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4', 
-    thumbnail: 'https://picsum.photos/seed/vid2/800/600', 
+    src: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',  // <- EDIT: Your video URL
+    thumbnail: 'https://picsum.photos/seed/vid2/800/600',  // <- EDIT: Video thumbnail image
     title: 'Cafe Vibes' 
   },
+  // ──────────────────────────────────────────────────────────────────────────
+  // IMAGES 3-6: Replace with your cafe/memory photos
+  // ──────────────────────────────────────────────────────────────────────────
   { 
     id: 5, 
     type: 'image', 
-    src: 'https://picsum.photos/seed/loc3/800/600', 
+    src: 'https://picsum.photos/seed/loc3/800/600',  // <- EDIT: Your image URL
     title: 'Coffee Moments 3' 
   },
   { 
     id: 6, 
     type: 'image', 
-    src: 'https://picsum.photos/seed/loc4/800/600', 
+    src: 'https://picsum.photos/seed/loc4/800/600',  // <- EDIT: Your image URL
     title: 'Cafe Vibes 1' 
   },
   { 
     id: 7, 
     type: 'image', 
-    src: 'https://picsum.photos/seed/loc5/800/600', 
+    src: 'https://picsum.photos/seed/loc5/800/600',  // <- EDIT: Your image URL
     title: 'Cafe Vibes 2' 
   },
   { 
     id: 8, 
     type: 'image', 
-    src: 'https://picsum.photos/seed/loc6/800/600', 
+    src: 'https://picsum.photos/seed/loc6/800/600',  // <- EDIT: Your image URL
     title: 'Love Over Coffee' 
   },
 ];

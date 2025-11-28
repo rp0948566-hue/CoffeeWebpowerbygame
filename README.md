@@ -1,105 +1,263 @@
-I am building the "Love Over Coffee" 2025 Experience. This is a high-performance, award-winning grade React application.
+# Love Over Coffee 2025 - Complete Guide
 
-Please generate the complete project architecture, file structure, and code based on the following Master Specification.
+A premium coffee shop website with stunning 3D animations, smooth transitions, and award-winning design.
 
-### 1. TECH STACK & PERFORMANCE STRATEGY
-- **Framework:** React + TypeScript + Vite.
-- **Styling:** Tailwind CSS + Framer Motion.
-- **Performance Rule:** "Grandmaster Level." 
-  - Use `React.lazy` for ALL heavy sections (Spline, Game, Menu).
-  - Use `manualChunks` in Vite to split code.
-  - Detect Mobile devices (`window.matchMedia`) to disable 3D elements and serve static images instead.
-- **Routing:** `react-router-dom` with "Liquid Curtain" page transitions.
+---
 
-### 2. DEPENDENCIES
-Install these immediately:
-`npm install framer-motion lucide-react clsx tailwind-merge @radix-ui/react-slot class-variance-authority @splinetool/react-spline @splinetool/runtime react-router-dom @studio-freight/react-lenis @google/generative-ai`
+## Quick Start: Where to Edit Assets
 
-### 3. GLOBAL STYLES (`src/index.css`)
-- Import Font: `'Titan One'` from Google Fonts.
-- Add Smooth Scroll (`html { scroll-behavior: smooth; }`).
-- Add Kinetic Typography Utility:
-  ```css
-  .text-outline { -webkit-text-stroke: 3px white; color: transparent; transition: 0.3s; }
-  .text-outline:hover { color: #6366f1; -webkit-text-stroke: 0px; filter: drop-shadow(0 0 10px rgba(99,102,241,0.5)); }
-  /* Dark Map Filter */
-  .dark-map { filter: grayscale(100%) invert(92%) contrast(83%); }
-  .dark-map:hover { filter: none; }
-4. ARCHITECTURE & COMPONENT BREAKDOWN
-A. Entry Point: "Time Travel" (src/AppManager.tsx)
-This is the root component.
+**ONE FILE controls ALL images, videos, and media:**
 
-Default View: An iframe loading https://loveovercoffee.pages.dev/.
+```
+client/src/config/assets.config.ts
+```
 
-Overlay: A button "✨ ENTER 2025 EXPERIENCE ✨".
+Open this file to change any visual content on the website.
 
-Action: Clicking it unmounts the iframe and mounts the Main App (lazy loaded).
+---
 
-B. The Router (src/App.tsx)
-Wrap in AnimatePresence mode="wait".
+## What You Can Edit
 
-Routes: / (Home), /menu (Zoi Liquid Page).
+### 1. Hero Section (Home Screen)
 
-Navigation: A floating Navbar with a "Maggie" AI Chatbot button (bottom right) and an "Explore Drinks" button (top right).
+**Location in file:** Look for `heroAssets`
 
-C. Home Page (src/pages/Home.tsx)
-This page must include these sections in order:
+```javascript
+export const heroAssets = {
+  mainImage: premiumCoffeeImg,  // <- Your main hero background image
+  title: {
+    line1: "LOVE",    // <- First word
+    line2: "OVER",    // <- Second word
+    line3: "COFFEE",  // <- Third word
+  },
+  tagline: "Experience the perfect blend...",  // <- Subtitle text
+};
+```
 
-Hero Section:
+**To change the hero image:**
+1. Add your image to `attached_assets/stock_images/`
+2. Import it at the top of the file:
+   ```javascript
+   import myHeroImage from '@assets/stock_images/my-hero.jpg';
+   ```
+3. Replace `premiumCoffeeImg` with `myHeroImage`
 
-Left: Huge Kinetic Text "I LOVE OVER COFFEE" (Titan One font). Staggered entry animation.
+---
 
-Right: 3D Robot Container. CRITICAL: Check isMobile. If mobile, show img src="/robot-static.png". If Desktop, load SplineScene.
+### 2. Gallery Section (Homepage Specialty Gallery)
 
-Game Section ("The Waiting Lounge"):
+**Location in file:** Look for `galleryItems`
 
-iframe to https://play.garance.com/. Wrapped in a neon-border container.
+This is the interactive gallery that shows coffee/food images with hover effects.
 
-Performance: Lazy load this component.
+```javascript
+export const galleryItems = [
+  { 
+    id: 1, 
+    title: "ARTISAN PIZZA",     // <- Display name
+    category: "Savory",          // <- Category label
+    src: "https://..."           // <- IMAGE URL (change this!)
+  },
+  // ... more items
+];
+```
 
-Drink Portal:
+**To add your own gallery images:**
+- Replace the `src` URL with your image URL
+- Or import a local image and use it
 
-Banner linking to https://www.drinkzoi.co/ with a "Liquid" gradient background.
+---
 
-Gallery Section ("Timothy Ricks Style"):
+### 3. Media Gallery (Videos & Memories)
 
-Split screen. Left: List of items (Pizza, Coffee, etc.). Right: Sticky Image.
+**Location in file:** Look for `mediaGalleryItems`
 
-Interaction: Hovering a list item slides the corresponding image in from the bottom.
+This section displays your cafe videos and memory photos.
 
-Map Section:
+```javascript
+export const mediaGalleryItems = [
+  // VIDEO ITEM
+  { 
+    id: 1, 
+    type: 'video',                    // <- 'video' or 'image'
+    src: 'https://your-video.mp4',    // <- Video URL
+    thumbnail: 'https://preview.jpg', // <- Preview image
+    title: 'Coffee Moments'           // <- Title
+  },
+  // IMAGE ITEM
+  { 
+    id: 2, 
+    type: 'image',
+    src: 'https://your-photo.jpg',    // <- Image URL
+    title: 'Cafe Vibes'
+  },
+];
+```
 
-Google Map Iframe for "Love Over Coffee Indore".
+**Currently using placeholder images - Replace with your own!**
 
-Apply the .dark-map CSS class.
+---
 
-D. The Menu Page (src/pages/MenuPage.tsx) - "Zoi Style"
-Transition: When entering this route, a black/indigo liquid wave wipes the screen.
+### 4. Menu Items
 
-Vibe: Floating particles (leaves/bubbles) in background.
+**Location in file:** Look for `menuCategories`
 
-Content: Grid of products. Hovering a product tilts the image 3D and reveals a color blob background.
+Each menu category contains items with images:
 
-E. Chatbot (src/components/Maggie.tsx)
-Floating button. Opens a chat window.
+```javascript
+{
+  id: 'coffee-hot',
+  name: 'Hot Coffee (With Milk)',
+  items: [
+    { 
+      name: 'Cappuccino',           // <- Item name
+      description: '...',           // <- Description
+      price: '₹160.00',             // <- Price
+      img: 'https://...'            // <- Item image URL
+    },
+  ]
+}
+```
 
-Uses GoogleGenerativeAI.
+**Menu images are already set up with matching food photos!**
 
-System Prompt: "You are Maggie, the barista. You love coffee puns."
+---
 
-5. CODE GENERATION INSTRUCTIONS
-Please generate the following files to create this system:
+### 5. Background Music
 
-vite.config.ts (With manualChunks optimization).
+**Location in file:** Look for `audioAssets`
 
-src/AppManager.tsx (The Time Travel logic).
+```javascript
+export const audioAssets = {
+  backgroundMusic: "/song.mp4",  // <- Your music file
+  defaultVolume: 0.2,
+};
+```
 
-src/pages/Home.tsx (The heavy lifter: Hero, Game, Gallery, Map).
+**To change the music:**
+1. Add your audio file to the `public/` folder
+2. Update the path: `backgroundMusic: "/your-song.mp3"`
 
-src/pages/MenuPage.tsx (The Zoi liquid experience).
+---
 
-src/components/Maggie.tsx (The AI).
+## How to Add Local Images
 
-Note on Assets: Assume images are in /public/Animation/ (1.png to 5.png). Use a placeholder for the robot.
+### Step 1: Add your image file
+Place your image in:
+```
+attached_assets/stock_images/your-image.jpg
+```
 
-Generate the complete, optimized codebase now.
+### Step 2: Import the image
+At the top of `assets.config.ts`, add:
+```javascript
+import myImage from '@assets/stock_images/your-image.jpg';
+```
+
+### Step 3: Use the image
+Replace any image URL with your imported variable:
+```javascript
+src: myImage  // instead of src: "https://..."
+```
+
+---
+
+## Using External Image URLs
+
+You can also use images from the internet:
+
+```javascript
+src: "https://images.unsplash.com/photo-xxxxx?w=800"
+```
+
+**Recommended image sources:**
+- Unsplash (free high-quality images)
+- Your own hosted images
+- Cloud storage links (Google Drive, Dropbox)
+
+---
+
+## File Structure
+
+```
+attached_assets/
+  └── stock_images/          <- Add your local images here
+      ├── cappuccino.jpg
+      ├── espresso.jpg
+      └── your-new-image.jpg
+
+client/
+  └── src/
+      └── config/
+          └── assets.config.ts   <- MAIN FILE TO EDIT
+
+public/
+  ├── favicon.png            <- Site icon
+  └── song.mp4               <- Background music
+```
+
+---
+
+## Current Placeholder Images
+
+The following sections currently use **placeholder images** that you should replace:
+
+| Section | What to Replace |
+|---------|-----------------|
+| Media Gallery Videos | Sample videos from Google |
+| Media Gallery Images | Random images from picsum.photos |
+| Gallery Section | Some Unsplash stock images |
+
+**Menu images are already set with proper food photos matching each dish!**
+
+---
+
+## Recommended Image Sizes
+
+| Section | Recommended Size |
+|---------|------------------|
+| Hero Image | 1920x1080 or larger |
+| Gallery Images | 800x600 |
+| Menu Item Images | 400x400 |
+| Video Thumbnails | 800x600 |
+
+---
+
+## Quick Reference Card
+
+| Want to change... | Edit this in assets.config.ts |
+|-------------------|------------------------------|
+| Homepage hero image | `heroAssets.mainImage` |
+| Homepage title text | `heroAssets.title` |
+| Gallery images | `galleryItems[].src` |
+| Videos | `mediaGalleryItems[].src` |
+| Menu item images | `menuCategories[].items[].img` |
+| Background music | `audioAssets.backgroundMusic` |
+
+---
+
+## Tech Stack
+
+- **Framework:** React + TypeScript + Vite
+- **Styling:** Tailwind CSS + Framer Motion
+- **3D Graphics:** Spline (lazy-loaded for performance)
+- **Smooth Scrolling:** Lenis (desktop only)
+- **Routing:** React Router DOM with liquid curtain transitions
+
+## Performance Features
+
+- Adaptive Graphics Engine (HIGH/MEDIUM/LOW tiers)
+- Lazy loading for images and 3D content
+- GPU-accelerated animations
+- Mobile-optimized experience
+
+---
+
+## Need Help?
+
+1. Open `client/src/config/assets.config.ts`
+2. Look for the section you want to edit (marked with comments)
+3. Replace the URL or import with your own image
+4. Save the file - changes appear automatically!
+
+Happy customizing!
