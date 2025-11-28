@@ -1,0 +1,130 @@
+This is the final "God-Tier" Master Prompt. It combines everything into a single, cohesive instruction set for Replit AI.
+
+This prompt forces the AI to build a "Hybrid Performance Architecture"—meaning it will build a website that looks like a $50,000 award-winning site on a PC, but automatically switches to a lightweight, super-fast version on cheap phones, so it never lags.
+
+Copy and paste the entire block below into a FRESH Replit project (React + TypeScript + Tailwind).
+
+📋 COPY AND PASTE THIS INTO REPLIT AI
+Plaintext
+
+I am building the "Love Over Coffee 2025 Experience". This must be an Awwwards-winning quality website.
+
+Please generate the complete project structure, configuration, and code based on this Master Specification.
+
+### 1. THE "ZERO-LAG" PERFORMANCE ARCHITECTURE
+You must implement a **"Dual-Engine" System** to ensure 60FPS on all devices.
+
+**A. The Engine (`src/hooks/useGraphicsTier.ts`)**
+Create a hook that auto-detects the device capability.
+- **High Tier (PC/Laptop):** Enable Spline 3D, Glassmorphism (blur), and smooth scrolling (Lenis).
+- **Low Tier (Phone/Tablet/Old PC):**
+  - **DISABLE** Spline 3D (Replace with static PNGs).
+  - **DISABLE** `backdrop-filter: blur` (Replace with solid semi-transparent colors).
+  - **DISABLE** Lenis Scroll (Use native browser scrolling).
+  - **REDUCE** Particle counts.
+
+**B. Build Optimization (`vite.config.ts`)**
+- Use `manualChunks` to split `three.js`, `framer-motion`, and `@splinetool` into separate files so the main site loads instantly.
+
+### 2. DEPENDENCIES
+Install these immediately:
+`npm install framer-motion lucide-react clsx tailwind-merge @radix-ui/react-slot class-variance-authority @splinetool/react-spline @splinetool/runtime react-router-dom @studio-freight/react-lenis @google/generative-ai`
+
+### 3. GLOBAL STYLING (`src/index.css`)
+- **Theme:** Deep Space Black (`#050505`) & Neon Indigo (`#6366f1`).
+- **Typography:** Import `'Titan One'` (for headings) and `'Inter'` (for body).
+- **"G-zey" Glassmorphism Utility:**
+  ```css
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px); /* Only apply if High Tier */
+    border-radius: 2rem;
+  }
+  .text-outline { -webkit-text-stroke: 2px white; color: transparent; }
+  .text-outline:hover { color: #6366f1; -webkit-text-stroke: 0px; filter: drop-shadow(0 0 15px rgba(99,102,241,0.6)); }
+4. COMPONENT ARCHITECTURE
+A. src/AppManager.tsx (The Entry Point)
+
+Default: Shows an iframe of the legacy site (https://loveovercoffee.pages.dev/).
+
+Overlay: A pulsing button "✨ ENTER 2025 EXPERIENCE ✨".
+
+Action: Clicking it loads the main React App using React.lazy.
+
+B. src/components/BackgroundAudio.tsx
+
+A global, persistent audio player using /song.mp4 as an audio source (hidden video).
+
+UI: A glassmorphic Mute toggle button floating in the corner.
+
+Logic: Auto-play on first click interaction.
+
+C. src/pages/Home.tsx (The Scroll Journey)
+
+Hero:
+
+Left: Huge "I LOVE OVER COFFEE" text (Titan One) with staggered spring animation.
+
+Right: Spline Robot (Desktop) OR Static Robot Image (Mobile).
+
+Game Section ("The Lounge"):
+
+A lazy-loaded, neon-bordered iframe to https://play.garance.com/.
+
+Drink Portal:
+
+A liquid-gradient banner linking to https://www.drinkzoi.co/.
+
+Gallery ("Timothy Ricks Style"):
+
+Split screen. Hovering menu items slides images in from the bottom.
+
+Map Section:
+
+Google Map iframe with filter: grayscale(100%) invert(100%) (Dark Mode).
+
+Links directly to directions for "Love Over Coffee Indore".
+
+D. src/pages/MenuPage.tsx (The Zoi Liquid Experience)
+
+Transition: A black liquid wave wipes up to reveal this page.
+
+Visuals: Floating leaves/bubbles (Parallax).
+
+Cards: 3D Tilt effect on hover using framer-motion.
+
+E. src/components/Maggie.tsx (AI Chatbot)
+
+Floating button that opens a chat window.
+
+Connected to Google Gemini API (use a placeholder for API Key).
+
+F. src/components/CoffeeCursor.tsx
+
+A custom "Coffee Cup" cursor that trails the mouse.
+
+CRITICAL: Automatically disables itself on Touch Devices.
+
+5. EXECUTION INSTRUCTIONS
+Please generate the code for the following files in this specific order:
+
+vite.config.ts (Optimization)
+
+src/hooks/useGraphicsTier.ts (The Brain)
+
+src/App.tsx (Routing & Layout)
+
+src/pages/Home.tsx (The Main Page)
+
+src/pages/MenuPage.tsx (The Zoi Page)
+
+src/components/BackgroundAudio.tsx & src/components/CoffeeCursor.tsx
+
+Asset Assumptions:
+
+Images: /Animation/1.png to 5.png.
+
+Audio: /song.mp4.
+
+Robot Fallback: /Animation/robot-static.png
