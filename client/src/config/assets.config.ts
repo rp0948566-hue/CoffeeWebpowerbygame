@@ -29,6 +29,7 @@ import friesImg from '@assets/stock_images/french_fries_golden__cef30441.jpg';
 import shakeImg from '@assets/stock_images/oreo_milkshake_choco_037e89bc.jpg';
 import garlicBreadImg from '@assets/stock_images/garlic_bread_cheese_9cd39aeb.jpg';
 import premiumCoffeeImg from '@assets/stock_images/premium_artisan_coff_fde1e3a8.jpg';
+import cafeStorefrontImg from '@assets/51_1764347957828.webp';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // EXPORTED STOCK IMAGES
@@ -68,7 +69,7 @@ export const stockImages = {
 // └─────────────────────────────────────────────────────────────────────────────┘
 
 export const heroAssets = {
-  mainImage: premiumCoffeeImg,  // <- EDIT: Replace with your hero image (import at top of file)
+  mainImage: cafeStorefrontImg,  // <- EDIT: Replace with your hero image (import at top of file)
   splineScene: "https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode",  // <- EDIT: 3D scene URL (optional)
   title: {
     line1: "LOVE",    // <- EDIT: First line of title
