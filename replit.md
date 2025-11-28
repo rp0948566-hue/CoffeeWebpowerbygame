@@ -211,25 +211,32 @@ The site features a global background music player that persists across all page
 
 ## Recent Changes
 
+**November 28, 2025 - Awwwards-Quality Smooth Animations Update**
+- Enhanced Navigation with smooth spring hover effects (layoutId for pill indicator)
+- Added FloatingParticles component for ambient site-wide particle animations (20 particles, disabled on mobile)
+- Upgraded GallerySection with heavy spring physics (mass: 0.5, stiffness: 100, damping: 20)
+- Optimized Lenis scroll: lerp 0.06, duration 1.5, wheelMultiplier 0.8, exponential easing
+- Navigation entry animation with staggered mobile menu items
+
+**November 28, 2025 - Time Travel Portal & Cleanup**
+- Redesigned DrinkPortal as "Time Travel to 2024" glass portal linking to legacy site
+- Removed GameSection component (no longer needed)
+- Removed Maggie AI Chatbot component (streamlined experience)
+- Enhanced Menu page with 50+ items across 12 categories with high-quality Unsplash images
+- 4-column responsive grid layout with glassmorphic price badges
+
 **November 28, 2025 - Complete Master Specification Implementation**
 - Created `CoffeeCursor.tsx` - Custom coffee cup cursor that trails mouse with spring physics
   - Automatically disables on touch devices
   - Uses Framer Motion springs for smooth cursor following
   - Expands when hovering over interactive elements
-- Created `DrinkPortal.tsx` - Liquid-gradient banner section
-  - Links to drinkzoi.co partner brand
-  - Floating bubble animations
-  - Teal/cyan gradient with glassmorphic elements
-- Created `Maggie.tsx` - AI Chatbot powered by Google Gemini API
-  - Coffee shop barista personality
-  - Full chat history support
-  - Floating chat button with pulse animation
-  - Glassmorphic chat window design
-  - Uses existing VITE_GEMINI_API_KEY
+- Created `DrinkPortal.tsx` - "Time Travel to 2024" glassmorphic portal
+  - Links to legacy site at loveovercoffee.pages.dev
+  - Floating bubble animations with indigo/purple gradient
+  - Premium glass effect with animated arrow
 - Integrated all new components into App.tsx and HomePage
 
 **November 28, 2025 - Ultra-Smooth Website Optimizations**
-- Optimized Lenis scroll settings: lerp 0.045, duration 1.8, wheelMultiplier 0.5 for butter-smooth scrolling
 - Implemented smooth easing curve [0.16, 1, 0.3, 1] across all Framer Motion animations
 - Enhanced page transitions: 0.6s curtain with smooth timing, 0.35s content fade-in
 - Improved hero section animations: smoother letter stagger (0.035s delay), gentler magnetic button effect
@@ -253,10 +260,8 @@ The site features a global background music player that persists across all page
 - Complete rewrite of MediaGallery with momentum-based drag scrolling
 - Interactive 3D Gallery with mouse drag rotation + momentum physics
 - Map section with lazy-loading iframe and smooth filter transitions
-- Ultra-smooth Lenis scroll: lerp 0.04, duration 1.8, wheelMultiplier 0.6
 - GPU acceleration on ALL elements: translateZ(0), backface-visibility, will-change
 - CSS containment for layout/paint optimization
-- Removed all jank sources: instant transitions (100-150ms)
 - Mobile-optimized with touch-friendly gestures
 - Custom momentum scrolling for horizontal gallery
 - requestAnimationFrame-based smooth 3D rotation
@@ -265,7 +270,6 @@ The site features a global background music player that persists across all page
 - Added mobile device detection via `useIsMobile` hook - serves static fallback instead of 3D Spline on mobile
 - Created `AppManager.tsx` - "Time Travel" entry point with iframe to legacy site + "Enter 2025 Experience" button
 - Added CSS utilities: `.neon-border` (glowing neon effect), `.dark-map` (grayscale inverted map filter), `.floating-particle` animation
-- Updated GameSection with neon-border glow effect
 - HeroSection now conditionally renders SplineFallback on mobile devices for performance
 
 ## Adding Videos & Images

@@ -65,7 +65,7 @@ export function GallerySection() {
               
               <motion.h2
                 className={cn(
-                  "text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] leading-none",
+                  "text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black transition-colors duration-500 ease-out leading-none",
                   activeId === item.id 
                     ? "translate-x-4 md:translate-x-10 text-white" 
                     : "text-transparent text-stroke-2 text-stroke-white/30 hover:text-stroke-white/60"
