@@ -1,0 +1,278 @@
+Plaintext
+
+I am building a high-end "Love Over Coffee" website from scratch using React, TypeScript, and Tailwind CSS.
+
+Please generate the entire project structure with the following files and logic.
+
+### 1. Project Setup & Dependencies
+Assume a Vite + React + TypeScript environment.
+Required Dependencies to install:
+`npm install framer-motion lucide-react clsx tailwind-merge @radix-ui/react-slot class-variance-authority @splinetool/react-spline @splinetool/runtime`
+
+### 2. File: src/lib/utils.ts
+Create a utility for class merging:
+```ts
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+3. File: src/components/ui/card.tsx
+Create a Card component:
+
+TypeScript
+
+import * as React from "react"
+import { cn } from "@/lib/utils"
+
+const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("rounded-xl border bg-card text-card-foreground shadow-sm", className)} {...props} />
+))
+Card.displayName = "Card"
+export { Card }
+4. File: src/components/ui/button.tsx
+Create a Button component:
+
+TypeScript
+
+import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "@/lib/utils"
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
+        icon: "h-10 w-10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+)
+
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
+  asChild?: boolean
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({ className, variant, size, asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot : "button"
+  return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
+})
+Button.displayName = "Button"
+export { Button, buttonVariants }
+5. File: src/index.css
+Set up the dark theme variables:
+
+CSS
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+  }
+ 
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+ 
+@layer base {
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground; }
+  html { scroll-behavior: smooth; }
+}
+6. File: src/App.tsx
+This is the core. Implement the Hero Section with the Spline Robot, the Spotlight SVG, the Menu, and the Gallery.
+
+TypeScript
+
+"use client"
+
+import React, { useEffect, useRef, useState, Suspense, lazy } from 'react'
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
+import { Menu, X, Coffee, Pizza, Cookie, UtensilsCrossed, MapPin, Phone, Mail, Play } from 'lucide-react'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+
+const Spline = lazy(() => import('@splinetool/react-spline'))
+
+function SplineScene({ scene, className }: { scene: string, className?: string }) {
+  return (
+    <Suspense fallback={<div className="w-full h-full flex items-center justify-center text-white/50">Loading 3D Scene...</div>}>
+      <Spline scene={scene} className={className} />
+    </Suspense>
+  )
+}
+
+const menuItems = [
+  { category: 'Coffee', icon: Coffee, items: [{ name: 'Espresso', price: '$3.50', desc: 'Rich and bold' }, { name: 'Latte', price: '$4.00', desc: 'Smooth & milky' }] },
+  { category: 'Pizza', icon: Pizza, items: [{ name: 'Margherita', price: '$12.00', desc: 'Classic cheese' }, { name: 'Pepperoni', price: '$14.00', desc: 'Spicy slices' }] },
+  { category: 'Noodles', icon: UtensilsCrossed, items: [{ name: 'Maggi Masala', price: '$5.00', desc: 'Spicy Indian style' }, { name: 'Cheese Maggi', price: '$6.00', desc: 'Extra cheesy' }] }
+]
+
+const galleryImages = [
+  '[https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800](https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800)',
+  '[https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800](https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800)',
+  '[https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800](https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800)'
+]
+
+export default function App() {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const { scrollYProgress } = useScroll()
+  const cupRotation = useTransform(scrollYProgress, [0, 1], [0, 360])
+
+  return (
+    <div className="relative bg-slate-950 text-white min-h-screen font-sans selection:bg-indigo-500/30">
+      
+      {/* 1. NAVIGATION */}
+      <nav className="fixed top-0 w-full z-50 bg-slate-900/80 backdrop-blur-md border-b border-white/10">
+        <div className="container mx-auto px-6 h-20 flex items-center justify-between">
+          <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">LOC</h1>
+          <div className="hidden md:flex gap-8 text-sm font-medium text-gray-300">
+             {['Home', 'Menu', 'Gallery', 'Contact'].map((item) => (
+               <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-white transition">{item}</a>
+             ))}
+          </div>
+          <Button variant="outline" className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}><Menu /></Button>
+        </div>
+      </nav>
+
+      {/* 2. HERO SECTION (Split Screen with Spline Robot) */}
+      <section id="home" className="relative pt-32 pb-20 px-6 min-h-screen flex items-center">
+        <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          
+          {/* Left: Text */}
+          <div className="z-20">
+            <motion.h1 initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="text-5xl md:text-8xl font-black mb-6 leading-tight">
+              LOVE OVER <br/> <span className="text-indigo-500">COFFEE</span>
+            </motion.h1>
+            <p className="text-gray-400 text-xl mb-8 max-w-lg">Experience the perfect blend of premium flavors and cozy vibes in a futuristic setting.</p>
+            <div className="flex gap-4">
+              <Button size="lg" className="bg-indigo-600 hover:bg-indigo-500 text-white rounded-full px-8 text-lg font-bold">Order Now</Button>
+              <Button size="lg" variant="outline" className="rounded-full px-8 text-lg border-white/20 hover:bg-white/10 text-white">Our Story</Button>
+            </div>
+          </div>
+
+          {/* Right: Immersive 3D Card */}
+          <div className="relative h-[500px] w-full bg-black/40 rounded-[2rem] border border-white/10 overflow-hidden">
+             {/* Spotlight Effect SVG */}
+             <svg className="absolute -top-40 -left-20 w-[150%] h-[150%] opacity-40 pointer-events-none z-0" viewBox="0 0 3787 2842" fill="none">
+               <g filter="url(#filter0_f)"><ellipse cx="1924.71" cy="273.501" rx="1924.71" ry="273.501" transform="matrix(-0.82 -0.57 -0.57 0.82 3631 2291)" fill="white" fillOpacity="0.21"/></g>
+               <defs><filter id="filter0_f" x="0" y="0" width="3785" height="2840" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB"><feFlood floodOpacity="0" result="BackgroundImageFix"/><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur stdDeviation="151" result="effect1_foregroundBlur"/></filter></defs>
+             </svg>
+             
+             {/* 3D Spline Scene */}
+             <div className="relative z-10 w-full h-full">
+               <SplineScene scene="[https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode](https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode)" className="w-full h-full" />
+             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. MENU SECTION */}
+      <section id="menu" className="py-24 bg-slate-900/50">
+        <div className="container mx-auto px-6">
+          <h2 className="text-4xl md:text-6xl font-black text-center mb-16">OUR <span className="text-indigo-500">MENU</span></h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {menuItems.map((cat) => (
+              <Card key={cat.category} className="bg-white/5 border-white/10 p-8 hover:border-indigo-500/50 transition-colors">
+                <div className="flex items-center gap-4 mb-6">
+                  <cat.icon className="w-8 h-8 text-indigo-400" />
+                  <h3 className="text-2xl font-bold">{cat.category}</h3>
+                </div>
+                <div className="space-y-4">
+                  {cat.items.map((item) => (
+                    <div key={item.name} className="flex justify-between items-start border-b border-white/10 pb-4 last:border-0">
+                      <div>
+                        <h4 className="font-bold text-lg">{item.name}</h4>
+                        <p className="text-sm text-gray-400">{item.desc}</p>
+                      </div>
+                      <span className="font-bold text-indigo-400">{item.price}</span>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. GALLERY */}
+      <section id="gallery" className="py-24">
+        <div className="container mx-auto px-6">
+          <h2 className="text-4xl md:text-6xl font-black text-center mb-16">GALLERY</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {galleryImages.map((src, i) => (
+              <motion.div key={i} whileHover={{ scale: 1.05 }} className="aspect-square rounded-2xl overflow-hidden">
+                <img src={src} alt="Gallery" className="w-full h-full object-cover" />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Floating Scroll Icon */}
+      <motion.div style={{ rotate: cupRotation }} className="fixed bottom-8 right-8 z-50 bg-indigo-600 p-4 rounded-full shadow-lg shadow-indigo-500/50 hidden md:block">
+        <Coffee className="w-6 h-6 text-white" />
+      </motion.div>
+
+    </div>
+  )
+}

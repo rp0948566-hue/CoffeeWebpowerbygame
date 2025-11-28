@@ -1,0 +1,105 @@
+I am building the "Love Over Coffee" 2025 Experience. This is a high-performance, award-winning grade React application.
+
+Please generate the complete project architecture, file structure, and code based on the following Master Specification.
+
+### 1. TECH STACK & PERFORMANCE STRATEGY
+- **Framework:** React + TypeScript + Vite.
+- **Styling:** Tailwind CSS + Framer Motion.
+- **Performance Rule:** "Grandmaster Level." 
+  - Use `React.lazy` for ALL heavy sections (Spline, Game, Menu).
+  - Use `manualChunks` in Vite to split code.
+  - Detect Mobile devices (`window.matchMedia`) to disable 3D elements and serve static images instead.
+- **Routing:** `react-router-dom` with "Liquid Curtain" page transitions.
+
+### 2. DEPENDENCIES
+Install these immediately:
+`npm install framer-motion lucide-react clsx tailwind-merge @radix-ui/react-slot class-variance-authority @splinetool/react-spline @splinetool/runtime react-router-dom @studio-freight/react-lenis @google/generative-ai`
+
+### 3. GLOBAL STYLES (`src/index.css`)
+- Import Font: `'Titan One'` from Google Fonts.
+- Add Smooth Scroll (`html { scroll-behavior: smooth; }`).
+- Add Kinetic Typography Utility:
+  ```css
+  .text-outline { -webkit-text-stroke: 3px white; color: transparent; transition: 0.3s; }
+  .text-outline:hover { color: #6366f1; -webkit-text-stroke: 0px; filter: drop-shadow(0 0 10px rgba(99,102,241,0.5)); }
+  /* Dark Map Filter */
+  .dark-map { filter: grayscale(100%) invert(92%) contrast(83%); }
+  .dark-map:hover { filter: none; }
+4. ARCHITECTURE & COMPONENT BREAKDOWN
+A. Entry Point: "Time Travel" (src/AppManager.tsx)
+This is the root component.
+
+Default View: An iframe loading https://loveovercoffee.pages.dev/.
+
+Overlay: A button "✨ ENTER 2025 EXPERIENCE ✨".
+
+Action: Clicking it unmounts the iframe and mounts the Main App (lazy loaded).
+
+B. The Router (src/App.tsx)
+Wrap in AnimatePresence mode="wait".
+
+Routes: / (Home), /menu (Zoi Liquid Page).
+
+Navigation: A floating Navbar with a "Maggie" AI Chatbot button (bottom right) and an "Explore Drinks" button (top right).
+
+C. Home Page (src/pages/Home.tsx)
+This page must include these sections in order:
+
+Hero Section:
+
+Left: Huge Kinetic Text "I LOVE OVER COFFEE" (Titan One font). Staggered entry animation.
+
+Right: 3D Robot Container. CRITICAL: Check isMobile. If mobile, show img src="/robot-static.png". If Desktop, load SplineScene.
+
+Game Section ("The Waiting Lounge"):
+
+iframe to https://play.garance.com/. Wrapped in a neon-border container.
+
+Performance: Lazy load this component.
+
+Drink Portal:
+
+Banner linking to https://www.drinkzoi.co/ with a "Liquid" gradient background.
+
+Gallery Section ("Timothy Ricks Style"):
+
+Split screen. Left: List of items (Pizza, Coffee, etc.). Right: Sticky Image.
+
+Interaction: Hovering a list item slides the corresponding image in from the bottom.
+
+Map Section:
+
+Google Map Iframe for "Love Over Coffee Indore".
+
+Apply the .dark-map CSS class.
+
+D. The Menu Page (src/pages/MenuPage.tsx) - "Zoi Style"
+Transition: When entering this route, a black/indigo liquid wave wipes the screen.
+
+Vibe: Floating particles (leaves/bubbles) in background.
+
+Content: Grid of products. Hovering a product tilts the image 3D and reveals a color blob background.
+
+E. Chatbot (src/components/Maggie.tsx)
+Floating button. Opens a chat window.
+
+Uses GoogleGenerativeAI.
+
+System Prompt: "You are Maggie, the barista. You love coffee puns."
+
+5. CODE GENERATION INSTRUCTIONS
+Please generate the following files to create this system:
+
+vite.config.ts (With manualChunks optimization).
+
+src/AppManager.tsx (The Time Travel logic).
+
+src/pages/Home.tsx (The heavy lifter: Hero, Game, Gallery, Map).
+
+src/pages/MenuPage.tsx (The Zoi liquid experience).
+
+src/components/Maggie.tsx (The AI).
+
+Note on Assets: Assume images are in /public/Animation/ (1.png to 5.png). Use a placeholder for the robot.
+
+Generate the complete, optimized codebase now.

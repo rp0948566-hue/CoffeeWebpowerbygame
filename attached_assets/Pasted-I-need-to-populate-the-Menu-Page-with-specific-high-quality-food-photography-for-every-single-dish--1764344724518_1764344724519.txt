@@ -1,0 +1,112 @@
+I need to populate the Menu Page with specific, high-quality food photography for every single dish.
+
+Please refactor `src/pages/MenuPage.tsx` to use the following comprehensive data structure.
+
+### 1. The Master Data List
+Replace the existing `products` or `menuItems` array with this exact code block. These URLs are curated to match the food names perfectly.
+
+```typescript
+const menuCategories = [
+  {
+    id: "coffee",
+    title: "Signature Brews",
+    items: [
+      { 
+        id: 101, 
+        name: "Espresso", 
+        price: "$3.50", 
+        desc: "Pure energy. Bold and intense.", 
+        img: "[https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=800&q=80](https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=800&q=80)" 
+      },
+      { 
+        id: 102, 
+        name: "Classic Cappuccino", 
+        price: "$4.50", 
+        desc: "Rich espresso with frothy milk foam.", 
+        img: "[https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=800&q=80](https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=800&q=80)" 
+      },
+      { 
+        id: 103, 
+        name: "Hazelnut Latte", 
+        price: "$5.00", 
+        desc: "Smooth milk with roasted hazelnut notes.", 
+        img: "[https://images.unsplash.com/photo-1541167760496-1628856ab772?w=800&q=80](https://images.unsplash.com/photo-1541167760496-1628856ab772?w=800&q=80)" // Latte art
+      },
+      { 
+        id: 104, 
+        name: "Iced Mocha", 
+        price: "$5.50", 
+        desc: "Chilled chocolate coffee perfection.", 
+        img: "[https://images.unsplash.com/photo-1517701604599-bb29b5c5090c?w=800&q=80](https://images.unsplash.com/photo-1517701604599-bb29b5c5090c?w=800&q=80)" 
+      }
+    ]
+  },
+  {
+    id: "pizza",
+    title: "Artisan Pizzas",
+    items: [
+      { 
+        id: 201, 
+        name: "Margherita", 
+        price: "$12.00", 
+        desc: "Fresh basil, mozzarella, and san marzano tomato.", 
+        img: "[https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800&q=80](https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800&q=80)" 
+      },
+      { 
+        id: 202, 
+        name: "Spicy Pepperoni", 
+        price: "$14.00", 
+        desc: "Crispy cups of pepperoni with chili flakes.", 
+        img: "[https://images.unsplash.com/photo-1628840042765-356cda07504e?w=800&q=80](https://images.unsplash.com/photo-1628840042765-356cda07504e?w=800&q=80)" 
+      },
+      { 
+        id: 203, 
+        name: "BBQ Chicken", 
+        price: "$15.00", 
+        desc: "Smoky BBQ sauce, onions, and grilled chicken.", 
+        img: "[https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80](https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80)" 
+      },
+      { 
+        id: 204, 
+        name: "Garden Veggie", 
+        price: "$13.00", 
+        desc: "Loaded with bell peppers, olives, and mushrooms.", 
+        img: "[https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80](https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80)" 
+      }
+    ]
+  },
+  {
+    id: "bites",
+    title: "Quick Bites",
+    items: [
+      { 
+        id: 301, 
+        name: "Club Sandwich", 
+        price: "$8.00", 
+        desc: "Triple layered goodness with fresh veggies.", 
+        img: "[https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=800&q=80](https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=800&q=80)" 
+      },
+      { 
+        id: 302, 
+        name: "Loaded Fries", 
+        price: "$6.00", 
+        desc: "Crispy fries topped with cheese and herbs.", 
+        img: "[https://images.unsplash.com/photo-1573080496987-a199f8cd75c5?w=800&q=80](https://images.unsplash.com/photo-1573080496987-a199f8cd75c5?w=800&q=80)" 
+      },
+      { 
+        id: 303, 
+        name: "Butter Croissant", 
+        price: "$3.50", 
+        desc: "Flaky, buttery, and freshly baked.", 
+        img: "[https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&q=80](https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&q=80)" 
+      },
+      { 
+        id: 304, 
+        name: "NY Cheesecake", 
+        price: "$6.00", 
+        desc: "Creamy classic with a strawberry glaze.", 
+        img: "[https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=800&q=80](https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=800&q=80)" 
+      }
+    ]
+  }
+];

@@ -1,0 +1,54 @@
+I require an "Ultra-Performance" refactor for my React application. The goal is **60 FPS** on a $100 Android phone while maintaining High Fidelity on Desktop.
+
+Please implement the **"Adaptive Graphics Engine"** architecture:
+
+### 1. THE CORE ENGINE: `usePerformanceMode.ts`
+Create a custom hook `src/hooks/usePerformanceMode.ts` that detects the device capabilities.
+- **Logic:**
+  - Check `window.matchMedia('(max-width: 768px)')` (Is Mobile?)
+  - Check `navigator.hardwareConcurrency` (CPU Cores < 4?)
+  - Check `navigator.deviceMemory` (RAM < 4GB?)
+  - Check `navigator.connection.saveData` (Data Saver on?)
+- **Return:** A simple object: `{ tier: 'HIGH' | 'LOW', show3D: boolean, enableBlur: boolean }`
+- **Rule:** If Mobile OR Low CPU OR Low RAM -> Set Tier to 'LOW'. Disable 3D. Disable heavy Blurs.
+
+### 2. COMPONENT OPTIMIZATION (The Switch)
+Refactor `src/pages/Home.tsx` to listen to this hook.
+
+**A. The Hero Section (Spline vs Image)**
+- **If Tier is HIGH:** Render `<SplineScene />` wrapped in Suspense.
+- **If Tier is LOW:** Render a static `<img src="/Animation/robot-static.png" />` with a simple CSS floating animation.
+- **Benefit:** Saves ~300MB of RAM and 80% GPU usage on phones.
+
+**B. The Scroll Engine (Lenis)**
+- In `src/App.tsx`, conditionally enable `ReactLenis`.
+- `const isMobile = useMediaQuery('(max-width: 768px)');`
+- If `isMobile` is TRUE -> **Disable Lenis**. Use native browser scrolling (it is always smoother on mobile).
+
+### 3. CSS PERFORMANCE HACKS (`src/index.css`)
+Add these "Magical" CSS properties to force hardware acceleration without lag.
+```css
+/* Apply to all large containers */
+.gpu-layer {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform, opacity;
+}
+
+/* On Low Power Devices, remove expensive filters */
+@media (max-width: 768px) {
+  * {
+    backdrop-filter: none !important; /* Blurs kill mobile FPS */
+    box-shadow: none !important;      /* Heavy shadows kill mobile FPS */
+  }
+  .glass-card {
+    background: rgba(20, 20, 20, 0.95) !important; /* Solid fallback */
+  }
+}
+
+/* Render off-screen content only when visible */
+section {
+  content-visibility: auto;
+  contain-intrinsic-size: 800px; /* Approximate section height */
+}

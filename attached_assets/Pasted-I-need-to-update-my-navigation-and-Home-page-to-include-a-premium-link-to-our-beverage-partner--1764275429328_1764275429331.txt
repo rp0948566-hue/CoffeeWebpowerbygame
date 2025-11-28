@@ -1,0 +1,53 @@
+I need to update my navigation and Home page to include a premium link to our beverage partner.
+
+### 1. Update Navigation Bar (`src/App.tsx` or `src/components/Navbar.tsx`)
+Add a distinct "Explore Drinks" button to the main navigation bar.
+- **Position:** Right side, distinct from the other text links.
+- **Style:** Use a **Gradient Border** button (Glassmorphic) so it stands out.
+- **Action:** On click, it should open `https://www.drinkzoi.co/` in a new tab (`target="_blank"`).
+- **Icon:** Use the `Wine` or `GlassWater` icon from `lucide-react`.
+
+### 2. New Home Section: "The Refreshment Portal"
+Add a new section to `src/pages/Home.tsx` immediately **after** the Game Section.
+- **Design:** A sleek, horizontal banner with a "liquid" animated background (using a dark gradient).
+- **Content:**
+  - Headline: "THIRSTY FOR MORE?"
+  - Subtext: "Discover our exclusive award-winning tea collection."
+  - **Main Button:** A massive, magnetic button that says "EXPLORE DRINKS".
+- **Action:** Links to `https://www.drinkzoi.co/` in a new tab.
+
+### 3. Implementation Code
+Please provide the updated code for:
+1. **The Navbar Button** (Snippet to insert into the Nav).
+2. **The New Section** (Full code block to paste after the Game section).
+
+**Styling Reference (Tailwind):**
+```tsx
+{/* Navbar Button Style */}
+<a 
+  href="[https://www.drinkzoi.co/](https://www.drinkzoi.co/)" 
+  target="_blank" 
+  rel="noopener noreferrer"
+  className="relative px-6 py-2 group rounded-full bg-slate-800 text-white font-bold overflow-hidden"
+>
+  <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 opacity-20 group-hover:opacity-40 transition-opacity"></span>
+  <span className="relative flex items-center gap-2">
+    <GlassWater className="w-4 h-4" /> 
+    EXPLORE DRINKS
+  </span>
+</a>
+
+{/* New Section Style */}
+<section className="py-20 relative overflow-hidden">
+  <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/20 to-purple-900/20 z-0"></div>
+  <div className="container mx-auto px-6 relative z-10 text-center">
+    <h2 className="text-4xl md:text-5xl font-black mb-8">THIRSTY FOR MORE?</h2>
+    <a 
+      href="[https://www.drinkzoi.co/](https://www.drinkzoi.co/)"
+      target="_blank"
+      className="inline-flex items-center gap-3 px-10 py-5 bg-white text-black rounded-full font-black text-xl hover:scale-105 transition-transform shadow-[0_0_40px_rgba(255,255,255,0.3)]"
+    >
+      EXPLORE DRINKS <ArrowUpRight className="w-6 h-6" />
+    </a>
+  </div>
+</section>

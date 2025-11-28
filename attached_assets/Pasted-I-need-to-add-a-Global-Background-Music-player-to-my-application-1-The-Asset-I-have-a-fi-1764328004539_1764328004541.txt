@@ -1,0 +1,81 @@
+I need to add a "Global Background Music" player to my application.
+
+### 1. The Asset
+I have a file named `song.mp4`.
+- **Action:** Please instruct the code to use `/song.mp4` as an audio source.
+- **Requirement:** The video visual must be **HIDDEN**. Only the audio should play.
+- **Loop:** The audio must play endlessly (`loop` attribute).
+
+### 2. The UI: "Glass Mute Button"
+Create a component `src/components/BackgroundAudio.tsx`.
+- **Position:** Fixed on the screen (Bottom-Left or Top-Right, distinct from the Chatbot).
+- **Style:** A circular, glassmorphic button.
+  - `bg-white/5` (Very subtle).
+  - `backdrop-blur-md` (Blurry glass).
+  - `border border-white/10`.
+  - **Hover:** Glows slightly when hovered.
+- **Icon:** Use `Volume2` (Sound On) and `VolumeX` (Mute) from `lucide-react`.
+- **Animation:** When music is playing, add a subtle "pulse" or rotating ring animation to show it's active.
+
+### 3. Audio Logic (Crucial for Browsers)
+- **Auto-Play Policy:** Browsers block auto-playing audio.
+- **Solution:**
+  1. The component attempts to `play()` on load.
+  2. If blocked, it stays muted.
+  3. **One-Click Start:** Add a global event listener so the *moment* the user clicks *anywhere* on the website for the first time, the audio fades in.
+
+### 4. Implementation Code
+Please generate the code for `src/components/BackgroundAudio.tsx`.
+
+**Code Structure:**
+```tsx
+import { useState, useEffect, useRef } from "react";
+import { Volume2, VolumeX } from "lucide-react";
+
+export default function BackgroundAudio() {
+  const [isMuted, setIsMuted] = useState(true); // Start muted to satisfy browser policy
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    // Try to play immediately (might fail)
+    if (audioRef.current) {
+      audioRef.current.volume = 0.2; // Start at 20% volume (subtle)
+      audioRef.current.play().catch(() => {
+        // If auto-play fails, wait for first user interaction
+        const enableAudio = () => {
+          if (audioRef.current) {
+            audioRef.current.play();
+            setIsMuted(false);
+          }
+          document.removeEventListener("click", enableAudio);
+        };
+        document.addEventListener("click", enableAudio);
+      });
+    }
+  }, []);
+
+  const toggleMute = () => {
+    if (audioRef.current) {
+      audioRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
+    }
+  };
+
+  return (
+    <button 
+      onClick={toggleMute}
+      className="fixed bottom-8 left-8 z-50 w-12 h-12 rounded-full flex items-center justify-center bg-white/5 backdrop-blur-xl border border-white/10 text-white hover:bg-white/20 transition-all duration-500 group"
+    >
+      {/* Hidden Audio Element using the MP4 as source */}
+      <audio ref={audioRef} src="/song.mp4" loop />
+      
+      {/* Icon */}
+      {isMuted ? <VolumeX className="w-5 h-5 opacity-50" /> : <Volume2 className="w-5 h-5 text-indigo-400 animate-pulse" />}
+      
+      {/* Optional: Spinning Ring when playing */}
+      {!isMuted && (
+        <div className="absolute inset-0 border border-t-indigo-500 rounded-full animate-spin duration-[3s]" />
+      )}
+    </button>
+  );
+}
