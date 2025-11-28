@@ -43,10 +43,10 @@ const menuCategories = [
     icon: Coffee,
     color: 'from-amber-900 to-amber-700',
     items: [
-      { name: 'Americano', description: 'Espresso shot brewed with hot water.', price: '₹150.00' },
-      { name: 'Espresso', description: 'Full Flavoured Concentrated Foam Of Coffee.', price: '₹110.00' },
-      { name: 'Iced Americano', description: 'Espresso shot combined with water and chilled with ice.', price: '₹170.00' },
-      { name: 'Irish Americano', description: 'Espresso shot combined with hot water mixed with Irish syrup.', price: '₹180.00' },
+      { name: 'Americano', description: 'Espresso shot brewed with hot water.', price: '₹150.00', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400&auto=format&fit=crop' },
+      { name: 'Espresso', description: 'Full Flavoured Concentrated Foam Of Coffee.', price: '₹110.00', img: 'https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400&auto=format&fit=crop' },
+      { name: 'Iced Americano', description: 'Espresso shot combined with water and chilled with ice.', price: '₹170.00', img: 'https://images.unsplash.com/photo-1517701604599-bb29b5c5090c?w=400&auto=format&fit=crop' },
+      { name: 'Irish Americano', description: 'Espresso shot combined with hot water mixed with Irish syrup.', price: '₹180.00', img: 'https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=400&auto=format&fit=crop' },
     ]
   },
   {
@@ -55,13 +55,13 @@ const menuCategories = [
     icon: Coffee,
     color: 'from-amber-700 to-orange-600',
     items: [
-      { name: 'Biscoff Cappuccino', description: 'Tasty combination of cappuccino with caramelised taste of lotus biscoff.', price: '₹190.00' },
-      { name: 'Cafe Latte', description: 'A shot of espresso with steamed milk and a small layer of foam.', price: '₹170.00' },
-      { name: 'Cafe Mocha', description: 'A combination of rich espresso with chocolate sauce and steamed milk.', price: '₹190.00' },
-      { name: 'Cappuccino', description: 'A shot of espresso with steamed milk and foam.', price: '₹160.00' },
-      { name: 'Flat White', description: 'Another version of cafe latte, espresso shot with steamed milk layered with very thin micro foam.', price: '₹170.00' },
-      { name: 'Hot Chocolate', description: 'This sinful brew is a blend of dark chocolate with hot milk.', price: '₹180.00' },
-      { name: 'Signature Hot Chocolate', description: 'Hot chocolate with the combination of hazelnut flavour.', price: '₹200.00' },
+      { name: 'Biscoff Cappuccino', description: 'Tasty combination of cappuccino with caramelised taste of lotus biscoff.', price: '₹190.00', img: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&auto=format&fit=crop' },
+      { name: 'Cafe Latte', description: 'A shot of espresso with steamed milk and a small layer of foam.', price: '₹170.00', img: 'https://images.unsplash.com/photo-1561882468-9110e03e0f78?w=400&auto=format&fit=crop' },
+      { name: 'Cafe Mocha', description: 'A combination of rich espresso with chocolate sauce and steamed milk.', price: '₹190.00', img: 'https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400&auto=format&fit=crop' },
+      { name: 'Cappuccino', description: 'A shot of espresso with steamed milk and foam.', price: '₹160.00', img: 'https://images.unsplash.com/photo-1534778101976-62847782c213?w=400&auto=format&fit=crop' },
+      { name: 'Flat White', description: 'Another version of cafe latte, espresso shot with steamed milk layered with very thin micro foam.', price: '₹170.00', img: 'https://images.unsplash.com/photo-1577968897966-3d4325b36b61?w=400&auto=format&fit=crop' },
+      { name: 'Hot Chocolate', description: 'This sinful brew is a blend of dark chocolate with hot milk.', price: '₹180.00', img: 'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=400&auto=format&fit=crop' },
+      { name: 'Signature Hot Chocolate', description: 'Hot chocolate with the combination of hazelnut flavour.', price: '₹200.00', img: 'https://images.unsplash.com/photo-1517578239113-b03992dcdd25?w=400&auto=format&fit=crop' },
     ]
   },
   {
@@ -70,10 +70,10 @@ const menuCategories = [
     icon: GlassWater,
     color: 'from-purple-600 to-indigo-600',
     items: [
-      { name: 'Cold Brew', description: 'Black - a delicate & complete drink.', price: '₹190.00' },
-      { name: 'Condensed Latte', description: 'Espresso with condensed.', price: '₹200.00' },
-      { name: 'Cranberry Cold Brew', description: 'Cranberry with cold brew.', price: '₹240.00' },
-      { name: 'Vietnamese', description: 'Espresso, condensed, ice.', price: '₹220.00' },
+      { name: 'Cold Brew', description: 'Black - a delicate & complete drink.', price: '₹190.00', img: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&auto=format&fit=crop' },
+      { name: 'Condensed Latte', description: 'Espresso with condensed.', price: '₹200.00', img: 'https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=400&auto=format&fit=crop' },
+      { name: 'Cranberry Cold Brew', description: 'Cranberry with cold brew.', price: '₹240.00', img: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&auto=format&fit=crop' },
+      { name: 'Vietnamese', description: 'Espresso, condensed, ice.', price: '₹220.00', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400&auto=format&fit=crop' },
     ]
   },
   {
@@ -82,10 +82,10 @@ const menuCategories = [
     icon: GlassWater,
     color: 'from-green-500 to-teal-500',
     items: [
-      { name: 'Blueberry Ice Tea', description: 'Refreshing blueberry flavored iced tea.', price: '₹200.00' },
-      { name: 'Lemon Mint Ice Tea', description: 'Classic lemon mint refresher.', price: '₹160.00' },
-      { name: 'Peach Ice Tea', description: 'Sweet peach flavored iced tea.', price: '₹180.00' },
-      { name: 'Strawberry Ice Tea', description: 'Fresh strawberry iced tea.', price: '₹180.00' },
+      { name: 'Blueberry Ice Tea', description: 'Refreshing blueberry flavored iced tea.', price: '₹200.00', img: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&auto=format&fit=crop' },
+      { name: 'Lemon Mint Ice Tea', description: 'Classic lemon mint refresher.', price: '₹160.00', img: 'https://images.unsplash.com/photo-1499638673689-79a0b5115d87?w=400&auto=format&fit=crop' },
+      { name: 'Peach Ice Tea', description: 'Sweet peach flavored iced tea.', price: '₹180.00', img: 'https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?w=400&auto=format&fit=crop' },
+      { name: 'Strawberry Ice Tea', description: 'Fresh strawberry iced tea.', price: '₹180.00', img: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&auto=format&fit=crop' },
     ]
   },
   {
@@ -94,12 +94,12 @@ const menuCategories = [
     icon: Coffee,
     color: 'from-blue-600 to-cyan-500',
     items: [
-      { name: 'Cafe Frappe', description: 'Rich, creamy and irresistable cold coffee.', price: '₹190.00' },
-      { name: 'Caramel Creamy Frappe', description: 'Cafe frappe with the combination of caramel flavour.', price: '₹210.00' },
-      { name: 'Choco Frappe', description: 'Cafe frappe with combination of chocolate fudge.', price: '₹200.00' },
-      { name: 'Dark Chocolate Frappe', description: 'Dark chocolate and frappe combination.', price: '₹200.00' },
-      { name: 'Oreo Frappe', description: 'Oreo cookies blended with ice cream n espresso shot.', price: '₹220.00' },
-      { name: 'Tiramisu Frappe', description: 'Brownie chunks blended with amazing tiramisu flavour.', price: '₹240.00' },
+      { name: 'Cafe Frappe', description: 'Rich, creamy and irresistable cold coffee.', price: '₹190.00', img: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&auto=format&fit=crop' },
+      { name: 'Caramel Creamy Frappe', description: 'Cafe frappe with the combination of caramel flavour.', price: '₹210.00', img: 'https://images.unsplash.com/photo-1592663527359-cf6642f54cff?w=400&auto=format&fit=crop' },
+      { name: 'Choco Frappe', description: 'Cafe frappe with combination of chocolate fudge.', price: '₹200.00', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&auto=format&fit=crop' },
+      { name: 'Dark Chocolate Frappe', description: 'Dark chocolate and frappe combination.', price: '₹200.00', img: 'https://images.unsplash.com/photo-1579888944880-d98341245702?w=400&auto=format&fit=crop' },
+      { name: 'Oreo Frappe', description: 'Oreo cookies blended with ice cream n espresso shot.', price: '₹220.00', img: 'https://images.unsplash.com/photo-1577805947697-89e18249d767?w=400&auto=format&fit=crop' },
+      { name: 'Tiramisu Frappe', description: 'Brownie chunks blended with amazing tiramisu flavour.', price: '₹240.00', img: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400&auto=format&fit=crop' },
     ]
   },
   {
@@ -108,10 +108,10 @@ const menuCategories = [
     icon: GlassWater,
     color: 'from-pink-500 to-rose-500',
     items: [
-      { name: 'Mango Mojito', description: 'Mango, mint n lime. The perfect refresher.', price: '₹180.00' },
-      { name: 'Virgin Mojito', description: 'Refreshing chilled mint mojito.', price: '₹170.00' },
-      { name: 'Cranberry Mojito', description: 'Crisp, clean taste of cranberry with lemon n ice.', price: '₹200.00' },
-      { name: 'Watermelon Punch', description: 'Watermelon refreshing drink.', price: '₹180.00' },
+      { name: 'Mango Mojito', description: 'Mango, mint n lime. The perfect refresher.', price: '₹180.00', img: 'https://images.unsplash.com/photo-1546171753-97d7676e4602?w=400&auto=format&fit=crop' },
+      { name: 'Virgin Mojito', description: 'Refreshing chilled mint mojito.', price: '₹170.00', img: 'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&auto=format&fit=crop' },
+      { name: 'Cranberry Mojito', description: 'Crisp, clean taste of cranberry with lemon n ice.', price: '₹200.00', img: 'https://images.unsplash.com/photo-1560508179-b2c9a3f8e92b?w=400&auto=format&fit=crop' },
+      { name: 'Watermelon Punch', description: 'Watermelon refreshing drink.', price: '₹180.00', img: 'https://images.unsplash.com/photo-1497534446932-c925b458314e?w=400&auto=format&fit=crop' },
     ]
   },
   {
@@ -120,10 +120,10 @@ const menuCategories = [
     icon: IceCream,
     color: 'from-pink-400 to-purple-500',
     items: [
-      { name: 'Oreo Shake', description: 'You Want Oreo? We Got Oreo.', price: '₹220.00' },
-      { name: 'Nutella Shake', description: 'For the nutella lovers.', price: '₹280.00' },
-      { name: 'Dark Chocolate Shake', description: 'As chocolaty as it can get!', price: '₹190.00' },
-      { name: 'Strawberry Shake', description: 'The strawberry shake that you deserve.', price: '₹200.00' },
+      { name: 'Oreo Shake', description: 'You Want Oreo? We Got Oreo.', price: '₹220.00', img: 'https://images.unsplash.com/photo-1577805947697-89e18249d767?w=400&auto=format&fit=crop' },
+      { name: 'Nutella Shake', description: 'For the nutella lovers.', price: '₹280.00', img: 'https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=400&auto=format&fit=crop' },
+      { name: 'Dark Chocolate Shake', description: 'As chocolaty as it can get!', price: '₹190.00', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&auto=format&fit=crop' },
+      { name: 'Strawberry Shake', description: 'The strawberry shake that you deserve.', price: '₹200.00', img: 'https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=400&auto=format&fit=crop' },
     ]
   },
   {
@@ -132,10 +132,10 @@ const menuCategories = [
     icon: Pizza,
     color: 'from-red-500 to-orange-500',
     items: [
-      { name: 'Classic Margarita Pizza', description: 'Classic Margarita with Mozzarella.', price: '₹310.00' },
-      { name: 'Farm Fresh Pizza', description: 'Onion, tomato and capsicum with mozzarella.', price: '₹330.00' },
-      { name: 'Tandoori Paneer Pizza', description: 'Cottage cheese, onion, capsicum with tandoori mayo.', price: '₹420.00' },
-      { name: 'Supreme Pizza', description: 'Green chilli, onion, tomato, capsicum, paneer.', price: '₹410.00' },
+      { name: 'Classic Margarita Pizza', description: 'Classic Margarita with Mozzarella.', price: '₹310.00', img: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&auto=format&fit=crop' },
+      { name: 'Farm Fresh Pizza', description: 'Onion, tomato and capsicum with mozzarella.', price: '₹330.00', img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&auto=format&fit=crop' },
+      { name: 'Tandoori Paneer Pizza', description: 'Cottage cheese, onion, capsicum with tandoori mayo.', price: '₹420.00', img: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400&auto=format&fit=crop' },
+      { name: 'Supreme Pizza', description: 'Green chilli, onion, tomato, capsicum, paneer.', price: '₹410.00', img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&auto=format&fit=crop' },
     ]
   },
   {
@@ -144,10 +144,10 @@ const menuCategories = [
     icon: Sandwich,
     color: 'from-yellow-500 to-amber-500',
     items: [
-      { name: 'Veg Club Sandwich', description: 'Fresh Lettuce, Coleslaw, Onion, Tomato.', price: '₹260.00' },
-      { name: 'Cheese Corn Sandwich', description: 'A combination of cheese n corn.', price: '₹220.00' },
-      { name: 'Tandoori Paneer Sandwich', description: 'Paneer is an emotion.', price: '₹270.00' },
-      { name: 'Triple Cheese Sandwich', description: 'Loaded with cheese.', price: '₹320.00' },
+      { name: 'Veg Club Sandwich', description: 'Fresh Lettuce, Coleslaw, Onion, Tomato.', price: '₹260.00', img: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&auto=format&fit=crop' },
+      { name: 'Cheese Corn Sandwich', description: 'A combination of cheese n corn.', price: '₹220.00', img: 'https://images.unsplash.com/photo-1553909489-cd47e0907980?w=400&auto=format&fit=crop' },
+      { name: 'Tandoori Paneer Sandwich', description: 'Paneer is an emotion.', price: '₹270.00', img: 'https://images.unsplash.com/photo-1481070555726-e2fe8357571d?w=400&auto=format&fit=crop' },
+      { name: 'Triple Cheese Sandwich', description: 'Loaded with cheese.', price: '₹320.00', img: 'https://images.unsplash.com/photo-1528736235302-52922df5c122?w=400&auto=format&fit=crop' },
     ]
   },
   {
@@ -156,9 +156,9 @@ const menuCategories = [
     icon: Utensils,
     color: 'from-orange-400 to-red-400',
     items: [
-      { name: 'Alfredo Pasta (White)', description: 'Creamy sauce with parmesan cheese.', price: '₹400.00' },
-      { name: 'Penne Arrabiata (Red)', description: 'Spicy fresh tomato sauce.', price: '₹370.00' },
-      { name: 'Penne Pink Sauce', description: 'Silky smooth decadent white sauce.', price: '₹420.00' },
+      { name: 'Alfredo Pasta (White)', description: 'Creamy sauce with parmesan cheese.', price: '₹400.00', img: 'https://images.unsplash.com/photo-1645112411341-6c4fd023714a?w=400&auto=format&fit=crop' },
+      { name: 'Penne Arrabiata (Red)', description: 'Spicy fresh tomato sauce.', price: '₹370.00', img: 'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=400&auto=format&fit=crop' },
+      { name: 'Penne Pink Sauce', description: 'Silky smooth decadent white sauce.', price: '₹420.00', img: 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&auto=format&fit=crop' },
     ]
   },
   {
@@ -167,9 +167,9 @@ const menuCategories = [
     icon: Utensils,
     color: 'from-yellow-400 to-orange-400',
     items: [
-      { name: 'French Fries', description: "Fries before guys kind.", price: '₹170.00' },
-      { name: 'Peri Peri Fries', description: 'With peri peri spices.', price: '₹220.00' },
-      { name: 'Cheese Jalapeno Fries', description: 'With cheese and jalapeno.', price: '₹240.00' },
+      { name: 'French Fries', description: "Fries before guys kind.", price: '₹170.00', img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&auto=format&fit=crop' },
+      { name: 'Peri Peri Fries', description: 'With peri peri spices.', price: '₹220.00', img: 'https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?w=400&auto=format&fit=crop' },
+      { name: 'Cheese Jalapeno Fries', description: 'With cheese and jalapeno.', price: '₹240.00', img: 'https://images.unsplash.com/photo-1585109649139-366815a0d713?w=400&auto=format&fit=crop' },
     ]
   },
   {
@@ -178,9 +178,9 @@ const menuCategories = [
     icon: Utensils,
     color: 'from-amber-400 to-yellow-500',
     items: [
-      { name: 'Cheese Garlic Bread', description: 'Cheese blend, garlic and butter.', price: '₹220.00' },
-      { name: 'Chili Corn Garlic Bread', description: 'Cheese blend, corn, green chili.', price: '₹250.00' },
-      { name: 'OTC Garlic Bread', description: 'Onion, tomato, capsicum with spices.', price: '₹300.00' },
+      { name: 'Cheese Garlic Bread', description: 'Cheese blend, garlic and butter.', price: '₹220.00', img: 'https://images.unsplash.com/photo-1619535860434-ba1d8fa12536?w=400&auto=format&fit=crop' },
+      { name: 'Chili Corn Garlic Bread', description: 'Cheese blend, corn, green chili.', price: '₹250.00', img: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&auto=format&fit=crop' },
+      { name: 'OTC Garlic Bread', description: 'Onion, tomato, capsicum with spices.', price: '₹300.00', img: 'https://images.unsplash.com/photo-1432457990754-c8b5f21f969c?w=400&auto=format&fit=crop' },
     ]
   },
 ];
@@ -397,17 +397,26 @@ function StaticCategorySection({ category }: { category: typeof menuCategories[0
 
       {isExpanded && (
         <div className="border-t border-white/10">
-          <div className="p-3 sm:p-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="p-3 sm:p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
             {category.items.map((item, i) => (
               <div
                 key={i}
-                className="p-3 sm:p-4 bg-white/[0.02] rounded-xl border border-white/5"
+                className="group bg-white/[0.02] rounded-xl border border-white/5 overflow-hidden"
               >
-                <div className="flex justify-between items-start gap-2 mb-1">
-                  <h4 className="font-semibold text-white text-sm">{item.name}</h4>
-                  <span className="text-primary font-bold text-sm whitespace-nowrap">{item.price}</span>
+                <div className="relative h-32 sm:h-40 overflow-hidden">
+                  <img
+                    src={item.img}
+                    alt={item.name}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <span className="absolute bottom-2 right-2 text-primary font-bold text-sm bg-black/50 px-2 py-1 rounded-lg">{item.price}</span>
                 </div>
-                <p className="text-xs text-gray-400 line-clamp-2">{item.description}</p>
+                <div className="p-3">
+                  <h4 className="font-semibold text-white text-sm mb-1">{item.name}</h4>
+                  <p className="text-xs text-gray-400 line-clamp-2">{item.description}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -448,22 +457,40 @@ function AnimatedCategorySection({ category }: { category: typeof menuCategories
         </button>
 
         {isExpanded && (
-          <div className="border-t border-white/10">
-            <div className="p-3 sm:p-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="border-t border-white/10"
+          >
+            <div className="p-3 sm:p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
               {category.items.map((item, i) => (
-                <div
+                <motion.div
                   key={i}
-                  className="p-3 sm:p-4 bg-white/[0.02] rounded-xl border border-white/5 hover:border-primary/30 transition-colors duration-150"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.15, delay: i * 0.03 }}
+                  className="group bg-white/[0.02] rounded-xl border border-white/5 overflow-hidden hover:border-primary/30 transition-all duration-150"
                 >
-                  <div className="flex justify-between items-start gap-2 mb-1">
-                    <h4 className="font-semibold text-white text-sm">{item.name}</h4>
-                    <span className="text-primary font-bold text-sm whitespace-nowrap">{item.price}</span>
+                  <div className="relative h-32 sm:h-40 overflow-hidden">
+                    <img
+                      src={item.img}
+                      alt={item.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    <span className="absolute bottom-2 right-2 text-primary font-bold text-sm bg-black/50 px-2 py-1 rounded-lg backdrop-blur-sm">{item.price}</span>
                   </div>
-                  <p className="text-xs text-gray-400 line-clamp-2">{item.description}</p>
-                </div>
+                  <div className="p-3">
+                    <h4 className="font-semibold text-white text-sm mb-1">{item.name}</h4>
+                    <p className="text-xs text-gray-400 line-clamp-2">{item.description}</p>
+                  </div>
+                </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
         )}
       </div>
     </motion.div>
