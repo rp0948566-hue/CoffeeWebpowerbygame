@@ -76,10 +76,7 @@ export function GameSection() {
           <div className="absolute -inset-1 bg-gradient-to-r from-indigo-600 via-purple-600 to-fuchsia-600 rounded-[2.5rem] blur-xl opacity-30 animate-pulse" />
           
           <div 
-            className="relative h-[500px] md:h-[700px] rounded-[2rem] border border-white/10 overflow-hidden bg-slate-900/90 backdrop-blur-sm"
-            style={{
-              boxShadow: '0 0 80px rgba(99, 102, 241, 0.3), 0 0 40px rgba(139, 92, 246, 0.2), inset 0 0 60px rgba(0,0,0,0.5)'
-            }}
+            className="relative h-[500px] md:h-[700px] rounded-[2rem] overflow-hidden bg-slate-900/90 backdrop-blur-sm neon-border"
           >
             <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-slate-800/80 to-transparent z-10 flex items-center justify-between px-6">
               <div className="flex items-center gap-3">

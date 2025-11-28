@@ -40,7 +40,7 @@ class SplineErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySta
   }
 }
 
-function SplineFallback() {
+export function SplineFallback() {
   return (
     <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-accent/10 rounded-[2rem]">
       <div className="flex flex-col items-center gap-4 text-center p-8">
