@@ -97,33 +97,33 @@ export const heroAssets = {
 export const galleryItems = [
   { 
     id: 1, 
-    title: "ARTISAN PIZZA",  // <- EDIT: Change title
-    category: "Savory",       // <- EDIT: Change category
-    src: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800&auto=format&fit=crop"  // <- EDIT: Replace with your image URL
+    title: "ARTISAN PIZZA",
+    category: "Savory",
+    src: pizzaImg  // High-quality margarita pizza image
   },
   { 
     id: 2, 
     title: "HOT COFFEE", 
     category: "Brew", 
-    src: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&auto=format&fit=crop"  // <- EDIT: Replace with your image URL
+    src: cappuccinoImg  // Cappuccino with latte art
   },
   { 
     id: 3, 
     title: "FRESH MOJITO", 
     category: "Refresh", 
-    src: "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=800&auto=format&fit=crop"  // <- EDIT: Replace with your image URL
+    src: mangoMojitoImg  // Refreshing mojito drink
   },
   { 
     id: 4, 
     title: "CLUB SANDWICH", 
     category: "Snack", 
-    src: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=800&auto=format&fit=crop"  // <- EDIT: Replace with your image URL
+    src: sandwichImg  // Grilled vegetable sandwich
   },
   { 
     id: 5, 
     title: "COLD COFFEE", 
     category: "Chilled", 
-    src: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&auto=format&fit=crop"  // <- EDIT: Replace with your image URL
+    src: coldCoffeeImg  // Cold coffee frappe
   },
 ];
 
