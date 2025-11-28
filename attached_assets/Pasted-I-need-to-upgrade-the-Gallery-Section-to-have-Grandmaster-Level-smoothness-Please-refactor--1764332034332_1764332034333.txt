@@ -1,0 +1,101 @@
+I need to upgrade the "Gallery Section" to have "Grandmaster Level" smoothness.
+
+Please refactor `src/components/GallerySection.tsx` (or wherever the split-screen gallery lives) to use Advanced Physics.
+
+### 1. THE PHYSICS ENGINE (Framer Motion)
+Replace all standard `duration` transitions with **Heavy Spring Physics**.
+- **The Feel:** Heavy, expensive, fluid.
+- **Config:** `transition: { type: "spring", mass: 0.5, stiffness: 100, damping: 20 }`.
+
+### 2. THE "PARALLAX SLIDE" EFFECT
+When the image changes, it shouldn't just fade.
+- **The Container:** The image container clips the image (`overflow-hidden`).
+- **The Image:** The image inside moves at a different speed than the container.
+- **Result:** A "Curtain Reveal" effect where the image feels like it's being unveiled.
+
+### 3. THE "GRAIN" TEXTURE (Cinematic Polish)
+Add a subtle noise overlay to the images to hide pixelation during movement.
+- **Overlay:** `bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay`.
+
+### 4. IMPLEMENTATION CODE
+Please rewrite the `GallerySection` component with this specific logic:
+
+```tsx
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { cn } from '@/lib/utils';
+
+// Your existing galleryItems array...
+
+export default function SmoothGallery() {
+  const [activeId, setActiveId] = useState(1);
+
+  return (
+    <section className="py-32 px-6 bg-[#050505] text-white min-h-screen flex items-center justify-center">
+      <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        
+        {/* LEFT: THE MENU (Trigger) */}
+        <div className="space-y-4">
+          {galleryItems.map((item) => (
+            <div 
+              key={item.id}
+              onMouseEnter={() => setActiveId(item.id)}
+              className="group cursor-pointer relative"
+            >
+              {/* Text Hover Effect */}
+              <h2 className={cn(
+                "text-6xl md:text-8xl font-black transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                activeId === item.id 
+                  ? "translate-x-10 text-white" // Active State
+                  : "text-transparent text-stroke-2 text-stroke-white/30 hover:text-stroke-white/60" // Idle State
+              )} style={{ fontFamily: '"Titan One", cursive' }}>
+                {item.title}
+              </h2>
+              
+              {/* Small "Active" Indicator Dot */}
+              <motion.div 
+                animate={{ scale: activeId === item.id ? 1 : 0 }}
+                className="absolute top-1/2 -left-4 w-3 h-3 bg-indigo-500 rounded-full"
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* RIGHT: THE VIEWPORT (The Smooth Part) */}
+        <div className="relative h-[600px] w-full rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl">
+          <AnimatePresence mode="popLayout">
+            {galleryItems.map((item) => item.id === activeId && (
+              <motion.div
+                key={item.id}
+                initial={{ y: "100%" }} // Slide up from bottom
+                animate={{ y: "0%" }}
+                exit={{ y: "-100%", opacity: 0.5 }} // Slide up and fade out
+                transition={{ type: "spring", stiffness: 250, damping: 25 }} // <--- THE BUTTER PHYSICS
+                className="absolute inset-0 w-full h-full"
+              >
+                <img 
+                  src={item.src} 
+                  alt={item.title} 
+                  className="w-full h-full object-cover scale-110" // Slight zoom for parallax feel
+                />
+                {/* Cinematic Grain Overlay */}
+                <div className="absolute inset-0 bg-black/20 mix-blend-multiply" />
+                
+                {/* Text Label */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="absolute bottom-8 left-8 bg-black/50 backdrop-blur-md px-6 py-3 rounded-full border border-white/10"
+                >
+                  <span className="font-bold tracking-widest text-sm">{item.category}</span>
+                </motion.div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+
+      </div>
+    </section>
+  );
+}

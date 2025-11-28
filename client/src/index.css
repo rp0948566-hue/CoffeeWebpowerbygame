@@ -53,6 +53,16 @@
   color: white;
 }
 
+.text-stroke-2 {
+  -webkit-text-stroke: 2px;
+}
+.text-stroke-white\/30 {
+  -webkit-text-stroke-color: rgba(255,255,255,0.3);
+}
+.text-stroke-white\/60 {
+  -webkit-text-stroke-color: rgba(255,255,255,0.6);
+}
+
 /* LIGHT MODE */
 :root {
   --button-outline: rgba(0,0,0, .10);
