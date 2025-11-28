@@ -15,6 +15,34 @@
   filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
 }
 
+/* Dark Map Filter for Google Maps */
+.dark-map {
+  filter: grayscale(100%) invert(92%) contrast(83%);
+  transition: filter 0.5s ease;
+}
+.dark-map:hover {
+  filter: none;
+}
+
+/* Neon Border Glow Effect */
+.neon-border {
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5),
+              0 0 20px rgba(99, 102, 241, 0.3),
+              0 0 40px rgba(99, 102, 241, 0.2),
+              inset 0 0 10px rgba(99, 102, 241, 0.1);
+  border: 2px solid rgba(99, 102, 241, 0.6);
+}
+
+/* Floating Particles Animation */
+@keyframes float-particle {
+  0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.6; }
+  50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+}
+
+.floating-particle {
+  animation: float-particle 4s ease-in-out infinite;
+}
+
 .text-stroke {
   -webkit-text-stroke: 2px rgba(255,255,255,0.5);
   color: transparent;
