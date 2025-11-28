@@ -223,27 +223,75 @@
 
   html {
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    overflow-x: hidden;
   }
 
   ::selection {
     @apply bg-primary/30;
   }
+}
 
-  * {
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  }
+/* ========== ULTRA SMOOTH 120 FPS PERFORMANCE ========== */
 
-  a, button, [role="button"], .interactive {
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
+/* GPU Acceleration for smooth animations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform, opacity;
+}
 
-  img {
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease;
-  }
+/* Optimized transitions for all interactive elements */
+a, button, [role="button"], .interactive {
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out, background-color 0.2s ease-out, border-color 0.2s ease-out, box-shadow 0.2s ease-out;
+  will-change: transform;
+}
+
+a:hover, button:hover, [role="button"]:hover {
+  transform: translateY(-1px);
+}
+
+a:active, button:active, [role="button"]:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Smooth image transitions */
+img {
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  will-change: transform, opacity;
+}
+
+/* Force hardware acceleration on animated elements */
+[class*="animate-"],
+[class*="motion-"],
+.framer-motion {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Optimize scrolling performance */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Reduce paint areas */
+.contain-paint {
+  contain: paint;
+}
+
+.contain-layout {
+  contain: layout;
+}
+
+.contain-strict {
+  contain: strict;
 }
 
 /**
@@ -447,15 +495,20 @@
   }
 }
 
-/* 3D Gallery Cylinder */
+/* 3D Gallery Cylinder - GPU Optimized for 120 FPS */
 .gallery-container {
   perspective: 2000px;
   perspective-origin: center center;
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 .gallery-cylinder {
   transform-style: preserve-3d;
-  animation: autoRotate 60s linear infinite;
+  animation: autoRotate 80s linear infinite;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 .gallery-cylinder:hover {
@@ -464,9 +517,15 @@
 
 .gallery-item {
   transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.gallery-item img {
+  will-change: opacity;
 }
 
 @keyframes autoRotate {
-  from { transform: rotateY(0deg); }
-  to { transform: rotateY(360deg); }
+  from { transform: rotateY(0deg) translateZ(0); }
+  to { transform: rotateY(360deg) translateZ(0); }
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -131,18 +131,18 @@ export function Memories() {
                   onClick={() => handleImageClick(memory)}
                   data-testid={`card-memory-${memory.id}`}
                 >
-                  <div className="w-full h-full rounded-xl overflow-hidden bg-white/10 backdrop-blur-md border border-white/20 shadow-xl shadow-black/20 hover:scale-105 transition-transform duration-300">
+                  <div className="w-full h-full rounded-xl overflow-hidden bg-white/10 backdrop-blur-sm border border-white/20 shadow-xl shadow-black/20 hover:scale-105 transition-transform duration-200 ease-out">
                     <AnimatePresence mode="wait">
                       <motion.img
                         key={`${memory.id}-${memory.version}`}
                         src={memory.src}
                         alt={memory.caption}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover gpu-accelerated"
                         loading="lazy"
-                        initial={{ opacity: 0, scale: 1.1 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
-                        transition={{ duration: 0.5 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
                       />
                     </AnimatePresence>
                     <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent">
@@ -168,7 +168,8 @@ export function Memories() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center p-6"
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center p-6 gpu-accelerated"
             onClick={handleClose}
             data-testid="lightbox-overlay"
           >
@@ -183,11 +184,11 @@ export function Memories() {
             </Button>
 
             <motion.div
-              initial={{ scale: 0.5, opacity: 0 }}
+              initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.5, opacity: 0 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative max-w-4xl max-h-[85vh] w-full"
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="relative max-w-4xl max-h-[85vh] w-full gpu-accelerated"
               onClick={(e) => e.stopPropagation()}
             >
               <img

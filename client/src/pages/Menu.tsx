@@ -226,22 +226,22 @@ function AnimatedHeader() {
       className="relative py-10 md:py-16 overflow-hidden gpu-accelerated"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
     >
       <motion.p
         className="text-center text-primary/80 text-sm uppercase tracking-[0.3em] mb-4"
-        initial={{ y: -10, opacity: 0 }}
+        initial={{ y: -8, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.4 }}
+        transition={{ duration: 0.25, ease: "easeOut" }}
       >
         Menu Highlights
       </motion.p>
       <motion.h1
         className="text-[2.5rem] sm:text-[4rem] md:text-[5rem] lg:text-[7rem] font-black text-center leading-none select-none bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
         style={{ fontFamily: "'Titan One', cursive" }}
-        initial={{ scale: 0.95, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
         data-testid="text-flavors-title"
       >
         OUR MENU
@@ -249,9 +249,9 @@ function AnimatedHeader() {
       
       <motion.p
         className="text-center text-muted-foreground text-base md:text-lg mt-4 max-w-2xl mx-auto px-6"
-        initial={{ y: 10, opacity: 0 }}
+        initial={{ y: 8, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.4 }}
+        transition={{ delay: 0.1, duration: 0.25, ease: "easeOut" }}
       >
         Discover our handcrafted selection of premium beverages and artisan bites
       </motion.p>
@@ -318,24 +318,24 @@ function AnimatedHighlightCard({ item, index }: HighlightCardProps & { index: nu
   return (
     <motion.div
       className="relative group cursor-pointer gpu-accelerated"
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.1 + index * 0.05, duration: 0.4 }}
+      transition={{ delay: 0.05 + index * 0.03, duration: 0.25, ease: "easeOut" }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       data-testid={`card-highlight-${item.id}`}
     >
       <div className="relative rounded-2xl overflow-hidden bg-white/[0.03] border border-white/10 h-full">
-        {isHovered && (
-          <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} rounded-2xl opacity-80`} />
-        )}
+        <div 
+          className={`absolute inset-0 bg-gradient-to-br ${item.gradient} rounded-2xl transition-opacity duration-200 ease-out ${isHovered ? 'opacity-80' : 'opacity-0'}`} 
+        />
 
         <div className="relative z-10 p-3 sm:p-4">
           <div className="relative h-32 sm:h-40 md:h-48 mb-3 sm:mb-4 flex items-center justify-center overflow-hidden rounded-xl">
             <img
               src={item.src}
               alt={item.name}
-              className={`w-full h-full object-cover rounded-xl transition-transform duration-300 ${isHovered ? 'scale-105' : 'scale-100'}`}
+              className={`w-full h-full object-cover rounded-xl transition-transform duration-200 ease-out gpu-accelerated ${isHovered ? 'scale-105' : 'scale-100'}`}
               loading="lazy"
             />
             
@@ -423,16 +423,16 @@ function AnimatedCategorySection({ category }: { category: typeof menuCategories
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.4 }}
+      viewport={{ once: true, margin: "-30px" }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
       className="gpu-accelerated"
     >
       <div className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden">
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full p-4 sm:p-6 flex items-center gap-4 hover:bg-white/[0.02] transition-colors"
+          className="w-full p-4 sm:p-6 flex items-center gap-4 hover:bg-white/[0.02] transition-colors duration-150"
           data-testid={`category-${category.id}`}
         >
           <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br ${category.color} flex items-center justify-center flex-shrink-0`}>
@@ -444,7 +444,7 @@ function AnimatedCategorySection({ category }: { category: typeof menuCategories
             <p className="text-xs sm:text-sm text-gray-400">{category.items.length} items</p>
           </div>
 
-          <ChevronDown className={`w-5 h-5 sm:w-6 sm:h-6 text-gray-400 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
+          <ChevronDown className={`w-5 h-5 sm:w-6 sm:h-6 text-gray-400 transition-transform duration-150 ease-out ${isExpanded ? 'rotate-180' : ''}`} />
         </button>
 
         {isExpanded && (
@@ -453,7 +453,7 @@ function AnimatedCategorySection({ category }: { category: typeof menuCategories
               {category.items.map((item, i) => (
                 <div
                   key={i}
-                  className="p-3 sm:p-4 bg-white/[0.02] rounded-xl border border-white/5 hover:border-primary/30 transition-colors"
+                  className="p-3 sm:p-4 bg-white/[0.02] rounded-xl border border-white/5 hover:border-primary/30 transition-colors duration-150"
                 >
                   <div className="flex justify-between items-start gap-2 mb-1">
                     <h4 className="font-semibold text-white text-sm">{item.name}</h4>

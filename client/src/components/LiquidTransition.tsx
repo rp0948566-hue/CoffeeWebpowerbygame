@@ -8,8 +8,8 @@ interface LiquidTransitionProps {
 const curtainVariants = {
   initial: {
     y: '100%',
-    borderTopLeftRadius: '50% 60px',
-    borderTopRightRadius: '50% 60px',
+    borderTopLeftRadius: '50% 40px',
+    borderTopRightRadius: '50% 40px',
   },
   animate: {
     y: '100%',
@@ -21,12 +21,12 @@ const curtainVariants = {
   },
   exit: {
     y: ['100%', '0%', '-100%'],
-    borderTopLeftRadius: ['50% 60px', '20% 30px', '0% 0px'],
-    borderTopRightRadius: ['50% 60px', '20% 30px', '0% 0px'],
+    borderTopLeftRadius: ['50% 40px', '20% 20px', '0% 0px'],
+    borderTopRightRadius: ['50% 40px', '20% 20px', '0% 0px'],
     transition: {
-      duration: 0.8,
+      duration: 0.5,
       times: [0, 0.4, 1],
-      ease: [0.22, 1, 0.36, 1],
+      ease: "easeOut",
     },
   },
 };
@@ -34,21 +34,22 @@ const curtainVariants = {
 const contentVariants = {
   initial: {
     opacity: 0,
-    y: 15,
+    y: 10,
   },
   animate: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.4,
-      delay: 0.05,
-      ease: [0.22, 1, 0.36, 1],
+      duration: 0.25,
+      delay: 0.02,
+      ease: "easeOut",
     },
   },
   exit: {
     opacity: 0,
     transition: {
-      duration: 0.2,
+      duration: 0.15,
+      ease: "easeOut",
     },
   },
 };
@@ -84,7 +85,7 @@ export function LiquidCurtainEnter() {
       className="fixed inset-0 z-50 pointer-events-none overflow-hidden"
       initial={{ opacity: 1 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0, transition: { delay: 0.6 } }}
+      exit={{ opacity: 0, transition: { delay: 0.4 } }}
     >
       <motion.div
         className="absolute inset-0 bg-gradient-to-b from-[#0a0118] via-indigo-950 to-[#050505] gpu-accelerated"
@@ -95,13 +96,13 @@ export function LiquidCurtainEnter() {
         }}
         animate={{ 
           y: '-100%',
-          borderTopLeftRadius: '50% 50px',
-          borderTopRightRadius: '50% 50px',
+          borderTopLeftRadius: '50% 30px',
+          borderTopRightRadius: '50% 30px',
         }}
         transition={{
-          duration: 0.6,
-          ease: [0.22, 1, 0.36, 1],
-          delay: 0.05,
+          duration: 0.4,
+          ease: "easeOut",
+          delay: 0.02,
         }}
         style={{ transform: 'translateZ(0)' }}
       />
