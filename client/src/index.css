@@ -529,3 +529,69 @@ img {
   from { transform: rotateY(0deg) translateZ(0); }
   to { transform: rotateY(360deg) translateZ(0); }
 }
+
+/* ========== ULTRA SMOOTH MEDIA GALLERY ========== */
+.media-slider {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+}
+
+.media-slide {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.media-card {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.media-card video,
+.media-card img {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Smooth video loading */
+video {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+}
+
+/* ========== INSTANT LOADING OPTIMIZATIONS ========== */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Prevent layout shifts */
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Smooth backdrop blur performance */
+.backdrop-blur-sm,
+.backdrop-blur-md,
+.backdrop-blur-lg,
+.backdrop-blur-xl {
+  transform: translateZ(0);
+  will-change: backdrop-filter;
+}
+
+/* Force GPU layer for gradients */
+[class*="bg-gradient"] {
+  transform: translateZ(0);
+}
+
+/* Smooth border transitions */
+.border,
+[class*="border-"] {
+  transition: border-color 0.15s ease-out;
+}

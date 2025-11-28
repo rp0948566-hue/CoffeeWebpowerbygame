@@ -136,6 +136,15 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+**November 28, 2025 - Ultra Smooth 120 FPS Performance**
+- Added MediaGallery component for video/image slider on homepage
+- Optimized ALL animations to 150-250ms for instant feel (was 400-800ms)
+- Added GPU acceleration to all animated elements with `will-change` properties
+- Removed custom cursor for cleaner performance
+- Page transitions now 0.25-0.4s (was 0.6-0.8s)
+- Gallery 3D cylinder optimized with backface-visibility and transform hints
+- Added ultra-smooth scrolling with Lenis (lerp: 0.06, duration: 2)
+
 **November 28, 2025 - Master Specification Implementation**
 - Added mobile device detection via `useIsMobile` hook - serves static fallback instead of 3D Spline on mobile
 - Created `AppManager.tsx` - "Time Travel" entry point with iframe to legacy site + "Enter 2025 Experience" button
@@ -144,12 +153,23 @@ Preferred communication style: Simple, everyday language.
 - HeroSection now conditionally renders SplineFallback on mobile devices for performance
 - Removed Maggie AI chatbot component
 
-**Earlier November 28, 2025**
-- Implemented "Grandmaster Level" performance optimization
-- Created CyberLoadingUI with spinning rings, pulsing animations, and status indicators
-- Added React.lazy deferral for Spline 3D component
-- Implemented cross-fade transition system between loader and 3D scene
-- Removed "Order Now" and "Our Story" buttons from Hero section
+## Adding Videos & Images
+
+**MediaGallery Component** (`client/src/components/MediaGallery.tsx`)
+
+To add your own videos and images, edit the `defaultMedia` array:
+
+```typescript
+const defaultMedia: MediaItem[] = [
+  { id: 1, type: 'video', src: '/videos/1.mp4', title: 'My Video 1' },
+  { id: 2, type: 'video', src: '/videos/2.mp4', title: 'My Video 2' },
+  { id: 3, type: 'image', src: '/images/photo.jpg', title: 'My Photo' },
+];
+```
+
+- For videos: Place files in `public/videos/` folder (1.mp4, 2.mp4, etc.)
+- For images: Place files in `public/images/` folder or use URLs
+- Type can be 'video' or 'image'
 
 ## Key CSS Classes
 
@@ -158,3 +178,6 @@ Preferred communication style: Simple, everyday language.
 - `.neon-border` - Glowing indigo/purple neon border with box-shadow
 - `.dark-map` - Grayscale inverted Google Maps filter, reverts on hover
 - `.floating-particle` - Floating animation for decorative particles
+- `.gpu-accelerated` - Forces GPU compositing for smooth animations
+- `.media-card` - GPU-optimized video/image cards
+- `.media-slider` - Smooth horizontal scroll container
