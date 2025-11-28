@@ -119,18 +119,18 @@ function AppContent() {
   }, [tier, isMobile]);
 
   const lenisOptions = {
-    lerp: 0.06,
-    duration: 1.5,
+    lerp: 0.12,
+    duration: 1.0,
     smoothWheel: true,
-    wheelMultiplier: 0.8,
-    touchMultiplier: 1.2,
+    wheelMultiplier: 1.2,
+    touchMultiplier: 1.5,
     infinite: false,
     orientation: 'vertical' as const,
     gestureOrientation: 'vertical' as const,
     smoothTouch: false,
     syncTouch: false,
-    syncTouchLerp: 0.06,
-    easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    syncTouchLerp: 0.1,
+    easing: (t: number) => 1 - Math.pow(1 - t, 4),
   };
 
   if (!enableLenis || isMobile) {

@@ -87,10 +87,8 @@ export function Navigation() {
               onClick={(e) => handleNavClick(e, item)}
               onMouseEnter={() => setHoveredLink(item.name)}
               onMouseLeave={() => setHoveredLink(null)}
-              className="relative px-4 py-2 text-muted-foreground cursor-pointer rounded-full"
+              className="relative px-4 py-2 text-muted-foreground hover:text-foreground cursor-pointer rounded-full transition-colors duration-200"
               data-testid={`link-nav-${item.name.toLowerCase()}`}
-              whileHover={{ color: 'hsl(var(--foreground))' }}
-              transition={{ duration: 0.2 }}
             >
               {hoveredLink === item.name && (
                 <motion.div

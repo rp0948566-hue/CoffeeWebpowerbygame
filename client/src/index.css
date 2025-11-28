@@ -110,17 +110,98 @@
   scroll-behavior: smooth;
 }
 
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  overscroll-behavior: none;
+}
+
 /* Ultra-smooth transitions */
 .smooth-all {
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .smooth-transform {
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .smooth-opacity {
-  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Fast Smooth Transitions */
+.fast-smooth {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fast-smooth-transform {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Ultra Fast Smooth */
+.ultra-fast-smooth {
+  transition: all 0.15s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* GPU Acceleration for Smoothness */
+.gpu-smooth {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+/* Silky Smooth Hover Effects */
+.silky-hover {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.2s ease-out;
+}
+
+.silky-hover:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Magnetic Button Effect */
+.magnetic-smooth {
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Elastic Spring Animation */
+@keyframes elastic-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.08); }
+  60% { transform: scale(0.98); }
+  80% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.animate-elastic-pop {
+  animation: elastic-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Smooth Fade In */
+@keyframes smooth-fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-smooth-fade-in {
+  animation: smooth-fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Smooth Scale In */
+@keyframes smooth-scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-smooth-scale-in {
+  animation: smooth-scale-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Hover lift effect */
