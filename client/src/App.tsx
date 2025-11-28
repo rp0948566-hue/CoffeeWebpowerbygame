@@ -10,7 +10,6 @@ import { Navigation } from "@/components/Navigation";
 import { HeroSection } from "@/components/HeroSection";
 import { MenuSection } from "@/components/MenuSection";
 import { ContactSection } from "@/components/ContactSection";
-import { LocationSection } from "@/components/LocationSection";
 import { FloatingScrollIcon } from "@/components/FloatingScrollIcon";
 import { Footer } from "@/components/Footer";
 import { Menu } from "@/pages/Menu";
@@ -46,7 +45,6 @@ function HomePage() {
         <main>
           <HeroSection />
           <MenuSection />
-          <LocationSection />
           <ContactSection />
         </main>
         <Footer />
