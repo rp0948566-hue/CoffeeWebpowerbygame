@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Star, Camera, ChevronDown, Coffee, Pizza, Sandwich, IceCream, GlassWater, Utensils } from 'lucide-react';
@@ -200,58 +200,27 @@ const categoryImages: Record<string, string> = {
   'garlic-bread': garlicBreadImg,
 };
 
-function SimpleBackground({ particleCount }: { particleCount: number }) {
-  const particles = useMemo(() => 
-    [...Array(particleCount)].map((_, i) => ({
-      id: i,
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-      size: 2 + Math.random() * 4,
-      delay: Math.random() * 5,
-    })), [particleCount]
-  );
-
+function StaticHeader() {
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-      {particles.map((p) => (
-        <div
-          key={p.id}
-          className="absolute rounded-full bg-white/5 animate-pulse-slow"
-          style={{
-            left: p.left,
-            top: p.top,
-            width: p.size,
-            height: p.size,
-            animationDelay: `${p.delay}s`,
-            transform: 'translateZ(0)',
-          }}
-        />
-      ))}
+    <div className="relative py-10 md:py-16 overflow-hidden">
+      <p className="text-center text-primary/80 text-sm uppercase tracking-[0.3em] mb-4">
+        Menu Highlights
+      </p>
+      <h1
+        className="text-[2.5rem] sm:text-[4rem] md:text-[5rem] lg:text-[7rem] font-black text-center leading-none select-none bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
+        style={{ fontFamily: "'Titan One', cursive" }}
+        data-testid="text-flavors-title"
+      >
+        OUR MENU
+      </h1>
+      <p className="text-center text-muted-foreground text-base md:text-lg mt-4 max-w-2xl mx-auto px-6">
+        Discover our handcrafted selection of premium beverages and artisan bites
+      </p>
     </div>
   );
 }
 
-function MassiveHeader({ reduceMotion }: { reduceMotion: boolean }) {
-  if (reduceMotion) {
-    return (
-      <div className="relative py-10 md:py-16 overflow-hidden">
-        <p className="text-center text-primary/80 text-sm uppercase tracking-[0.3em] mb-4">
-          Menu Highlights
-        </p>
-        <h1
-          className="text-[2.5rem] sm:text-[4rem] md:text-[5rem] lg:text-[7rem] font-black text-center leading-none select-none bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
-          style={{ fontFamily: "'Titan One', cursive" }}
-          data-testid="text-flavors-title"
-        >
-          OUR MENU
-        </h1>
-        <p className="text-center text-muted-foreground text-base md:text-lg mt-4 max-w-2xl mx-auto px-6">
-          Discover our handcrafted selection of premium beverages and artisan bites
-        </p>
-      </div>
-    );
-  }
-
+function AnimatedHeader() {
   return (
     <motion.div 
       className="relative py-10 md:py-16 overflow-hidden gpu-accelerated"
@@ -269,7 +238,7 @@ function MassiveHeader({ reduceMotion }: { reduceMotion: boolean }) {
       </motion.p>
       <motion.h1
         className="text-[2.5rem] sm:text-[4rem] md:text-[5rem] lg:text-[7rem] font-black text-center leading-none select-none bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
-        style={{ fontFamily: "'Titan One', cursive", transform: 'translateZ(0)' }}
+        style={{ fontFamily: "'Titan One', cursive" }}
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -292,103 +261,122 @@ function MassiveHeader({ reduceMotion }: { reduceMotion: boolean }) {
 
 interface HighlightCardProps {
   item: typeof menuHighlights[0];
-  index: number;
-  reduceMotion: boolean;
 }
 
-function HighlightCard({ item, index, reduceMotion }: HighlightCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
-
-  const cardContent = (
-    <div className="relative rounded-2xl overflow-hidden bg-white/[0.03] border border-white/10 backdrop-blur-sm h-full">
-      {!reduceMotion && isHovered && (
-        <div 
-          className={`absolute inset-0 bg-gradient-to-br ${item.gradient} rounded-2xl opacity-80`}
-          style={{ transform: 'translateZ(0)' }}
-        />
-      )}
-
-      <div className="relative z-10 p-3 sm:p-4">
-        <div className="relative h-32 sm:h-40 md:h-48 mb-3 sm:mb-4 flex items-center justify-center overflow-hidden rounded-xl">
-          <img
-            src={item.src}
-            alt={item.name}
-            className={`w-full h-full object-cover rounded-xl transition-transform duration-300 ${isHovered ? 'scale-105' : 'scale-100'}`}
-            loading="lazy"
-            style={{ transform: 'translateZ(0)' }}
-          />
-          
-          <div className="absolute top-2 left-2 flex gap-1">
-            {item.photos > 0 && (
-              <Badge variant="secondary" className="text-xs bg-black/60 backdrop-blur-sm border-0">
-                <Camera className="w-3 h-3 mr-1" />
-                {item.photos}
-              </Badge>
-            )}
-          </div>
-        </div>
-
-        <div className="space-y-2">
-          <div className="flex items-start justify-between gap-2">
-            <h3 className="font-bold text-white text-sm sm:text-base line-clamp-2">{item.name}</h3>
-            {item.price && (
-              <span className="text-primary font-bold text-sm whitespace-nowrap">{item.price}</span>
-            )}
-          </div>
-          
-          <p className="text-xs sm:text-sm text-gray-400 line-clamp-2">{item.description}</p>
-
-          {item.reviews > 0 && (
-            <div className="flex items-center gap-1 text-xs text-gray-500">
-              <Star className="w-3 h-3 fill-yellow-500 text-yellow-500" />
-              {item.reviews} {item.reviews === 1 ? 'review' : 'reviews'}
+function StaticHighlightCard({ item }: HighlightCardProps) {
+  return (
+    <div
+      className="relative group cursor-pointer"
+      data-testid={`card-highlight-${item.id}`}
+    >
+      <div className="relative rounded-2xl overflow-hidden bg-white/[0.03] border border-white/10 h-full">
+        <div className="relative z-10 p-3 sm:p-4">
+          <div className="relative h-32 sm:h-40 md:h-48 mb-3 sm:mb-4 flex items-center justify-center overflow-hidden rounded-xl">
+            <img
+              src={item.src}
+              alt={item.name}
+              className="w-full h-full object-cover rounded-xl"
+              loading="lazy"
+            />
+            
+            <div className="absolute top-2 left-2 flex gap-1">
+              {item.photos > 0 && (
+                <Badge variant="secondary" className="text-xs bg-black/60 border-0">
+                  <Camera className="w-3 h-3 mr-1" />
+                  {item.photos}
+                </Badge>
+              )}
             </div>
-          )}
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-start justify-between gap-2">
+              <h3 className="font-bold text-white text-sm sm:text-base line-clamp-2">{item.name}</h3>
+              {item.price && (
+                <span className="text-primary font-bold text-sm whitespace-nowrap">{item.price}</span>
+              )}
+            </div>
+            
+            <p className="text-xs sm:text-sm text-gray-400 line-clamp-2">{item.description}</p>
+
+            {item.reviews > 0 && (
+              <div className="flex items-center gap-1 text-xs text-gray-500">
+                <Star className="w-3 h-3 fill-yellow-500 text-yellow-500" />
+                {item.reviews} {item.reviews === 1 ? 'review' : 'reviews'}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
   );
+}
 
-  if (reduceMotion) {
-    return (
-      <div
-        className="relative group cursor-pointer gpu-accelerated"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        data-testid={`card-highlight-${item.id}`}
-      >
-        {cardContent}
-      </div>
-    );
-  }
+function AnimatedHighlightCard({ item, index }: HighlightCardProps & { index: number }) {
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <motion.div
       className="relative group cursor-pointer gpu-accelerated"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{
-        delay: 0.1 + index * 0.05,
-        duration: 0.4,
-      }}
+      transition={{ delay: 0.1 + index * 0.05, duration: 0.4 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       data-testid={`card-highlight-${item.id}`}
     >
-      {cardContent}
+      <div className="relative rounded-2xl overflow-hidden bg-white/[0.03] border border-white/10 h-full">
+        {isHovered && (
+          <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} rounded-2xl opacity-80`} />
+        )}
+
+        <div className="relative z-10 p-3 sm:p-4">
+          <div className="relative h-32 sm:h-40 md:h-48 mb-3 sm:mb-4 flex items-center justify-center overflow-hidden rounded-xl">
+            <img
+              src={item.src}
+              alt={item.name}
+              className={`w-full h-full object-cover rounded-xl transition-transform duration-300 ${isHovered ? 'scale-105' : 'scale-100'}`}
+              loading="lazy"
+            />
+            
+            <div className="absolute top-2 left-2 flex gap-1">
+              {item.photos > 0 && (
+                <Badge variant="secondary" className="text-xs bg-black/60 border-0">
+                  <Camera className="w-3 h-3 mr-1" />
+                  {item.photos}
+                </Badge>
+              )}
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-start justify-between gap-2">
+              <h3 className="font-bold text-white text-sm sm:text-base line-clamp-2">{item.name}</h3>
+              {item.price && (
+                <span className="text-primary font-bold text-sm whitespace-nowrap">{item.price}</span>
+              )}
+            </div>
+            
+            <p className="text-xs sm:text-sm text-gray-400 line-clamp-2">{item.description}</p>
+
+            {item.reviews > 0 && (
+              <div className="flex items-center gap-1 text-xs text-gray-500">
+                <Star className="w-3 h-3 fill-yellow-500 text-yellow-500" />
+                {item.reviews} {item.reviews === 1 ? 'review' : 'reviews'}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </motion.div>
   );
 }
 
-function CategorySection({ category, categoryImage, reduceMotion }: { 
-  category: typeof menuCategories[0]; 
-  categoryImage: string;
-  reduceMotion: boolean;
-}) {
+function StaticCategorySection({ category }: { category: typeof menuCategories[0] }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const Icon = category.icon;
 
-  const content = (
+  return (
     <div className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden">
       <button
         onClick={() => setIsExpanded(!isExpanded)}
@@ -413,7 +401,7 @@ function CategorySection({ category, categoryImage, reduceMotion }: {
             {category.items.map((item, i) => (
               <div
                 key={i}
-                className="p-3 sm:p-4 bg-white/[0.02] rounded-xl border border-white/5 hover:border-primary/30 transition-colors"
+                className="p-3 sm:p-4 bg-white/[0.02] rounded-xl border border-white/5"
               >
                 <div className="flex justify-between items-start gap-2 mb-1">
                   <h4 className="font-semibold text-white text-sm">{item.name}</h4>
@@ -427,10 +415,11 @@ function CategorySection({ category, categoryImage, reduceMotion }: {
       )}
     </div>
   );
+}
 
-  if (reduceMotion) {
-    return content;
-  }
+function AnimatedCategorySection({ category }: { category: typeof menuCategories[0] }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const Icon = category.icon;
 
   return (
     <motion.div
@@ -440,18 +429,52 @@ function CategorySection({ category, categoryImage, reduceMotion }: {
       transition={{ duration: 0.4 }}
       className="gpu-accelerated"
     >
-      {content}
+      <div className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden">
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="w-full p-4 sm:p-6 flex items-center gap-4 hover:bg-white/[0.02] transition-colors"
+          data-testid={`category-${category.id}`}
+        >
+          <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br ${category.color} flex items-center justify-center flex-shrink-0`}>
+            <Icon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+          </div>
+          
+          <div className="flex-1 text-left">
+            <h3 className="font-bold text-white text-base sm:text-lg">{category.name}</h3>
+            <p className="text-xs sm:text-sm text-gray-400">{category.items.length} items</p>
+          </div>
+
+          <ChevronDown className={`w-5 h-5 sm:w-6 sm:h-6 text-gray-400 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
+        </button>
+
+        {isExpanded && (
+          <div className="border-t border-white/10">
+            <div className="p-3 sm:p-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+              {category.items.map((item, i) => (
+                <div
+                  key={i}
+                  className="p-3 sm:p-4 bg-white/[0.02] rounded-xl border border-white/5 hover:border-primary/30 transition-colors"
+                >
+                  <div className="flex justify-between items-start gap-2 mb-1">
+                    <h4 className="font-semibold text-white text-sm">{item.name}</h4>
+                    <span className="text-primary font-bold text-sm whitespace-nowrap">{item.price}</span>
+                  </div>
+                  <p className="text-xs text-gray-400 line-clamp-2">{item.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </motion.div>
   );
 }
 
 export function Menu() {
-  const { shouldReduceAnimations, particleCount, isMobile } = usePerformance();
+  const { shouldReduceAnimations } = usePerformance();
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      <SimpleBackground particleCount={isMobile ? 3 : particleCount} />
-      
       <div className="relative z-10">
         <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-white/10">
           <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
@@ -473,18 +496,17 @@ export function Menu() {
           </div>
         </header>
 
-        <MassiveHeader reduceMotion={shouldReduceAnimations} />
+        {shouldReduceAnimations ? <StaticHeader /> : <AnimatedHeader />}
 
         <section className="container mx-auto px-4 sm:px-6 pb-8 sm:pb-12">
           <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Popular Highlights</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
             {menuHighlights.map((item, index) => (
-              <HighlightCard 
-                key={item.id} 
-                item={item} 
-                index={index} 
-                reduceMotion={shouldReduceAnimations}
-              />
+              shouldReduceAnimations ? (
+                <StaticHighlightCard key={item.id} item={item} />
+              ) : (
+                <AnimatedHighlightCard key={item.id} item={item} index={index} />
+              )
             ))}
           </div>
         </section>
@@ -493,12 +515,11 @@ export function Menu() {
           <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Full Menu</h2>
           <div className="space-y-3 sm:space-y-4">
             {menuCategories.map((category) => (
-              <CategorySection 
-                key={category.id} 
-                category={category}
-                categoryImage={categoryImages[category.id]}
-                reduceMotion={shouldReduceAnimations}
-              />
+              shouldReduceAnimations ? (
+                <StaticCategorySection key={category.id} category={category} />
+              ) : (
+                <AnimatedCategorySection key={category.id} category={category} />
+              )
             ))}
           </div>
         </section>
