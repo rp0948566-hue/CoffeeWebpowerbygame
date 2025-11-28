@@ -163,12 +163,9 @@ export function SplineScene({ scene, className }: SplineSceneProps) {
     }, 200);
   };
 
-  if (isLowEnd || isMobile || prefersReducedMotion) {
-    return <SplineFallback />;
-  }
-
+  // Only show fallback if WebGL is not supported (device can't render 3D)
   if (webglSupported === null) {
-    return shouldReduceAnimations ? <StaticLoadingUI /> : <AnimatedLoadingUI />;
+    return <AnimatedLoadingUI />;
   }
 
   if (!webglSupported) {
