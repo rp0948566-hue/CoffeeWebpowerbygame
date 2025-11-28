@@ -22,7 +22,6 @@ import BackgroundAudio from "@/components/BackgroundAudio";
 import { DrinkPortal } from "@/components/DrinkPortal";
 import { CoffeeCursor } from "@/components/CoffeeCursor";
 import { FloatingParticles } from "@/components/FloatingParticles";
-import { GallerySection } from "@/components/GallerySection";
 
 function ScrollToTop() {
   const location = useLocation();
@@ -56,9 +55,6 @@ function HomePage() {
             <HeroSection />
           </section>
           <MenuSection />
-          <section id="gallery">
-            <GallerySection />
-          </section>
           <section id="media">
             <MediaGallery />
           </section>
