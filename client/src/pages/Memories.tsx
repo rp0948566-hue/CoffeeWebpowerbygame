@@ -12,23 +12,43 @@ interface MemoryItem {
   caption: string;
 }
 
-const ITEM_COUNT = 18;
 const RADIUS = 650;
 const REFRESH_INTERVAL = 4000;
 
-const buildSrc = (seed: number, version: number) => 
-  `https://picsum.photos/seed/${seed + version * 100}/400/600`;
+const CAFE_IMAGES = [
+  { id: '1511920170033-f8396924c348', caption: 'Coffee with Friends' },
+  { id: '1529156069898-49953e39b3ac', caption: 'Laughing Together' },
+  { id: '1517248135467-4c7edcad34c4', caption: 'Cozy Corner' },
+  { id: '1554118811-1e0d58224f24', caption: 'Cafe Vibes' },
+  { id: '1542181961-9590d0c79dab', caption: 'Evening Lights' },
+  { id: '1495474472287-4d71bcdd2085', caption: 'Perfect Brew' },
+  { id: '1501339847302-ac426a4a7cbb', caption: 'Morning Ritual' },
+  { id: '1445116572660-236099ec97a0', caption: 'Latte Art' },
+  { id: '1509042239860-f550ce710b93', caption: 'Espresso Shot' },
+  { id: '1507133750040-4a8f57021571', caption: 'Cafe Interior' },
+  { id: '1521017432531-fbd92d768814', caption: 'Barista Magic' },
+  { id: '1493857671505-72967e2e2760', caption: 'Cozy Moments' },
+  { id: '1559496417-e7f25cb247f3', caption: 'Coffee Date' },
+  { id: '1514432324607-a09d9b4aefdd', caption: 'Black Coffee' },
+  { id: '1497935586351-b67a49e012bf', caption: 'Breakfast Time' },
+  { id: '1534040385115-33dcb3acba5b', caption: 'Sweet Treats' },
+  { id: '1559925393-8be0ec4767c8', caption: 'Night Cafe' },
+  { id: '1506619216599-9d16d0903dfd', caption: 'Good Times' },
+];
 
-const buildHighResSrc = (seed: number, version: number) => 
-  `https://picsum.photos/seed/${seed + version * 100}/800/1200`;
+const buildSrc = (imageId: string) => 
+  `https://images.unsplash.com/photo-${imageId}?w=400&h=600&fit=crop&q=80`;
+
+const buildHighResSrc = (imageId: string) => 
+  `https://images.unsplash.com/photo-${imageId}?w=800&h=1200&fit=crop&q=80`;
 
 const createInitialMemories = (): MemoryItem[] => 
-  Array.from({ length: ITEM_COUNT }).map((_, i) => ({
+  CAFE_IMAGES.map((img, i) => ({
     id: i,
-    seed: i + 50,
+    seed: i,
     version: 0,
-    src: buildSrc(i + 50, 0),
-    caption: `Memory ${i + 1}`
+    src: buildSrc(img.id),
+    caption: img.caption
   }));
 
 export function Memories() {
@@ -45,14 +65,26 @@ export function Memories() {
 
   const refreshRandomImage = useCallback(() => {
     setMemories(prev => {
+      const currentImageIds = new Set(prev.map(m => {
+        const imgIdx = (m.seed + m.version) % CAFE_IMAGES.length;
+        return CAFE_IMAGES[imgIdx].id;
+      }));
+      
+      const availableImages = CAFE_IMAGES.filter(img => !currentImageIds.has(img.id));
+      if (availableImages.length === 0) return prev;
+      
       const randomIdx = Math.floor(Math.random() * prev.length);
+      const newImage = availableImages[Math.floor(Math.random() * availableImages.length)];
+      const newImageIdx = CAFE_IMAGES.findIndex(img => img.id === newImage.id);
+      
       return prev.map((memory, idx) => {
         if (idx === randomIdx) {
-          const newVersion = memory.version + 1;
           return {
             ...memory,
-            version: newVersion,
-            src: buildSrc(memory.seed, newVersion)
+            seed: newImageIdx,
+            version: 0,
+            src: buildSrc(newImage.id),
+            caption: newImage.caption
           };
         }
         return memory;
@@ -210,7 +242,7 @@ export function Memories() {
             }}
           >
             {memories.map((memory, index) => {
-              const angle = (360 / ITEM_COUNT) * index;
+              const angle = (360 / CAFE_IMAGES.length) * index;
               return (
                 <div
                   key={memory.id}
@@ -293,7 +325,7 @@ export function Memories() {
               onClick={(e) => e.stopPropagation()}
             >
               <img
-                src={buildHighResSrc(frozenImage.seed, frozenImage.version)}
+                src={buildHighResSrc(CAFE_IMAGES[(frozenImage.seed + frozenImage.version) % CAFE_IMAGES.length].id)}
                 alt={frozenImage.caption}
                 className="w-full h-full object-contain rounded-2xl shadow-2xl"
                 draggable={false}
