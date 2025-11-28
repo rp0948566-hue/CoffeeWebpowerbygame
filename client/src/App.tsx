@@ -16,7 +16,6 @@ import { Footer } from "@/components/Footer";
 import { Menu } from "@/pages/Menu";
 import { Memories } from "@/pages/Memories";
 import { LiquidTransition } from "@/components/LiquidTransition";
-import CoffeeCursor from "@/components/CoffeeCursor";
 
 function ScrollToTop() {
   const location = useLocation();
@@ -92,11 +91,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <ReactLenis root options={{ lerp: 0.1, duration: 1.5, smoothWheel: true }}>
+        <ReactLenis root options={{ lerp: 0.06, duration: 2, smoothWheel: true, wheelMultiplier: 0.8 }}>
           <BrowserRouter>
             <ScrollToTop />
             <AnimatedRoutes />
-            <CoffeeCursor />
           </BrowserRouter>
         </ReactLenis>
         <Toaster />
