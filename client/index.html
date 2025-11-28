@@ -2,116 +2,201 @@
 <html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>Love Over Coffee - Premium Coffee Experience</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5, user-scalable=yes" />
+    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="color-scheme" content="dark" />
+    
+    <!-- Performance Optimizations -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="renderer" content="webkit" />
+    
+    <!-- SEO & Social -->
+    <title>Love Over Coffee - Premium Coffee Experience 2025</title>
     <meta name="description" content="Experience the perfect blend of premium flavors and cozy vibes in a futuristic setting. Love Over Coffee - where passion meets perfection." />
+    <meta name="keywords" content="coffee, premium coffee, cafe, espresso, cappuccino, latte, coffee shop" />
     <meta property="og:title" content="Love Over Coffee - Premium Coffee Experience" />
     <meta property="og:description" content="Experience the perfect blend of premium flavors and cozy vibes in a futuristic setting." />
     <meta property="og:type" content="website" />
+    <meta property="og:image" content="/favicon.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fira+Code:wght@300..700&family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400..700;1,400..700&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Outfit:wght@100..900&family=Oxanium:wght@200..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    
+    <!-- Preconnect to external resources for faster loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="dns-prefetch" href="https://images.unsplash.com" />
+    
+    <!-- Preload critical fonts for faster text rendering -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" as="style" />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" as="style" />
+    
+    <!-- Load fonts with display=swap for faster initial render -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet" />
+    
+    <!-- Critical CSS for instant loading feel -->
+    <style>
+      /* Instant dark background to prevent flash */
+      html, body {
+        background-color: #0a0a0f;
+        color: #ffffff;
+        margin: 0;
+        padding: 0;
+      }
+      
+      /* Smooth loading animation */
+      #root {
+        opacity: 0;
+        animation: fadeIn 0.3s ease-out 0.1s forwards;
+      }
+      
+      @keyframes fadeIn {
+        to { opacity: 1; }
+      }
+      
+      /* Reduce motion for accessibility */
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
   </head>
   <body>
     <!--
-    ╔══════════════════════════════════════════════════════════════════════════════╗
-    ║                    LOVE OVER COFFEE - ASSET MANAGEMENT GUIDE                 ║
-    ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║                                                                              ║
-    ║  ALL ASSETS ARE MANAGED IN ONE FILE:                                         ║
-    ║  📁 client/src/config/assets.config.ts                                       ║
-    ║                                                                              ║
-    ║  This file controls ALL images, videos, audio, and links used in the app.   ║
-    ║                                                                              ║
-    ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║  HOW TO CHANGE ASSETS:                                                       ║
-    ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║                                                                              ║
-    ║  1. CHANGE HERO IMAGE:                                                       ║
-    ║     - Open: client/src/config/assets.config.ts                               ║
-    ║     - Find: heroAssets.mainImage                                             ║
-    ║     - Change the import path to your new image                               ║
-    ║                                                                              ║
-    ║  2. CHANGE MENU IMAGES:                                                      ║
-    ║     - Open: client/src/config/assets.config.ts                               ║
-    ║     - Find: menuHighlights or menuCategories                                 ║
-    ║     - Update the 'src' or 'img' property with new image URL                  ║
-    ║                                                                              ║
-    ║  3. CHANGE GALLERY IMAGES:                                                   ║
-    ║     - Open: client/src/config/assets.config.ts                               ║
-    ║     - Find: galleryItems                                                     ║
-    ║     - Update the 'src' property with new image URL                           ║
-    ║                                                                              ║
-    ║  4. CHANGE VIDEOS:                                                           ║
-    ║     - Open: client/src/config/assets.config.ts                               ║
-    ║     - Find: mediaGalleryItems                                                ║
-    ║     - Update the 'src' property with new video URL                           ║
-    ║                                                                              ║
-    ║  5. CHANGE BACKGROUND MUSIC:                                                 ║
-    ║     - Open: client/src/config/assets.config.ts                               ║
-    ║     - Find: audioAssets.backgroundMusic                                      ║
-    ║     - Change the path to your new audio file                                 ║
-    ║                                                                              ║
-    ║  6. CHANGE EXTERNAL LINKS:                                                   ║
-    ║     - Open: client/src/config/assets.config.ts                               ║
-    ║     - Find: externalLinks                                                    ║
-    ║     - Update legacySite, drinkZoi, social media links                        ║
-    ║                                                                              ║
-    ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║  ADDING NEW IMAGES:                                                          ║
-    ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║                                                                              ║
-    ║  Option A - Local Images:                                                    ║
-    ║  1. Add your image to: attached_assets/stock_images/                         ║
-    ║  2. Import it at the top of assets.config.ts:                                ║
-    ║     import myImage from '@assets/stock_images/my-image.jpg';                 ║
-    ║  3. Add to stockImages object or use directly                                ║
-    ║                                                                              ║
-    ║  Option B - URL Images:                                                      ║
-    ║  1. Use a direct URL in the config:                                          ║
-    ║     src: "https://images.unsplash.com/photo-xxxxx?w=800"                     ║
-    ║                                                                              ║
-    ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║  FILE STRUCTURE:                                                             ║
-    ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║                                                                              ║
-    ║  📁 attached_assets/                                                         ║
-    ║     └── 📁 stock_images/          <- Add local images here                   ║
-    ║         ├── cappuccino_coffee.jpg                                            ║
-    ║         ├── espresso_shot.jpg                                                ║
-    ║         └── ... (all menu/gallery images)                                    ║
-    ║                                                                              ║
-    ║  📁 client/                                                                  ║
-    ║     └── 📁 src/                                                              ║
-    ║         └── 📁 config/                                                       ║
-    ║             └── 📄 assets.config.ts   <- MAIN ASSET CONFIG FILE              ║
-    ║         └── 📁 hooks/                                                        ║
-    ║             └── 📄 useAssets.ts       <- Hook to access assets               ║
-    ║                                                                              ║
-    ║  📁 public/                                                                  ║
-    ║     ├── 📄 favicon.png            <- Site icon                               ║
-    ║     └── 📄 song.mp4               <- Background music                        ║
-    ║                                                                              ║
-    ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║  USING ASSETS IN COMPONENTS:                                                 ║
-    ╠══════════════════════════════════════════════════════════════════════════════╣
-    ║                                                                              ║
-    ║  import { useAssets } from '@/hooks/useAssets';                              ║
-    ║                                                                              ║
-    ║  function MyComponent() {                                                    ║
-    ║    const { stock, hero, gallery, menu, audio } = useAssets();                ║
-    ║                                                                              ║
-    ║    return (                                                                  ║
-    ║      <div>                                                                   ║
-    ║        <img src={stock.cappuccino} alt="Cappuccino" />                       ║
-    ║        <img src={hero.mainImage} alt="Hero" />                               ║
-    ║      </div>                                                                  ║
-    ║    );                                                                        ║
-    ║  }                                                                           ║
-    ║                                                                              ║
-    ╚══════════════════════════════════════════════════════════════════════════════╝
+    ╔══════════════════════════════════════════════════════════════════════════════════════════╗
+    ║                         LOVE OVER COFFEE 2025 - ASSET MANAGEMENT                         ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════╣
+    ║                                                                                          ║
+    ║   🎯 SINGLE SOURCE OF TRUTH FOR ALL ASSETS                                               ║
+    ║   📁 Location: client/src/config/assets.config.ts                                        ║
+    ║                                                                                          ║
+    ║   This centralized file controls EVERY image, video, audio file, and external link      ║
+    ║   used throughout the entire website. To change any asset, edit ONLY this file.         ║
+    ║                                                                                          ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════╣
+    ║                              QUICK REFERENCE GUIDE                                       ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════╣
+    ║                                                                                          ║
+    ║   📷 IMAGES                                                                              ║
+    ║   ─────────────────────────────────────────────────────────────────────────────────────  ║
+    ║   • Hero Image        → heroAssets.mainImage                                             ║
+    ║   • Gallery Images    → galleryItems[].src                                               ║
+    ║   • Menu Highlights   → menuHighlights[].src                                             ║
+    ║   • Menu Items        → menuCategories[].items[].img                                     ║
+    ║   • Category Banners  → categoryImages['category-id']                                    ║
+    ║                                                                                          ║
+    ║   🎬 VIDEOS                                                                              ║
+    ║   ─────────────────────────────────────────────────────────────────────────────────────  ║
+    ║   • Media Gallery     → mediaGalleryItems[].src                                          ║
+    ║   • Video Thumbnails  → mediaGalleryItems[].thumbnail                                    ║
+    ║                                                                                          ║
+    ║   🎵 AUDIO                                                                               ║
+    ║   ─────────────────────────────────────────────────────────────────────────────────────  ║
+    ║   • Background Music  → audioAssets.backgroundMusic                                      ║
+    ║                                                                                          ║
+    ║   🔗 EXTERNAL LINKS                                                                      ║
+    ║   ─────────────────────────────────────────────────────────────────────────────────────  ║
+    ║   • Legacy Site (2024)→ externalLinks.legacySite                                         ║
+    ║   • Drink Zoi         → externalLinks.drinkZoi                                           ║
+    ║   • Social Media      → externalLinks.instagram, .twitter, etc.                          ║
+    ║                                                                                          ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════╣
+    ║                             HOW TO CHANGE ASSETS                                         ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════╣
+    ║                                                                                          ║
+    ║   STEP 1: Open client/src/config/assets.config.ts                                        ║
+    ║                                                                                          ║
+    ║   STEP 2: Find the asset section you want to change:                                     ║
+    ║           • Lines 1-50: Stock image imports                                              ║
+    ║           • Lines 51-100: Hero section assets                                            ║
+    ║           • Lines 101-200: Gallery items                                                 ║
+    ║           • Lines 201-400: Menu categories & items                                       ║
+    ║           • Lines 400+: Media gallery, audio, links                                      ║
+    ║                                                                                          ║
+    ║   STEP 3: Update the URL or import path                                                  ║
+    ║                                                                                          ║
+    ║   EXAMPLE - Change a menu item image:                                                    ║
+    ║   ─────────────────────────────────────────────────────────────────────────────────────  ║
+    ║   Before:                                                                                ║
+    ║     { name: 'Cappuccino', img: 'https://old-image.jpg', ... }                            ║
+    ║                                                                                          ║
+    ║   After:                                                                                 ║
+    ║     { name: 'Cappuccino', img: 'https://new-image.jpg', ... }                            ║
+    ║                                                                                          ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════╣
+    ║                            ADDING NEW LOCAL IMAGES                                       ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════╣
+    ║                                                                                          ║
+    ║   1. Add your image file to: attached_assets/stock_images/                               ║
+    ║                                                                                          ║
+    ║   2. Import at top of assets.config.ts:                                                  ║
+    ║      import myNewImage from '@assets/stock_images/my-image.jpg';                         ║
+    ║                                                                                          ║
+    ║   3. Add to stockImages object:                                                          ║
+    ║      export const stockImages = {                                                        ║
+    ║        ...existing,                                                                      ║
+    ║        myNewImage,  // Add here                                                          ║
+    ║      };                                                                                  ║
+    ║                                                                                          ║
+    ║   4. Use in any component:                                                               ║
+    ║      import { stockImages } from '@/config/assets.config';                               ║
+    ║      <img src={stockImages.myNewImage} />                                                ║
+    ║                                                                                          ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════╣
+    ║                              USING THE useAssets HOOK                                    ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════╣
+    ║                                                                                          ║
+    ║   For convenient access in React components:                                             ║
+    ║                                                                                          ║
+    ║   import { useAssets } from '@/hooks/useAssets';                                         ║
+    ║                                                                                          ║
+    ║   function MyComponent() {                                                               ║
+    ║     const assets = useAssets();                                                          ║
+    ║                                                                                          ║
+    ║     return (                                                                             ║
+    ║       <div>                                                                              ║
+    ║         <img src={assets.stock.cappuccino} />                                            ║
+    ║         <img src={assets.hero.mainImage} />                                              ║
+    ║         <audio src={assets.audio.backgroundMusic} />                                     ║
+    ║       </div>                                                                             ║
+    ║     );                                                                                   ║
+    ║   }                                                                                      ║
+    ║                                                                                          ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════╣
+    ║                              CURRENT ASSET CATEGORIES                                    ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════╣
+    ║                                                                                          ║
+    ║   📁 stockImages        - Local imported images (cappuccino, espresso, etc.)             ║
+    ║   📁 heroAssets         - Hero section imagery and fallbacks                             ║
+    ║   📁 galleryItems       - Homepage gallery with 3D perspective cards                     ║
+    ║   📁 menuHighlights     - Featured menu items on homepage                                ║
+    ║   📁 menuCategories     - Full menu with all items, prices, descriptions                 ║
+    ║   📁 categoryImages     - Banner images for each menu category                           ║
+    ║   📁 mediaGalleryItems  - Video gallery with WebGL cloth wave effect                     ║
+    ║   📁 audioAssets        - Background music and sound effects                             ║
+    ║   📁 externalLinks      - Legacy site, social media, partner links                       ║
+    ║                                                                                          ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════╣
+    ║                              PERFORMANCE FEATURES                                        ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════╣
+    ║                                                                                          ║
+    ║   ⚡ Adaptive Graphics Engine - Automatically detects device capability                  ║
+    ║   ⚡ HIGH tier   - Full 3D effects, Lenis scroll, all animations                         ║
+    ║   ⚡ MEDIUM tier - Reduced animations, simpler effects                                   ║
+    ║   ⚡ LOW tier    - Static content, minimal animations for best performance               ║
+    ║                                                                                          ║
+    ║   🖼️ Lazy Loading - Images load as you scroll for faster initial page load              ║
+    ║   🎬 Video Preload - Critical videos preloaded for instant playback                      ║
+    ║   🔤 Font Preload  - Key fonts preloaded to prevent text flash                           ║
+    ║                                                                                          ║
+    ╚══════════════════════════════════════════════════════════════════════════════════════════╝
     -->
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
