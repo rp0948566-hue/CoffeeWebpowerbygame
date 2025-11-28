@@ -1,4 +1,4 @@
-import { useState, useCallback, Suspense, useEffect, useRef } from 'react';
+import { useState, useCallback, Suspense, useEffect, useRef, Component, ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
 import { X, Volume2, VolumeX, Loader2 } from 'lucide-react';
@@ -20,6 +20,40 @@ function isWebGLSupported(): boolean {
     return !!gl;
   } catch (e) {
     return false;
+  }
+}
+
+// Error boundary to catch WebGL context creation failures at runtime
+interface WebGLErrorBoundaryProps {
+  children: ReactNode;
+  onError: () => void;
+  fallback: ReactNode;
+}
+
+interface WebGLErrorBoundaryState {
+  hasError: boolean;
+}
+
+class WebGLErrorBoundary extends Component<WebGLErrorBoundaryProps, WebGLErrorBoundaryState> {
+  constructor(props: WebGLErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(): WebGLErrorBoundaryState {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error) {
+    console.warn('WebGL error caught, falling back to HTML5 video:', error.message);
+    this.props.onError();
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback;
+    }
+    return this.props.children;
   }
 }
 
@@ -219,7 +253,7 @@ export function VideoModal({ isOpen, onClose, videoUrl, title }: VideoModalProps
             </motion.div>
           )}
 
-          {/* Video Player - WebGL or Fallback */}
+          {/* Video Player - WebGL with Error Boundary or Fallback */}
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -232,25 +266,36 @@ export function VideoModal({ isOpen, onClose, videoUrl, title }: VideoModalProps
             className="relative w-full h-full max-w-[90vw] max-h-[80vh] z-10"
           >
             {webGLSupported ? (
-              <Canvas
-                camera={{ position: [0, 0, 10], fov: 45 }}
-                gl={{ 
-                  antialias: true, 
-                  alpha: true,
-                  powerPreference: 'high-performance'
-                }}
-                dpr={[1, 2]}
-                style={{ background: 'transparent' }}
-              >
-                <ambientLight intensity={1} />
-                <Suspense fallback={<WavingVideoFallback />}>
-                  <WavingVideo
+              <WebGLErrorBoundary
+                onError={() => setWebGLSupported(false)}
+                fallback={
+                  <FallbackVideoPlayer
                     videoUrl={videoUrl}
-                    isPlaying={isOpen}
+                    isMuted={isMuted}
                     onReady={handleVideoReady}
                   />
-                </Suspense>
-              </Canvas>
+                }
+              >
+                <Canvas
+                  camera={{ position: [0, 0, 10], fov: 45 }}
+                  gl={{ 
+                    antialias: true, 
+                    alpha: true,
+                    powerPreference: 'high-performance'
+                  }}
+                  dpr={[1, 2]}
+                  style={{ background: 'transparent' }}
+                >
+                  <ambientLight intensity={1} />
+                  <Suspense fallback={<WavingVideoFallback />}>
+                    <WavingVideo
+                      videoUrl={videoUrl}
+                      isPlaying={isOpen}
+                      onReady={handleVideoReady}
+                    />
+                  </Suspense>
+                </Canvas>
+              </WebGLErrorBoundary>
             ) : (
               <FallbackVideoPlayer
                 videoUrl={videoUrl}

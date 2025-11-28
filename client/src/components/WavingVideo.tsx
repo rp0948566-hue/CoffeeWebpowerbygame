@@ -1,4 +1,4 @@
-import { useRef, useMemo, useState, useEffect } from 'react';
+import { useRef, useMemo, useEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { useVideoTexture } from '@react-three/drei';
 import * as THREE from 'three';
@@ -53,11 +53,14 @@ export function WavingVideo({ videoUrl, isPlaying = true, onReady }: WavingVideo
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const { viewport, mouse } = useThree();
   
-  const [amplitude, setAmplitude] = useState(1.5); // Start with high amplitude (wild waving)
-  const [opacity, setOpacity] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const targetAmplitude = useRef(1.5);
+  // Use refs instead of state for values updated in animation loop (60fps)
+  // This avoids ~60 setState calls per second which would thrash React
+  const amplitudeRef = useRef(1.5); // Start with high amplitude (wild waving)
+  const targetAmplitudeRef = useRef(1.5);
+  const opacityRef = useRef(0);
+  const targetOpacityRef = useRef(0);
   const timeRef = useRef(0);
+  const isHoveredRef = useRef(false);
   
   // Load video texture
   const texture = useVideoTexture(videoUrl, {
@@ -90,12 +93,12 @@ export function WavingVideo({ videoUrl, isPlaying = true, onReady }: WavingVideo
   useEffect(() => {
     // Fade in
     const fadeIn = setTimeout(() => {
-      setOpacity(1);
+      targetOpacityRef.current = 1;
     }, 100);
 
-    // Start calming down after 500ms
+    // Start calming down after 800ms
     const calmDown = setTimeout(() => {
-      targetAmplitude.current = 0;
+      targetAmplitudeRef.current = 0;
     }, 800);
 
     return () => {
@@ -104,34 +107,38 @@ export function WavingVideo({ videoUrl, isPlaying = true, onReady }: WavingVideo
     };
   }, []);
 
-  // Handle hover - gentle wave restart
-  useEffect(() => {
-    if (isHovered) {
-      targetAmplitude.current = 0.15;
-    } else {
-      targetAmplitude.current = 0;
-    }
-  }, [isHovered]);
-
-  // Animation loop
+  // Animation loop - uses refs only, no React state updates
   useFrame((state, delta) => {
     timeRef.current += delta;
     
-    // Smooth amplitude transition (damping)
+    // Smooth amplitude transition (damping) - using refs, not state
     const dampingFactor = 0.03;
-    setAmplitude((prev) => {
-      const diff = targetAmplitude.current - prev;
-      return prev + diff * dampingFactor;
-    });
+    const amplitudeDiff = targetAmplitudeRef.current - amplitudeRef.current;
+    amplitudeRef.current += amplitudeDiff * dampingFactor;
+    
+    // Smooth opacity transition
+    const opacityDiff = targetOpacityRef.current - opacityRef.current;
+    opacityRef.current += opacityDiff * 0.05;
 
-    // Update shader uniforms
+    // Update shader uniforms directly (no React involvement)
     if (materialRef.current) {
       materialRef.current.uniforms.uTime.value = timeRef.current;
-      materialRef.current.uniforms.uAmplitude.value = amplitude;
+      materialRef.current.uniforms.uAmplitude.value = amplitudeRef.current;
       materialRef.current.uniforms.uMouse.value.set(mouse.x * 0.5, mouse.y * 0.5);
-      materialRef.current.uniforms.uOpacity.value = opacity;
+      materialRef.current.uniforms.uOpacity.value = opacityRef.current;
     }
   });
+
+  // Hover handlers that update refs, not state
+  const handlePointerEnter = () => {
+    isHoveredRef.current = true;
+    targetAmplitudeRef.current = 0.15;
+  };
+
+  const handlePointerLeave = () => {
+    isHoveredRef.current = false;
+    targetAmplitudeRef.current = 0;
+  };
 
   // Calculate responsive size (16:9 aspect ratio)
   const scale = Math.min(viewport.width * 0.8, viewport.height * 0.8);
@@ -141,8 +148,8 @@ export function WavingVideo({ videoUrl, isPlaying = true, onReady }: WavingVideo
   return (
     <mesh
       ref={meshRef}
-      onPointerEnter={() => setIsHovered(true)}
-      onPointerLeave={() => setIsHovered(false)}
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
       scale={[1, 1, 1]}
     >
       <planeGeometry args={[width, height, 64, 36]} />
