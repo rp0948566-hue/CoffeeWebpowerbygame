@@ -1,0 +1,56 @@
+I need to create a new "Memories Page" (`/gallery`) with a high-end 3D Cylindrical Carousel.
+
+### 1. Architecture & Routing
+- **New Page:** Create `src/pages/Memories.tsx`.
+- **Router:** Update `src/App.tsx` (or `AppManager`) to add the route:
+  `<Route path="/gallery" element={<Memories />} />`
+- **Navigation:** Update the Navbar "Gallery" link to point to `/gallery`.
+
+### 2. The 3D Carousel Engine (The Core Feature)
+Implement a **CSS 3D Transform Cylinder** consisting of exactly **27 Images**.
+
+**Math & Logic:**
+- **Item Count:** 27.
+- **Layout:** Position images in a perfect circle using `transform: rotateY(deg) translateZ(radius)`.
+- **Radius Calculation:** Calculate the `translateZ` dynamically so the cards don't overlap (`radius = 1000px` approx).
+- **Animation:** The entire cylinder container must rotate infinitely (`animation: spin 60s linear infinite`).
+- **Hover:** Pause the animation when the user hovers over a card (`animation-play-state: paused`).
+
+**The Card Style:**
+- Glassmorphism style (`bg-white/10`, `backdrop-blur`).
+- Aspect ratio: Portrait or Square.
+- **Reflection:** Add a CSS `-webkit-box-reflect` below the images for a premium 3D floor effect.
+
+### 3. Interaction: "Zoom to Reality" (Lightbox)
+- **Click Event:** When a user clicks a spinning card:
+  1. The 3D rotation pauses.
+  2. The clicked image expands using `layoutId` (Framer Motion) to fill the **Full Screen**.
+- **Full Screen Mode:**
+  - Dark backdrop (`bg-black/95`).
+  - High-res image in center.
+  - "Close" button to zoom back out to the 3D circle.
+
+### 4. Implementation Details
+Please generate the code for `src/pages/Memories.tsx`.
+
+**Data Generation:**
+Use this snippet to generate the 27 placeholders automatically:
+```tsx
+const memories = Array.from({ length: 27 }).map((_, i) => ({
+  id: i,
+  src: `https://picsum.photos/seed/${i + 50}/400/600`, // Placeholder (I will replace manually)
+  caption: `Memory ${i + 1}`
+}));                 .gallery-container {
+  perspective: 2000px;
+}
+.gallery-cylinder {
+  transform-style: preserve-3d;
+  animation: autoRotate 60s linear infinite;
+}
+.gallery-cylinder:hover {
+  animation-play-state: paused;
+}
+@keyframes autoRotate {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}

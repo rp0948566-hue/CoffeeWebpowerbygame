@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 const navLinks = [
   { name: 'Home', path: '/', hash: '#home' },
   { name: 'Menu', path: '/menu', hash: null },
-  { name: 'Gallery', path: '/', hash: '#gallery' },
+  { name: 'Gallery', path: '/gallery', hash: null },
   { name: 'Contact', path: '/', hash: '#contact' },
 ];
 
@@ -22,6 +22,11 @@ export function Navigation() {
 
     if (item.path === '/menu') {
       navigate('/menu');
+      return;
+    }
+
+    if (item.path === '/gallery') {
+      navigate('/gallery');
       return;
     }
 

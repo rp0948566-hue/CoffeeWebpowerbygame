@@ -23,7 +23,7 @@ export function Footer() {
             <a href="#menu" className="hover:text-foreground transition-colors" data-testid="link-footer-menu">
               Menu
             </a>
-            <a href="#gallery" className="hover:text-foreground transition-colors" data-testid="link-footer-gallery">
+            <a href="/gallery" className="hover:text-foreground transition-colors" data-testid="link-footer-gallery">
               Gallery
             </a>
             <a href="#contact" className="hover:text-foreground transition-colors" data-testid="link-footer-contact">

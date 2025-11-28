@@ -14,6 +14,7 @@ import { LocationSection } from "@/components/LocationSection";
 import { FloatingScrollIcon } from "@/components/FloatingScrollIcon";
 import { Footer } from "@/components/Footer";
 import { Menu } from "@/pages/Menu";
+import { Memories } from "@/pages/Memories";
 import { LiquidTransition } from "@/components/LiquidTransition";
 
 function ScrollToTop() {
@@ -64,6 +65,14 @@ function MenuPageWrapper() {
   );
 }
 
+function GalleryPageWrapper() {
+  return (
+    <LiquidTransition>
+      <Memories />
+    </LiquidTransition>
+  );
+}
+
 function AnimatedRoutes() {
   const location = useLocation();
 
@@ -72,6 +81,7 @@ function AnimatedRoutes() {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<HomePage />} />
         <Route path="/menu" element={<MenuPageWrapper />} />
+        <Route path="/gallery" element={<GalleryPageWrapper />} />
       </Routes>
     </AnimatePresence>
   );
