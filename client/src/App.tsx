@@ -23,7 +23,6 @@ import { DrinkPortal } from "@/components/DrinkPortal";
 import { CoffeeCursor } from "@/components/CoffeeCursor";
 import { FloatingParticles } from "@/components/FloatingParticles";
 import { GallerySection } from "@/components/GallerySection";
-import { ScrollNavigation } from "@/components/ScrollNavigation";
 
 function ScrollToTop() {
   const location = useLocation();
@@ -158,7 +157,6 @@ function App() {
       <TooltipProvider>
         <FloatingParticles />
         <CoffeeCursor />
-        <ScrollNavigation />
         <AppContent />
         <BackgroundAudio />
         <Toaster />
