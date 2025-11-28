@@ -365,7 +365,18 @@ export function Menu() {
         </section>
 
         <section className="container mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
-          <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Full Menu</h2>
+          <div className="text-center mb-8 sm:mb-12">
+            <p className="text-primary/80 text-sm uppercase tracking-[0.3em] mb-4">
+              Explore Our Menu
+            </p>
+            <h2
+              className="text-[2rem] sm:text-[3rem] md:text-[4rem] font-black leading-none select-none bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
+              style={{ fontFamily: "'Titan One', cursive" }}
+              data-testid="text-specialties-title"
+            >
+              OUR SPECIALTIES
+            </h2>
+          </div>
           <div className="space-y-3 sm:space-y-4">
             {menuCategories.map((category) => (
               shouldReduceAnimations ? (
